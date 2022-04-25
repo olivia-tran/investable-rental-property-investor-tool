@@ -16,9 +16,8 @@ db = SQLAlchemy(app)
 
 class Property(db.Model):
 
-
-__tablename__ = 'properties'
-id = db.Column
+    __tablename__ = 'properties'
+    id = db.Column(db.Integer, primary_key=True)
 
 
 @app.route('/')

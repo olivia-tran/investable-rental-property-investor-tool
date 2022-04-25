@@ -1,11 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- <div class="has-bg-img bg-blend-multiply">
-    <img src="static/page1.jpg" alt="clock" class="img-fluid d-none d-md-inline"> -->
+
 <section class="container-fluid">
     <div class="col-lg-6">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere adipisci quidem, assumenda laudantium ducimus voluptas dolorum, pariatur quas, voluptates sit eveniet? Magni optio dicta, ad ea porro corrupti enim placeat.</p>
+        <p>here is where the results show, should change colors when negative cash flow</p>
+        
+
+        <form action="/calculator">
+            <p><label>Price: <input type="text" name="price"></label></p>
+            <p><label>Downpayment: <input type="text" name="downpayment"></label></p>
+            <p><label>Interest Rate: <input type="text" name="rate"></label></p>
+            <p><label>Closing costs: <input type="text" name="closing"></label></p>
+            <p><label>Rehab: <input type="text" name="rehab"></label></p>
+            <p>Monthly </p>
+            <p><label>Rental Income: <input type="text" name="rent"></label></p>
+            <p><label>Taxes: <input type="text" name="taxes"></label></p>
+            <p><label>Insurance: <input type="text" name="insurance"></label></p>
+            <p><label>Utilities: <input type="text" name="utilities"></label></p>
+            <p><label>Maintenance: <input type="text" name="maintenance"></label></p>
+            <p><label>Property Management: <input type="text" name="pm"></label></p>
+            <p><label>Vacancy: <input type="text" name="vacancy"></label></p>
+            <p><label>CapEx Reserve: <input type="text" name="capex"></label></p>
+            <p><input type="submit"></p>
+          </form>    
+
+    
+
     </div>
+
+
 </section>
 
 
