@@ -10,7 +10,8 @@
     <title>Catculator - Investor Tool</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <nav id="mainNavbar" class="navbar navbar-expand-md navbar-dark py-0">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
               <img src="static/logo.png" alt="cat-logo" width="35" height="29" >
@@ -21,27 +22,24 @@
           <div class="collapse navbar-collapse" id="navLinks">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">HOME</a>
+                <a class="nav-link active" aria-current="page" href="{{url_for('index')}}">HOME</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">CALCULATOR</a>
+                <a class="nav-link" href="{{url_for('index')}}">CALCULATOR</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   FEATURES
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">INDUSTRY INSIGHTS</a></li>
-                  <li><a class="dropdown-item" href="#">BOOK RECOMMENDATIONS</a></li>
+                  <li><a class="dropdown-item" href="{{url_for('get_news')}}">INDUSTRY INSIGHTS</a></li>
+                  <li><a class="dropdown-item" href="{{url_for('get_books')}}">BOOK RECOMMENDATIONS</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">FORUM</a></li>
+                  <li><a class="dropdown-item" href="{{url_for('to_read_post')}}">FORUM</a></li>
                 </ul>
               </li>
-              
             </ul>
-        
-              <button class="btn btn-outline-success">SIGN UP</button>
-        
+              <button class="btn btn-outline-info">SIGN UP</button>
           </div>
         </div>
       </nav>
