@@ -1,25 +1,10 @@
+"""Server for catculator app."""
 from flask import Flask, render_template
-import os
-from flask_sqlalchemy import SQLAlchemy
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-    os.path.join(basedir, 'data.sqlite')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
-
-################################
-
-
-class Property(db.Model):
-
-    __tablename__ = 'properties'
-    id = db.Column(db.Integer, primary_key=True)
-
-
+# Replace this with routes and view functions!
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -50,5 +35,7 @@ def thank_you():
     return render_template('thankyou.html')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    # DebugToolbarExtension(app)
+
     app.run(debug=True)
