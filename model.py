@@ -17,7 +17,7 @@ class User(db.Model):
     blog_posts = db.relationship('BlogPost', back_populates='user')
     comments = db.relationship('Comment', back_populates='user')
     #change user profile pix to one to one relationship
-    user_image = db.relationship('User_Image', uselist=False, back_populates='user')
+    user_image = db.relationship('UserImage', uselist=False, back_populates='user')
 
 
     def __repr__(self):
@@ -46,7 +46,7 @@ class Property(db.Model):
     '''A property data'''
     __tablename__ = 'properties'
     property_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    user_id = db.Column(db.Integer, nullable=False, db.ForeignKey('users.user_id'))
     price = db.Column(db.Integer, nullable=False)
     interest_rate = db.Column(db.Integer, nullable=False)
     closing_costs = db.Column(db.Integer, nullable=False)
@@ -54,12 +54,16 @@ class Property(db.Model):
     monthly_rent = db.Column(db.Integer, nullable=False)
     property_taxes = db.Column(db.Integer, nullable=False)
     insurance = db.Column(db.Integer, nullable=False)
+    hoa = db.Column(db.Integer) #need to update the data model
     utilities = db.Column(db.Integer)
     misellaneous = db.Column(db.Integer)
     capex = db.Column(db.Integer)
     property_management = db.Column(db.Integer)
     vacancy = db.Column(db.Integer)
-    address = db.Column(db.String)
+    address = db.Column(db.String) #e.g: 15513 Gray Catbird
+    city = db.Column(db.String) #e.g: San Francisco
+    state = db.Column(db.String) #e.g: TX, CA, OR
+
     user = db.relationship('User', back_populates='properties') #one to many
 
     def __repr__(self):
@@ -80,7 +84,7 @@ class BlogPost(db.Model):
     blog_content = db.Column(db.Text, nullable=False)
     imgURL = db.Column(db.String)
     user = db.relationship('User', back_populates='blog_posts')
-    blog_images = db.relationship('Blog_Image', back_populates='blog_post')
+    blog_images = db.relationship('BlogImage', back_populates='blog_post')
     comments = db.relationship('Comment', back_populates='blog_post')
 
     def __repr__(self):
@@ -100,7 +104,7 @@ class Comment(db.Model):
     def __repr__(self):
         return f"<Comment: comment_id={self.comment_id} Blog Post={self.blog_id}, user_id={self.user_id}>"
 
-class User_Image(db.Model):
+class UserImage(db.Model):
     '''User Profile Picture '''
     __tablename__ = 'user_images'
     image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -109,7 +113,7 @@ class User_Image(db.Model):
     # change from one to many to one to one relationship for user profile pix
     user = db.relationship('User', uselist=False, back_populates='user_image')
 
-class Blog_Image(db.Model):
+class BlogImage(db.Model):
     '''Blog Post Photos '''
     __tablename__ = 'blog_images'
     image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -117,7 +121,7 @@ class Blog_Image(db.Model):
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.blog_id'))
     blog_post = db.relationship('BlogPost', back_populates='blog_images')
 
-def connect_to_db(flask_app, db_uri='postgresql:///investables', echo=True):  # what name should we use?
+def connect_to_db(flask_app, db_uri='postgresql:///investables', echo=True):  
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
