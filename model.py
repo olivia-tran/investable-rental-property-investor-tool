@@ -82,6 +82,7 @@ class BlogPost(db.Model):
     imgURL = db.Column(db.String)
     user = db.relationship('User', back_populates='blog_posts')
     blog_images = db.relationship('Blog_Image', back_populates='blog_posts')
+    comments = db.relationship('Comment', back_populates='blog_post')
 
     def __repr__(self):
         return f"<Blog Post: blog_id={self.blog_id} user_id={self.user_id}>"
@@ -115,8 +116,9 @@ class Blog_Image(db.Model):
     image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     imgURL = db.Column(db.String)
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.blog_id'))
+    blog_image = db.relationship('Blog_Image', back_populates='blog_image')
 
-def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):  # what name should we use?
+def connect_to_db(flask_app, db_uri='postgresql:///investables', echo=True):  # what name should we use?
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
