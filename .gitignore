@@ -2,4 +2,24 @@ env/
 *.pyc
 __pycache__/
 secrets.sh
+static/app.css
+static/architecture-2563644.jpg
+static/architecture-2563644.jpg:Zone.Identifier
+static/favicon.ico
+static/favicon.ico:Zone.Identifier
+static/footer.png
+static/footer.png:Zone.Identifier
+static/logo.png:Zone.Identifier
+static/middle.jpg
+static/middle.jpg:Zone.Identifier
+static/page1.jpg
+static/page2.jpg
+static/page2.jpg:Zone.Identifier
+static/page3.jpg
+static/page3.jpg:Zone.Identifier
+static/pape1.jpg:Zone.Identifier
+static/pawel-czerwinski-jkwWCG6wYcI-unsplash.jpg
+static/pawel-czerwinski-jkwWCG6wYcI-unsplash.jpg:Zone.Identifier
+static/workplace-2303849.jpg
+static/workplace-2303849.jpg:Zone.Identifier
 
