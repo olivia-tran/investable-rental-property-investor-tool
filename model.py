@@ -13,9 +13,12 @@ class User(db.Model):
     last_name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False, default='123456')
-    imgURL = db.Column(db.String, default='#url')
+    imgURL = db.Column(db.String, default='static/default_photo.png')
     properties = db.relationship('Property', back_populates='user')
     blog_posts = db.relationship('BlogPost', back_populates='user')
+    comments = db.relationship('Comment', back_populates='user')
+    #change user profile pix to one to one relationship
+    user_image = db.relationship('User_Image', uselist=False, back_populates='user')
 
 
     def __repr__(self):
@@ -75,9 +78,10 @@ class BlogPost(db.Model):
     __tablename__ = 'blog_posts'
     blog_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    blog_content = db.Column(db.String, nullable=False)
+    blog_content = db.Column(db.Text, nullable=False)
     imgURL = db.Column(db.String)
     user = db.relationship('User', back_populates='blog_posts')
+    blog_images = db.relationship('Blog_Image', back_populates='blog_posts')
 
     def __repr__(self):
         return f"<Blog Post: blog_id={self.blog_id} user_id={self.user_id}>"
@@ -89,19 +93,28 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.blog_id'))
-    comment_content = db.Column(db.String, nullable=False)
+    comment_content = db.Column(db.Text, nullable=False)
+    user = db.relationship('User', back_populates='comments')
+    blog_post = db.relationship('BlogPost', back_populates='comments')
 
     def __repr__(self):
         return f"<Comment: comment_id={self.comment_id} Blog Post={self.blog_id}, user_id={self.user_id}>"
 
-class User_Images(db.Model):
+class User_Image(db.Model):
     '''User Profile Picture '''
+    __tablename__ = 'user_images'
     image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    imgURL = db.Column(db.String, default='static/')
+    imgURL = db.Column(db.String, default='static/default_photo.png')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    # change from one to many to one to one relationship for user profile pix
+    user = db.relationship('User', uselist=False, back_populates='user_image')
 
-class Blog_Images(db.Model):
+class Blog_Image(db.Model):
     '''Blog Post Photos '''
+    __tablename__ = 'blog_images'
     image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    imgURL = db.Column(db.String)
+    blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.blog_id'))
 
 def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):  # what name should we use?
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
