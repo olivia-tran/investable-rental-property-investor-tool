@@ -1,4 +1,4 @@
-'''Models for catculator app'''
+'''Models for INVESTABLE app'''
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,6 +13,10 @@ class User(db.Model):
     last_name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False, default='123456')
+    imgURL = db.Column(db.String, default='#url')
+    properties = db.relationship('Property', back_populates='user')
+    blog_posts = db.relationship('BlogPost', back_populates='user')
+
 
     def __repr__(self):
         return f'<User: user_id= {self.user_id}, first_name= {self.first_name}>'
@@ -54,6 +58,7 @@ class Property(db.Model):
     property_management = db.Column(db.Integer)
     vacancy = db.Column(db.Integer)
     address = db.Column(db.String)
+    user = db.relationship('User', back_populates='properties') #one to many
 
     def __repr__(self):
         return f"<Property: property_id={self.property_id} user_id={self.user_id} at address={self.address}>"
@@ -70,6 +75,9 @@ class BlogPost(db.Model):
     __tablename__ = 'blog_posts'
     blog_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    blog_content = db.Column(db.String, nullable=False)
+    imgURL = db.Column(db.String)
+    user = db.relationship('User', back_populates='blog_posts')
 
     def __repr__(self):
         return f"<Blog Post: blog_id={self.blog_id} user_id={self.user_id}>"
@@ -81,12 +89,21 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.blog_id'))
+    comment_content = db.Column(db.String, nullable=False)
 
     def __repr__(self):
         return f"<Comment: comment_id={self.comment_id} Blog Post={self.blog_id}, user_id={self.user_id}>"
 
+class User_Images(db.Model):
+    '''User Profile Picture '''
+    image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    imgURL = db.Column(db.String, default='static/')
 
-def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):  # which db?
+class Blog_Images(db.Model):
+    '''Blog Post Photos '''
+    image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+
+def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):  # what name should we use?
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

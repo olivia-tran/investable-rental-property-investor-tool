@@ -1,12 +1,12 @@
-"""Server for catculator app."""
+"""Server for INVESTABLE app."""
 from flask import request
 from flask import Flask, render_template
 from importlib_metadata import files
-
+import os #to access os.environ to access secrets.sh values
 app = Flask(__name__)
 
+app.secret_key = os.environ.get('SECRET_KEY')
 
-# Replace this with routes and view functions!
 @app.route('/')
 def index():
     return render_template('index.html')
