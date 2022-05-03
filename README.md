@@ -41,6 +41,7 @@ Real estate investing is fantastic way to create wealth and build a stream of pa
 <br><br>
 
 <h3>Database Model:</h3>
+
 ![data-model](https://github.com/olivia-tran/Catculator-investment-tool/blob/main/project-planning/data_model.png)
 
 <p align="left">(<a href="#top">back to top</a>)</p>
