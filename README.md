@@ -8,7 +8,7 @@
 <br />
 <div align="center">
 <!--   <a href="https://github.com/othneildrew/Best-README-Template"> -->
-    <img src="static/logo.png" alt="Logo" width="80" height="80">
+    <img src="static/logo.png" alt="Logo" width="80" height="60">
 <!--   </a> -->
 
   <h1 align="center">/ᐠ ̥ ̮ ̥ ᐟ\ฅCatculator-investment-tool</h1>
