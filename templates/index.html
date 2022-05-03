@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <section class="container-fluid">
-    <div class="col-lg-6">
-        <p>here is where the results show, should change colors when negative cash flow</p>
+<p>here is where the results show, should change colors when negative cash flow</p>
+
+    <div class="col-lg-2">
+        
         
 
-        <form action="/calculator">
+        <form action="/calculator" class="form-control">
             <p><label>Price: <input type="text" name="price"></label></p>
             <p><label>Downpayment: <input type="text" name="downpayment"></label></p>
             <p><label>Interest Rate: <input type="text" name="rate"></label></p>
@@ -29,8 +30,8 @@
     </div>
 
 
-</section>
 
+</section>
 
 
 
