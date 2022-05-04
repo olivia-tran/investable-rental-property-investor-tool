@@ -46,8 +46,9 @@ class Property(db.Model):
     '''A property data'''
     __tablename__ = 'properties'
     property_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, nullable=False, db.ForeignKey('users.user_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     price = db.Column(db.Integer, nullable=False)
+    down_payment = db.Column(db.Integer, nullable=False)
     interest_rate = db.Column(db.Integer, nullable=False)
     closing_costs = db.Column(db.Integer, nullable=False)
     rehab = db.Column(db.Integer)
