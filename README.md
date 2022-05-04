@@ -7,7 +7,7 @@
     
 <!--   </a> -->
 
-  <h1 align="center">INVESTABLE- Rental Property Analysis Tool<img src="static/logo1.png" alt="Logo" width="80" height="60"></h1>
+  <h1 align="center">INVESTABLE- Rental Property Analysis Tool<img src="static/logo1.png" alt="Logo" width="100" height="80"></h1>
  <h1> WIP </h1>
   <p align="center">
     <br />
