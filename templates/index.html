@@ -1,42 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 <section class="container-fluid">
-<p>here is where the results show, should change colors when negative cash flow</p>
-
-    <div class="col-lg-2">
-        
-        
-
-        <form action="/calculator" class="form-control">
-            <p><label>Price: <input type="text" name="price"></label></p>
-            <p><label>Downpayment: <input type="text" name="downpayment"></label></p>
-            <p><label>Interest Rate: <input type="text" name="rate"></label></p>
-            <p><label>Closing costs: <input type="text" name="closing"></label></p>
-            <p><label>Rehab: <input type="text" name="rehab"></label></p>
-            <p>Monthly </p>
-            <p><label>Rental Income: <input type="text" name="rent"></label></p>
-            <p><label>Taxes: <input type="text" name="taxes"></label></p>
-            <p><label>Insurance: <input type="text" name="insurance"></label></p>
-            <p><label>Utilities: <input type="text" name="utilities"></label></p>
-            <p><label>Maintenance: <input type="text" name="maintenance"></label></p>
-            <p><label>Property Management: <input type="text" name="pm"></label></p>
-            <p><label>Vacancy: <input type="text" name="vacancy"></label></p>
-            <p><label>CapEx Reserve: <input type="text" name="capex"></label></p>
-            <p><input type="submit"></p>
-          </form>    
-
-    
-
+    <p>here is where the results show, should change colors when negative cash flow</p>
+    <div class="row">
+        <div class="col-lg-2">
+            <form action="/calculator" class="form-control">
+                <p><label>Price: <input type="text" name="price"></label></p>
+                <p><label>Downpayment: <input type="text" name="downpayment"></label></p>
+                <p><label>Interest Rate: <input type="text" name="rate"></label></p>
+                <p><label>Closing costs: <input type="text" name="closing"></label></p>
+                <p><label>Rehab: <input type="text" name="rehab"></label></p>
+                <p><label>Monthly Rental Income: <input type="text" name="rent"></label></p>
+                <p><label>Monthly Taxes: <input type="text" name="taxes"></label></p>
+                <p><label>Monthly Insurance: <input type="text" name="insurance"></label></p>
+                <p><label>HOA: <input type="text" name="hoa"></label></p>
+                <p><label>Utilities: <input type="text" name="utilities"></label></p>
+                <p><label>Maintenance: <input type="text" name="maintenance"></label></p>
+                <p><label>Property Management: <input type="text" name="pm"></label></p>
+                <p><label>Vacancy: <input type="text" name="vacancy"></label></p>
+                <p><label>CapEx Reserve: <input type="text" name="capex"></label></p>
+                <p><input type="submit"></p>
+            </form>
+        </div>
+        <div class="container" id="google-map-api">
+            <div class="col-6 offset-6">
+                <h1>placeholder for Google Map API</h1>
+            </div>
+        </div>
     </div>
-
-
-
 </section>
 
 
 
 
-<!-- </div> -->
+
 
 
 
