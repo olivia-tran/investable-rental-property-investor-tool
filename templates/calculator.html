@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container-fluid">
+    <!-- need a Save button on the calculator -->
+    <!-- check if session is in progress -->
+    <!-- want to show the digit divider -->
+    <div class="row">
+        <div class="col-lg-2">
+            <p id="result">Estimated monthly cashflow: ${{cashflow}}</p>
+            <form action="/calculator" method='POST'class="form-control">
+                
+                <p><label>Price: <input type="number" min="0" name="price" value="{{price}}"required></label></p>
+                <p><label>Downpayment: <input type="number" min="0" name="downpayment" value="{{downpayment}}"></label></p>
+                <p><label>Interest Rate: <input type="number" min="0" name="rate" step="any" required value="{{rate}}"></label></p>
+                <p><label>Closing costs: <input type="number" min="0" name="closing" value="{{closing}}"required></label></p>
+                <p><label>Rehab: <input type="number" min="0" name="rehab" value="{{rehab}}"></label></p>
+                <p><label>Monthly Rental Income: <input type="number" min="0" name="rent" value="{{rent}}"required></label></p>
+                <p><label>Monthly Taxes: <input type="number" min="0" name="taxes" value="{{taxes}}"required></label></p>
+                <p><label>Monthly Insurance: <input type="number" min="0" name="insurance" value="{{insurance}}" required></label></p>
+                <p><label>HOA: <input type="number" min="0" name="hoa" value="{{hoa}}"></label></p>
+                <p><label>Utilities: <input type="number" min="0" name="utilities" value="{{utilities}}"></label></p>
+                <p><label>Maintenance: <input type="number" min="0" name="maintenance" value="{{maintenance}}"></label></p>
+                <p><label>Property Management: <input type="number" min="0" name="pm" value="{{pm}}"></label></p>
+                <p><label>Vacancy: <input type="number" min="0" name="vacancy" value="{{vacancy}}"></label></p>
+                <p><label>CapEx Reserve: <input type="number" min="0" name="capex" value="{{capex}}"></label></p>
+                <!-- <p><input type="submit"></p> -->
+                <button btn-lg type="submit" value="submit">Save</button>
+                <button type="reset">Reset</button>
+                
+            </form>
+        </div>
+        <div class="container" id="google-map-api">
+            <div class="col-6 offset-6">
+                <h1>placeholder for Google Map API</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
