@@ -21,7 +21,7 @@ def index():
     testing_session = session.get('price')
     session.modified = True
     return render_template('index.html')
-#why doesn't it save my cookies I have the secret key
+#need to check cookies in session
 
 @app.route('/calculator', methods=['POST'])
 def to_calculate():
