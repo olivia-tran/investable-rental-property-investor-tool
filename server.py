@@ -1,8 +1,10 @@
 """Server for INVESTABLE app."""
 from flask import request, Flask, render_template, redirect, flash, session
+import crud
 from importlib_metadata import files
 import os #to access os.environ to access secrets.sh values
 # from jinja2 import StrictUndefined
+
 
 app = Flask(__name__)
 
@@ -69,32 +71,28 @@ def get_books():
     return render_template('books.html')
 
 
-@app.route('/thankyou')
-def thank_you():
-    return render_template('thankyou.html')
-
-
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
 
-@app.route('/users', methods=['POST'])
+
+@app.route('/register', methods=['GET'])
 def register_user():
     '''Create a new user.'''
 
     email = request.form.get('email')
     password = request.form.get('password')
 
-    user = crud.get_user_by_email(email)
-    if user:
-        flash('Cannot create an account with that email. Try again.')
-    else:
-        user = crud.create_user(email, password)
-        db.session.add(user)
-        db.session.commit()
-        flash('Account created! Please log in.')
+    # user = crud.get_user_by_email(email)
+    # if user:
+    #     flash('Cannot create an account with that email. Try again.')
+    # else:
+    #     user = crud.create_user(email, password)
+    #     db.session.add(user)
+    #     db.session.commit()
+    #     flash('Account created! Please log in.')
 
-    return redirect('/')
+    return render_template('register.html')
 
 
 @app.route('/users/<user_id>')
@@ -110,8 +108,8 @@ def show_user(user_id):
 def process_login():
     '''Process user login.'''
 
-    # email = request.form.get('email')
-    # password = request.form.get('password')
+    email = request.form.get('email')
+    password = request.form.get('password')
 
     # user = crud.get_user_by_email(email)
     # if not user or user.password != password:

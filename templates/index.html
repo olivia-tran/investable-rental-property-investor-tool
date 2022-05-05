@@ -1,30 +1,47 @@
 {% extends 'base.html' %}
 {% block content %}
+<section class="vh-100" style="background-color: #e6ddde;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-left align-items-left h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-lg" style="border-radius: 2rem;">
+                    <div class="card-body p-5 text-left">
+                            <p id="result">Estimated monthly cashflow: $</p>
+                            <form action="/calculator" method='POST'class="form-control">
+                                
+                                <p><label>Price: <input type="number" min="0" name="price" required></label></p>
+                                <p><label>Downpayment: <input type="number" min="0" name="downpayment" value="0"></label></p>
+                                <p><label>Interest Rate: <input type="number" min="0" name="rate" step="any" required></label></p>
+                                <p><label>Monthly Mortgage: <input type="number" min="0" name="mortgage" required></label></p>
+                                <p><label>Closing costs: <input type="number" min="0" name="closing" required></label></p>
+                                <p><label>Rehab: <input type="number" min="0" name="rehab" value="0"></label></p>
+                                <p><label>Monthly Rental Income: <input type="number" min="0" name="rent" required></label></p>
+                                <p><label>Monthly Taxes: <input type="number" min="0" name="taxes" required></label></p>
+                                <p><label>Monthly Insurance: <input type="number" min="0" name="insurance" required></label></p>
+                                <p><label>HOA: <input type="number" min="0" name="hoa" value="0"></label></p>
+                                <p><label>Utilities: <input type="number" min="0" name="utilities" value="0"></label></p>
+                                <p><label>Maintenance: <input type="number" min="0" name="maintenance" value="0"></label></p>
+                                <p><label>Property Management: <input type="number" min="0" name="pm" value="0"></label></p>
+                                <p><label>Vacancy: <input type="number" min="0" name="vacancy" value="0"></label></p>
+                                <p><label>CapEx Reserve: <input type="number" min="0" name="capex" value="0"></label></p>
+                                <p><input type="submit"></p>
+                            </form>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a href="{{register_user}}"
+                                class="link-danger">Register</a></p>
+                        <hr class="my-4">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- line break -->
 <section class="container-fluid">
     
     <div class="row">
-        <div class="col-lg-2">
-            <p id="result">Estimated monthly cashflow: $</p>
-            <form action="/calculator" method='POST'class="form-control">
-                
-                <p><label>Price: <input type="number" min="0" name="price" required></label></p>
-                <p><label>Downpayment: <input type="number" min="0" name="downpayment" value="0"></label></p>
-                <p><label>Interest Rate: <input type="number" min="0" name="rate" step="any" required></label></p>
-                <p><label>Monthly Mortgage: <input type="number" min="0" name="mortgage" required></label></p>
-                <p><label>Closing costs: <input type="number" min="0" name="closing" required></label></p>
-                <p><label>Rehab: <input type="number" min="0" name="rehab" value="0"></label></p>
-                <p><label>Monthly Rental Income: <input type="number" min="0" name="rent" required></label></p>
-                <p><label>Monthly Taxes: <input type="number" min="0" name="taxes" required></label></p>
-                <p><label>Monthly Insurance: <input type="number" min="0" name="insurance" required></label></p>
-                <p><label>HOA: <input type="number" min="0" name="hoa" value="0"></label></p>
-                <p><label>Utilities: <input type="number" min="0" name="utilities" value="0"></label></p>
-                <p><label>Maintenance: <input type="number" min="0" name="maintenance" value="0"></label></p>
-                <p><label>Property Management: <input type="number" min="0" name="pm" value="0"></label></p>
-                <p><label>Vacancy: <input type="number" min="0" name="vacancy" value="0"></label></p>
-                <p><label>CapEx Reserve: <input type="number" min="0" name="capex" value="0"></label></p>
-                <p><input type="submit"></p>
-            </form>
-        </div>
         <div class="container" id="google-map-api">
             <div class="col-6 offset-6">
                 <h1>placeholder for Google Map API</h1>
