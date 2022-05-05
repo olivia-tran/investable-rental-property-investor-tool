@@ -50,6 +50,7 @@ class Property(db.Model):
     price = db.Column(db.Integer, nullable=False)
     down_payment = db.Column(db.Integer, nullable=False)
     interest_rate = db.Column(db.Integer, nullable=False)
+    mortgage = db.Column(db.Integer, nullable=False)
     closing_costs = db.Column(db.Integer, nullable=False)
     rehab = db.Column(db.Integer)
     monthly_rent = db.Column(db.Integer, nullable=False)

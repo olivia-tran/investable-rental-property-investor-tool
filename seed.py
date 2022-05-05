@@ -29,6 +29,7 @@ def seed_properties():
             price = int(property_data[7]),
             down_payment = round(int(property_data[7]) * 0.2, 2),
             interest_rate = RATE,
+            mortgage = round(int(property_data[7]) * 0.0037, 2),
             closing_costs = round(int(property_data[7]) * 0.01, 2), 
             rehab = round(int(property_data[7]) * 0.01, 2),
             monthly_rent = round(int(property_data[7]) * 0.008, 2),
