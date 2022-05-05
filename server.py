@@ -1,9 +1,9 @@
 """Server for INVESTABLE app."""
 from flask import request, Flask, render_template, redirect, flash, session
 import crud
-from importlib_metadata import files
+# from importlib_metadata import files
 import os #to access os.environ to access secrets.sh values
-# from jinja2 import StrictUndefined
+from jinja2 import StrictUndefined
 
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ app.secret_key = os.environ.get('SECRET_KEY')
 
 #StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
-# app.jinja_env.undefined = jinja2.StrictUndefined
+app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def index():
@@ -75,24 +75,31 @@ def get_books():
 def page_not_found(error):
     return render_template('404.html'), 404
 
+@app.route('/register')
+def register_page():
+    '''landing page for register.'''
+    return render_template('register.html')
+    
 
-@app.route('/register', methods=['GET'])
+@app.route('/register', methods=['POST'])
 def register_user():
     '''Create a new user.'''
 
+    first = request.form.get('first')
+    last = request.form.get('last')
     email = request.form.get('email')
     password = request.form.get('password')
 
-    # user = crud.get_user_by_email(email)
-    # if user:
-    #     flash('Cannot create an account with that email. Try again.')
-    # else:
-    #     user = crud.create_user(email, password)
-    #     db.session.add(user)
-    #     db.session.commit()
-    #     flash('Account created! Please log in.')
+    user = crud.get_user_by_email(email)
+    if user:
+        flash('Cannot create an account with that email. Try again.')
+    else:
+        user = crud.create_user(email, password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Account created! Please log in.')
 
-    return render_template('register.html')
+    return redirect('/')
 
 
 @app.route('/users/<user_id>')
@@ -120,27 +127,7 @@ def process_login():
     #     flash(f'Welcome back, {user.email}!')
 
     return render_template('login.html')
-# sessions https://flask.palletsprojects.com/en/2.1.x/quickstart/#sessions
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'POST':
-#         return do_the_login()
-#     else:
-#         return show_the_login_form()
-# url_for('static', filename='style.css')
-# @app.route('/login', methods=['POST', 'GET'])
-# def login():
-#     error = None
-#     if request.method == 'POST':
-#         if valid_login(request.form['username'],
-#                        request.form['password']):
-#             return log_the_user_in(request.form['username'])
-#         else:
-#             error = 'Invalid username/password'
-#     # the code below is executed if the request method
-#     # was GET or the credentials were invalid
-#     return render_template('login.html', error=error)
-# https://flask.palletsprojects.com/en/2.1.x/patterns/fileuploads/ for uploading files
+
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
 

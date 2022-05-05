@@ -6,8 +6,8 @@
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card shadow-lg" style="border-radius: 2rem;">
                     <div class="card-body p-5 text-left">
-                            <p id="result">Estimated monthly cashflow: $</p>
-                            <form action="/calculator" method='POST'class="form-control">
+                            <p id="result">Estimated monthly cashflow:</p>
+                            <form action="/calculator" method="POST" class="form-control">
                                 
                                 <p><label>Price: <input type="number" min="0" name="price" required></label></p>
                                 <p><label>Downpayment: <input type="number" min="0" name="downpayment" value="0"></label></p>
@@ -26,7 +26,7 @@
                                 <p><label>CapEx Reserve: <input type="number" min="0" name="capex" value="0"></label></p>
                                 <p><input type="submit"></p>
                             </form>
-                        <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a href="{{register_user}}"
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a href="{{url_for('register_user')}}"
                                 class="link-danger">Register</a></p>
                         <hr class="my-4">
 

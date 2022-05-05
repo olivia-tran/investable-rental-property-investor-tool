@@ -3,8 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-<!--   <a href="https://github.com/othneildrew/Best-README-Template"> -->
-    
+
 <!--   </a> -->
 
   <h1 align="center">INVESTABLE- Rental Property Analysis Tool<img src="static/logo1.png" alt="Logo" width="100" height="80"></h1>
