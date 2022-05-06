@@ -23,7 +23,7 @@
 
   {% block nav %}
   
-  {% if session['email'] %}
+  {% if 'email' in session %}
   <nav id="mainNavbar" class="navbar navbar-expand-md navbar-dark py-0">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{url_for('index')}}">
@@ -40,6 +40,12 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('index')}}">CALCULATOR</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('index')}}">MY ACCOUNT</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('index')}}">MY PROPERTIES</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="{{url_for('process_login')}}">LOGIN</a>
@@ -59,8 +65,8 @@
             </ul>
           </li>
         </ul>
-        <!-- <a href="{{url_for('register_user')}}" class="btn btn-outline-danger" style="color:#b40404">SIGN UP</a> -->
-
+        <a href="{{url_for('logout')}}" class="btn btn-outline-danger" style="color:#b40404">SIGN OUT</a> 
+        <!-- clear session -->
       </div>
     </div>
   </nav>
@@ -109,16 +115,15 @@
   
   {% endblock %}
 
-  {% block content %}{% endblock %}
+  
   {% for message in get_flashed_messages() %}
- <div class="container">
+  <div class="container">
+    <div class="card shadow-lg">
 <h3><div class="flash-message" style="color:#b40404"> {{message}}!!!</div></h3>
 {% endfor %}
-    
-  </div>
-
-
-
+</div>
+</div>
+{% block content %}{% endblock %}
   {% block js %}{% endblock %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
@@ -126,7 +131,7 @@
   <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiE8NllZVX0_sgd7BD9oStPx_yWOyp3_U&callback=initMap">
   </script>
-
+<!-- key restricted -->
 </body>
 
 </html>

@@ -18,8 +18,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     '''Display homepage'''
-    testing_session = session.get('price')
-    session.modified = True
+    print(session)
     return render_template('index.html')
 
 
@@ -97,9 +96,9 @@ def register_user():
 @app.route('/login')
 def login_page():
     '''Landing page for user login.'''
-    if 'email' not in session:
-        session['email'] = None
-        session['password'] = None
+    # if 'email' not in session:
+    #     session['email'] = None
+    #     session['password'] = None
 
     return render_template('login.html')
 
@@ -113,12 +112,18 @@ def process_login():
     user = crud.get_user_by_email(email=email)
     if not user or user.password != password:
         flash('The email or password you entered was incorrect.')
+        return redirect('/')
     else:
-        # Log in user by storing the user's email in session
         session['email'] = user.email
-        flash(f'Welcome back, {user.email}!')
+        flash(f'Welcome back, you\'re logged in using: {user.email}!')
+        return redirect('/users')
 
-    return redirect('/users')
+@app.route('/logout')
+def logout():
+    session.clear()
+    # session.pop('email')
+    # session.pop('password')
+    return redirect('/')
 
 @app.route('/users')
 def profile_page():
