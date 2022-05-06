@@ -96,10 +96,6 @@ def register_user():
 @app.route('/login')
 def login_page():
     '''Landing page for user login.'''
-    # if 'email' not in session:
-    #     session['email'] = None
-    #     session['password'] = None
-
     return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
@@ -112,10 +108,10 @@ def process_login():
     user = crud.get_user_by_email(email=email)
     if not user or user.password != password:
         flash('The email or password you entered was incorrect.')
-        return redirect('/')
+        return redirect('/login')
     else:
         session['email'] = user.email
-        flash(f'Welcome back, you\'re logged in using: {user.email}!')
+        flash(f'Welcome back, you\'re logging in using: {user.email}!')
         return redirect('/users')
 
 @app.route('/logout')
@@ -127,8 +123,6 @@ def logout():
 
 @app.route('/users')
 def profile_page():
-    #how to show certain features when signed in (Login, Sign up shouldn't be there on the nav bar)
-    
     email = request.form.get('email')
     password = request.form.get('password')
     return render_template('profile_page.html', email=email)
