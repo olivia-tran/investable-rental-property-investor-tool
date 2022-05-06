@@ -1,24 +1,24 @@
 """CRUD operations."""
 from model import db, User, Property, BlogPost, Comment, BlogImage, UserImage, connect_to_db
-
+#Sign up
 def create_user(first_name, last_name, email, password):
-    '''create and return a new user'''
+    '''Create and return a new user'''
     user = User(first_name=first_name, last_name=last_name, email=email, password=password)
     return user
 
 def get_users():
-    '''return all users'''
+    '''Return all users'''
     return User.query.all()
 
 def get_user_by_id(user_id):
-    '''return a user by primary key'''
+    '''Return a user by primary key'''
     return User.query.get(user_id)
-
+#Log in: get user by email
 def get_user_by_email(email):
     '''return a user by email'''
-    return User.query.filter(User.email==email).first()
+    return User.query.filter(email==email).first()
 
-def add_property():
+def create_property(price, down_payment,interest_rate,mortgage,closing_costs,rehab,monthly_rent,property_taxes, insurance, hoa, utilities, misellaneous, capex, property_management, vacancy):
     '''add to db and return a property'''
     new_property = Property(
         price=price,
@@ -36,11 +36,16 @@ def add_property():
         capex = capex,
         property_management = property_management,
         vacancy = vacancy,
-        address = address,
-        city = city,
-        state = state,
+    
     )
     return property
+# get a list of properties owned by one user via user_id
+def get_properties_by_a_user(user_id):
+    '''Return a list of properties owned by a user'''
+    owned_properties = Property.query.filter(Property.user_id==user_id).all()
+    return owned_properties
+#owned_properties is a list
+
 if __name__ == "__main__":
     from server import app
 

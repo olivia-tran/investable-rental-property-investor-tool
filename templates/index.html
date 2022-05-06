@@ -42,20 +42,26 @@
 <section class="container-fluid">
     
     <div class="row">
-        <div class="container" id="google-map-api">
+        <div class="container" id="charts">
             <div class="col-6 offset-6">
-                <h1>placeholder for Google Map API</h1>
+                <h1>placeholder for charts JS</h1>
             </div>
         </div>
     </div>
+
 </section>
 
+{% endblock %}
+
+{% block head %}
+  {# ChartJS #}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+  {# randomColor: generate random colors #}
+  <script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
+{% endblock %}
 
 
-
-
-
-
-
-
+{% block js %}
+  <script src="/static/js/charts.js"></script>
 {% endblock %}

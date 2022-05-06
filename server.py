@@ -1,15 +1,16 @@
 """Server for INVESTABLE app."""
 from flask import request, Flask, render_template, redirect, flash, session
 import crud
+from model import connect_to_db, db
 # from importlib_metadata import files
 import os #to access os.environ to access secrets.sh values
 from jinja2 import StrictUndefined
 
 
 app = Flask(__name__)
-
-app.secret_key = os.environ.get('SECRET_KEY')
-
+#tried resetting secret key a few times but still not working using a string for now
+# app.secret_key = os.environ.get('SECRET_KEY')
+app.secret_key = 'daskdaskdj'
 #StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
 app.jinja_env.undefined = StrictUndefined
@@ -75,6 +76,7 @@ def get_books():
 def page_not_found(error):
     return render_template('404.html'), 404
 
+
 @app.route('/register')
 def register_page():
     '''landing page for register.'''
@@ -94,41 +96,45 @@ def register_user():
     if user:
         flash('Cannot create an account with that email. Try again.')
     else:
-        user = crud.create_user(email, password)
+        user = crud.create_user(first, last, email, password)
         db.session.add(user)
         db.session.commit()
         flash('Account created! Please log in.')
 
-    return redirect('/')
+    return redirect('/users')
 
+@app.route('/login')
+def login_page():
+    '''Landing page for user login.'''
 
-@app.route('/users/<user_id>')
-def show_user(user_id):
-    '''Show details on a particular user.'''
+    return render_template('login.html')
 
-    user = crud.get_user_by_id(user_id)
-
-    return render_template('user_details.html', user=user)
-
-
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['POST'])
 def process_login():
     '''Process user login.'''
 
     email = request.form.get('email')
     password = request.form.get('password')
 
-    # user = crud.get_user_by_email(email)
-    # if not user or user.password != password:
-    #     flash('The email or password you entered was incorrect.')
-    # else:
-    #     # Log in user by storing the user's email in session
-    #     session['user_email'] = user.email
-    #     flash(f'Welcome back, {user.email}!')
+    user = crud.get_user_by_email(email)
+    if not user or user.password != password:
+        flash('The email or password you entered was incorrect.')
+    else:
+        # Log in user by storing the user's email in session
+        session['user_email'] = user.email
+        flash(f'Welcome back, {user.email}!')
 
-    return render_template('login.html')
+    return redirect('/users')
+
+@app.route('/users')
+def profile_page():
+    #how to show certain features when signed in (Login, Sign up shouldn't be there on the nav bar)
+    
+    email = request.form.get('email')
+    password = request.form.get('password')
+    return render_template('profile_page.html', email=email)
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
-
+    connect_to_db(app)
     app.run(debug=True)

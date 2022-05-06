@@ -16,30 +16,29 @@ class User(db.Model):
     properties = db.relationship('Property', back_populates='user')
     blog_posts = db.relationship('BlogPost', back_populates='user')
     comments = db.relationship('Comment', back_populates='user')
-    #change user profile pix to one to one relationship
     user_image = db.relationship('UserImage', uselist=False, back_populates='user')
 
 
     def __repr__(self):
         return f'<User: user_id= {self.user_id}, first_name= {self.first_name}>'
 
-    @classmethod
-    def create(cls, email, password):
-        '''Create and return a new user.'''
+    # @classmethod
+    # def create(cls, email, password):
+    #     '''Create and return a new user.'''
 
-        return cls(email=email, password=password)
+    #     return cls(email=email, password=password)
 
-    @classmethod
-    def get_by_id(cls, user_id):
-        return cls.query.get(user_id)
+    # @classmethod
+    # def get_by_id(cls, user_id):
+    #     return cls.query.get(user_id)
 
-    @classmethod
-    def get_by_email(cls, email):
-        return cls.query.filter(User.email == email).first()
+    # @classmethod
+    # def get_by_email(cls, email):
+    #     return cls.query.filter(User.email == email).first()
 
-    @classmethod
-    def all_users(cls):
-        return cls.query.all()
+    # @classmethod
+    # def all_users(cls):
+    #     return cls.query.all()
 
 
 class Property(db.Model):
@@ -62,20 +61,16 @@ class Property(db.Model):
     capex = db.Column(db.Integer)
     property_management = db.Column(db.Integer)
     vacancy = db.Column(db.Integer)
-    address = db.Column(db.String) #e.g: 15513 Gray Catbird
-    city = db.Column(db.String) #e.g: San Francisco
-    state = db.Column(db.String) #e.g: TX, CA, OR
-
     user = db.relationship('User', back_populates='properties') #one to many
 
     def __repr__(self):
-        return f"<Property: property_id={self.property_id} user_id={self.user_id} at address={self.address}>"
+        return f"<Property: property_id={self.property_id} user_id={self.user_id}>"
 
-    @classmethod
-    def create(cls, user, property):
-        '''Create and return a new property.'''
+    # @classmethod
+    # def create(cls, user, property):
+    #     '''Create and return a new property.'''
 
-        return cls(user=user, property=property)
+    #     return cls(user=user, property=property)
 
 
 class BlogPost(db.Model):
@@ -112,7 +107,6 @@ class UserImage(db.Model):
     image_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     imgURL = db.Column(db.String, default='static/default_photo.png')
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    # change from one to many to one to one relationship for user profile pix
     user = db.relationship('User', uselist=False, back_populates='user_image')
 
 class BlogImage(db.Model):
