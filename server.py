@@ -1,7 +1,7 @@
 """Server for INVESTABLE app."""
-from flask import request, Flask, render_template, redirect, flash, session
+from flask import Flask, render_template, redirect, flash, session, request
 import crud
-from model import connect_to_db, db
+from model import connect_to_db, db, User
 # from importlib_metadata import files
 import os #to access os.environ to access secrets.sh values
 from jinja2 import StrictUndefined
@@ -10,14 +10,14 @@ from jinja2 import StrictUndefined
 app = Flask(__name__)
 #tried resetting secret key a few times but still not working using a string for now
 # app.secret_key = os.environ.get('SECRET_KEY')
-app.secret_key = 'daskdaskdj'
+app.secret_key = 'tempwhilewaitingtofixwslubuntu'
 #StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
 app.jinja_env.undefined = StrictUndefined
-
+#---------------------------Not Logged In Routes-------------------------------
 @app.route('/')
 def index():
-    '''return homepage'''
+    '''Display homepage'''
     testing_session = session.get('price')
     session.modified = True
     return render_template('index.html')
@@ -53,13 +53,6 @@ def to_calculate():
 
     return render_template('calculator.html', cashflow=cashflow, price=price, downpayment=down_payment, rate=rate, closing=closing, rehab=rehab, rent=rent, taxes=taxes, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage )
 
-
-@app.route('/forum')
-def to_read_post():
-    '''if user is logged in, show dashboard features'''
-    return render_template('forum.html')
-
-
 @app.route('/news')
 def get_news():
     '''show industry insight from news API'''
@@ -75,14 +68,12 @@ def get_books():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
-
-
+#---------------------------Logged In Only Routes-------------------------------
 @app.route('/register')
 def register_page():
     '''landing page for register.'''
     return render_template('register.html')
     
-
 @app.route('/register', methods=['POST'])
 def register_user():
     '''Create a new user.'''
@@ -92,7 +83,7 @@ def register_user():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    user = crud.get_user_by_email(email)
+    user = crud.get_user_by_email(email=email)
     if user:
         flash('Cannot create an account with that email. Try again.')
     else:
@@ -106,22 +97,25 @@ def register_user():
 @app.route('/login')
 def login_page():
     '''Landing page for user login.'''
+    if 'email' not in session:
+        session['email'] = None
+        session['password'] = None
 
     return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
 def process_login():
-    '''Process user login.'''
+    '''Authenticate user login info.'''
 
     email = request.form.get('email')
     password = request.form.get('password')
 
-    user = crud.get_user_by_email(email)
+    user = crud.get_user_by_email(email=email)
     if not user or user.password != password:
         flash('The email or password you entered was incorrect.')
     else:
         # Log in user by storing the user's email in session
-        session['user_email'] = user.email
+        session['email'] = user.email
         flash(f'Welcome back, {user.email}!')
 
     return redirect('/users')
@@ -133,6 +127,14 @@ def profile_page():
     email = request.form.get('email')
     password = request.form.get('password')
     return render_template('profile_page.html', email=email)
+
+
+@app.route('/forum')
+def to_read_post():
+    '''if user is logged in, show dashboard features'''
+    return render_template('forum.html')
+
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

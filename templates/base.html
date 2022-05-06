@@ -20,7 +20,51 @@
 </head>
 
 <body>
+
   {% block nav %}
+  
+  {% if session['email'] %}
+  <nav id="mainNavbar" class="navbar navbar-expand-md navbar-dark py-0">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{url_for('index')}}">
+        <img src="static/logo-final.png" alt="logo" width="40px">
+        <b>INVESTABLE</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks"
+        aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navLinks">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{url_for('index')}}">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('index')}}">CALCULATOR</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="{{url_for('process_login')}}">LOGIN</a>
+          </li> -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              FEATURES
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{{url_for('get_news')}}">INDUSTRY INSIGHTS</a></li>
+              <li><a class="dropdown-item" href="{{url_for('get_books')}}">BOOK RECOMMENDATIONS</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="{{url_for('to_read_post')}}">FORUM</a></li>
+            </ul>
+          </li>
+        </ul>
+        <!-- <a href="{{url_for('register_user')}}" class="btn btn-outline-danger" style="color:#b40404">SIGN UP</a> -->
+
+      </div>
+    </div>
+  </nav>
+  {% else %}
   <nav id="mainNavbar" class="navbar navbar-expand-md navbar-dark py-0">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{url_for('index')}}">
@@ -61,9 +105,17 @@
       </div>
     </div>
   </nav>
+  {% endif  %}
+  
   {% endblock %}
 
   {% block content %}{% endblock %}
+  {% for message in get_flashed_messages() %}
+ <div class="container">
+<h3><div class="flash-message" style="color:#b40404"> {{message}}!!!</div></h3>
+{% endfor %}
+    
+  </div>
 
 
 
