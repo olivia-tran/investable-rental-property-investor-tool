@@ -10,6 +10,7 @@ from jinja2 import StrictUndefined
 app = Flask(__name__)
 #tried resetting secret key a few times but still not working using a string for now
 # app.secret_key = os.environ.get('SECRET_KEY')
+# GG_KEY = os.environ['GG_KEY']
 app.secret_key = 'tempwhilewaitingtofixwslubuntu'
 #StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
@@ -117,15 +118,11 @@ def process_login():
 @app.route('/logout')
 def logout():
     session.clear()
-    # session.pop('email')
-    # session.pop('password')
     return redirect('/')
 
 @app.route('/users')
 def profile_page():
-    email = request.form.get('email')
-    password = request.form.get('password')
-    return render_template('profile_page.html', email=email)
+    return render_template('profile_page.html')
 
 
 @app.route('/forum')
