@@ -56,13 +56,13 @@ def to_calculate():
 @app.route('/news')
 def get_news():
     '''show industry insight from news API'''
-    return render_template('news.html')
+    return redirect('/')
 
 
 @app.route('/books')
 def get_books():
     '''show industry insight from goodreads API'''
-    return render_template('books.html')
+    return redirect('/')
 
 
 @app.errorhandler(404)

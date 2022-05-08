@@ -1,98 +1,151 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- <section class="vh-100" style="background-color: #e6ddde;"> -->
-<!-- <div class="container py-5 h-100"> -->
-<!-- <div class="row d-flex justify-content-left align-items-left h-100"> -->
-<!-- <div class="col-12 col-md-8 col-lg-6 col-xl-5"> -->
 
-    <section id="showcase" class="d-flex justify-content-center align-items-center">
-        <div id="overlay"></div>
-        <div id="header" class="container text-white text-center">
-            <h3 class="display-5 mb-0">Analyze any investment property in seconds</h3>
-            <h1 class="display-1">INVESTABLE</h1>
-            <p class="lead d-none d-md-block">Build your passive income streams with our property analysis tools.</p>
-            
-        </div>
-    </section>
+<section id="showcase" class="d-flex justify-content-center align-items-center">
+    <div id="overlay"></div>
+    <div id="header" class="container text-white text-center">
+        <h3 class="display-5 mb-0">Analyze any investment property in seconds</h3>
+        <h1 class="display-1">INVESTABLE</h1>
+        <p class="lead d-none d-md-block">Build your passive income streams with our property analysis tools.</p>
 
-<div class="container-fluid" >
-    <div class="row">
-        <div class="col-3">
-            <div class="card shadow-lg" style="border-radius: 2rem">
-                <div class="card-body p-5 text-left">
-                    <p id="result">Estimated monthly cashflow:</p>
-                    <form action="/calculator" method="POST" class="form-control">
+    </div>
+</section>
+<section id="map-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div class="card shadow-lg" style="border-radius: 2rem">
+                    <div class="card-body p-5 text-left">
+                        <p id="result">Estimated monthly cashflow:</p>
+                        <form action="/calculator" method="POST" class="form-control">
 
-                        <p><label>Price: <input type="number" min="0" name="price" required></label></p>
-                        <p><label>Downpayment: <input type="number" min="0" name="downpayment" value="0"></label></p>
-                        <p><label>Interest Rate: <input type="number" min="0" name="rate" step="any" required></label>
-                        </p>
-                        <p><label>Monthly Mortgage: <input type="number" min="0" name="mortgage" required></label></p>
-                        <p><label>Closing costs: <input type="number" min="0" name="closing" required></label></p>
-                        <p><label>Rehab: <input type="number" min="0" name="rehab" value="0"></label></p>
-                        <p><label>Monthly Rental Income: <input type="number" min="0" name="rent" required></label></p>
-                        <p><label>Monthly Taxes: <input type="number" min="0" name="taxes" required></label></p>
-                        <p><label>Monthly Insurance: <input type="number" min="0" name="insurance" required></label></p>
-                        <p><label>HOA: <input type="number" min="0" name="hoa" value="0"></label></p>
-                        <p><label>Utilities: <input type="number" min="0" name="utilities" value="0"></label></p>
-                        <p><label>Maintenance: <input type="number" min="0" name="maintenance" value="0"></label></p>
-                        <p><label>Property Management: <input type="number" min="0" name="pm" value="0"></label></p>
-                        <p><label>Vacancy: <input type="number" min="0" name="vacancy" value="0"></label></p>
-                        <p><label>CapEx Reserve: <input type="number" min="0" name="capex" value="0"></label></p>
-                        <p><input type="submit"></p>
-                    </form>
-                    <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a
-                            href="{{url_for('register_user')}}" class="link-danger">Register</a></p>
-                    <hr class="my-4">
+                            <p><label>Price: <input type="number" min="0" name="price" required></label></p>
+                            <p><label>Downpayment: <input type="number" min="0" name="downpayment" value="0"></label>
+                            </p>
+                            <p><label>Interest Rate: <input type="number" min="0" name="rate" step="any"
+                                        required></label>
+                            </p>
+                            <p><label>Monthly Mortgage: <input type="number" min="0" name="mortgage" required></label>
+                            </p>
+                            <p><label>Closing costs: <input type="number" min="0" name="closing" required></label></p>
+                            <p><label>Rehab: <input type="number" min="0" name="rehab" value="0"></label></p>
+                            <p><label>Monthly Rental Income: <input type="number" min="0" name="rent" required></label>
+                            </p>
+                            <p><label>Monthly Taxes: <input type="number" min="0" name="taxes" required></label></p>
+                            <p><label>Monthly Insurance: <input type="number" min="0" name="insurance" required></label>
+                            </p>
+                            <p><label>HOA: <input type="number" min="0" name="hoa" value="0"></label></p>
+                            <p><label>Utilities: <input type="number" min="0" name="utilities" value="0"></label></p>
+                            <p><label>Maintenance: <input type="number" min="0" name="maintenance" value="0"></label>
+                            </p>
+                            <p><label>Property Management: <input type="number" min="0" name="pm" value="0"></label></p>
+                            <p><label>Vacancy: <input type="number" min="0" name="vacancy" value="0"></label></p>
+                            <p><label>CapEx Reserve: <input type="number" min="0" name="capex" value="0"></label></p>
+                            <p><input type="submit"></p>
+                        </form>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a
+                                href="{{url_for('register_user')}}" class="link-danger">Register</a></p>
+                        <hr class="my-4">
+                    </div>
                 </div>
+
             </div>
+            <!-- need to udpdate the calculator responsiveness -->
+            <!-- google map -->
+            <div class="col-8">
+                <div class="card shadow-lg" style="border-radius: 0rem; padding-top: 5px;">
+                    <div class="card-body p-1 text-left">
+                        <form class="d-flex">
+                            <input class="form-control me-2" id="ggm-btn" for="location" type="search"
+                                placeholder="Enter a location" aria-label="Search">
+                            <button class="btn btn-md" name="location" type="submit">Search</button>
+                        </form>
+                        <!-- need to connect the location to the eventlistener -->
+                        <div id="ggmap" style="height: 500px">
+                        </div>
 
-        </div>
-        <!-- google map -->
-        <div class="col-9" >
-            <div class="card shadow-lg"  style="border-radius: 0rem; padding-top: 5px;">
-                <div class="card-body p-1 text-left">
-                    <form class="d-flex" >
-                        <input class="form-control me-2" id="ggm-btn" for="location" type="search" placeholder="Enter a location" aria-label="Search">
-                        <button class="btn btn-md" name="location"  type="submit">Search</button>
-                      </form>
-            <!-- need to connect the location to the eventlistener -->
-                    <div id="ggmap" style="height: 100vh">
+
+                        <hr class="my-4">
+                    </div>
                 </div>
-                    
-                   
-                    <hr class="my-4">
-                </div>
-            </div>
-        <!-- testing -->
-        <!-- <div class="col-8"> -->
-            <!-- <div class="row"> -->
-                <!-- <div class="button btn-lg">Search</div> -->
-            <!-- </div> -->
-            <!-- <div class="row"> -->
-                <!-- <div id="ggmap" style="height: 100vh">
-                </div> -->
             </div>
         </div>
     </div>
+</section>
+<section id="news-section">
+    <div class="container text-center mt-2 p-3">
+        <h3>INDUSTRY NEWS</h3>
+        <div class="row m-2">
+            <div class="col-md-6 p-3">
+                <div class="card">
+                    <img src="/static/discussion.jpg" alt="people" class="card-img-top">
+                    <div class="card-body">
+                        <h2 class="card-title">NEWS 1</h2>
+                        <p class="card-text"> content pulled from news API
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quod excepturi recusandae
+                            eaque natus culpa ea voluptas ad ducimus obcaecati ut nulla ullam modi impedit assumenda,
+                            numquam quas deserunt. Dolorem!</p>
+                        <a href="#" class="btn btn-lg btn-outline-info">Read more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 p-3">
+                <div class="card">
+                    <img src="/static/calculator.jpg" alt="calculator" class="card-img-top">
+                    <div class="card-body">
+                        <h2 class="card-title">NEWS 2</h2>
+                        <p class="card-text">
+                            content pulled from news API
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus quod, debitis mollitia in
+                            laboriosam deleniti culpa. Numquam commodi blanditiis reiciendis cumque consequuntur rem
+                            quidem culpa ratione aut, molestias facilis quis?</p>
+                        <a href="#" class="btn btn-lg btn-outline-info">Read more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- line break -->
+</section>
+<!-- goodreads book remmendation api -->
 
-    <!-- line break -->
+<section>
+    <div class="container text-center mt-5">
+        <h3>TOP BOOKS ABOUT RENTAL PROPERTY INVESTMENTS</h3>
 
-    {% endblock %}
+        <div class="row mt-4">
+            <div class="col-6 col-lg-3 mb-4">
+                <img src="/static/calculator.jpg" alt="" class="img-fluid">
+            </div>
+            <div class="col-6 col-lg-3 mb-4">
+                <img src="/static/calculator.jpg" alt="" class="img-fluid">
+            </div>
+            <div class="col-6 col-lg-3 mb-4">
+                <img src="/static/calculator.jpg" alt="" class="img-fluid">
+            </div>
+            <div class="col-6 col-lg-3 mb-4">
+                <img src="/static/calculator.jpg" alt="" class="img-fluid">
+            </div>
+         
+        </div>
+    </div>
+</section>
+{% endblock %}
 
-    {% block head %}
-    {# ChartJS #}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+{% block head %}
+{# ChartJS #}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 
-    {# randomColor: generate random colors #}
-    <script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
-    {% endblock %}
+{# randomColor: generate random colors #}
+<script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
+{% endblock %}
 
 
-    {% block js %}
-    <script src="/static/maps.js"></script>
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7gmAcViJysl_pwmzh14p7JifHzsaR1Z0&callback=initMap">
-    </script>
-    <!-- <script src="/static/js/charts.js"></script> -->
-    {% endblock %}
+{% block js %}
+<script src="/static/maps.js"></script>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7gmAcViJysl_pwmzh14p7JifHzsaR1Z0&callback=initMap">
+</script>
+<!-- <script src="/static/js/charts.js"></script> -->
+{% endblock %}
