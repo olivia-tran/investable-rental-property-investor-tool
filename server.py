@@ -24,7 +24,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     '''Display homepage'''
-    flash("welcome to the app")
+    # flash("welcome to the app")
     print(session)
     return render_template('index.html', GG_KEY=GG_KEY)
 
@@ -92,13 +92,13 @@ def register_user():
 
     user = crud.get_user_by_email(email=email)
     if user:
-        flash('Cannot create an account with that email. Try again.')
+        flash('Cannot create an account with that email🤔. Try again.')
         return redirect('/register')
     else:
         user = crud.create_user(first, last, email, password)
         db.session.add(user)
         db.session.commit()
-        flash('Account successfully created.')
+        flash('Account successfully created. 🥳️')
         session['email'] = user.email
 
     return render_template('user_profile.html', first=first, GG_KEY=GG_KEY)
@@ -119,11 +119,11 @@ def process_login():
 
     user = crud.get_user_by_email(email=email)
     if not user or user.password != password:
-        flash('The email or password you entered was incorrect.')
+        flash('The email or password you entered was incorrect 🤔. Try again')
         return redirect('/login')
     else:
         session['email'] = user.email
-        flash(f'Welcome back, you\'re logging in using: {user.email}!')
+        flash(f'😺Welcome back, you\'re logging in using: {user.email}!')
         return redirect('/users')
 
 
@@ -142,6 +142,12 @@ def profile_page():
 def to_read_post():
     '''if user is logged in, show dashboard features'''
     return render_template('forum.html')
+
+
+@app.route('/contact')
+def contact_us():
+    '''Allow user contact us to give feedback'''
+    return render_template('contact_us.html')
 
 
 if __name__ == "__main__":
