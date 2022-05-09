@@ -78,7 +78,7 @@ def page_not_found(error):
 @app.route('/register')
 def register_page():
     '''landing page for register.'''
-    return render_template('register.html')
+    return render_template('register.html', GG_KEY=GG_KEY)
 
 
 @app.route('/register', methods=['POST'])
@@ -101,7 +101,7 @@ def register_user():
         flash('Account successfully created.')
         session['email'] = user.email
 
-    return render_template('user_profile.html', first=first)
+    return render_template('user_profile.html', first=first, GG_KEY=GG_KEY)
 
 
 @app.route('/login')
