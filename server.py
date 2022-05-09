@@ -1,32 +1,43 @@
 """Server for INVESTABLE app."""
 from flask import Flask, render_template, redirect, flash, session, request
 import crud
+import requests
+import psycopg2
+
 from model import connect_to_db, db, User
 # from importlib_metadata import files
-import os #to access os.environ to access secrets.sh values
+import os  # to access os.environ to access secrets.sh values
 from jinja2 import StrictUndefined
 
 
 app = Flask(__name__)
-#tried resetting secret key a few times but still not working using a string for now
-# app.secret_key = os.environ.get('SECRET_KEY')
-# GG_KEY = os.environ['GG_KEY']
-app.secret_key = 'tempwhilewaitingtofixwslubuntu'
-#StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
+# tried resetting secret key a few times but still not working using a string for now
+app.secret_key = os.environ.get('SECRET_KEY')
+# app.config['SECRET_KEY'] = os.environ.get('SUPER_SECRET')
+# app.config['SESSION_TYPE'] = 'filesystem'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+GG_KEY = os.environ['GG_KEY']
+# app.secret_key = 'tempwhilewaitingtofixwslubuntu'
+# StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
 app.jinja_env.undefined = StrictUndefined
-#---------------------------Not Logged In Routes-------------------------------
+# ---------------------------Not Logged In Routes-------------------------------
+
+
 @app.route('/')
 def index():
     '''Display homepage'''
+    flash("welcome to the app")
     print(session)
-    return render_template('index.html')
+    return render_template('index.html', GG_KEY=GG_KEY)
 
 
 @app.route('/calculator', methods=['POST'])
 def to_calculate():
     '''return calculator interface'''
-    
+
     price = request.form.get('price')
     down_payment = request.form.get('downpayment')
     rate = request.form.get('rate')
@@ -42,21 +53,45 @@ def to_calculate():
     pm = request.form.get('pm')
     vacancy = request.form.get('vacancy')
     capex = request.form.get('capex')
-    
+
     flash('Running numbers')
-    total_monthly_expenses = int(taxes) + int(insurance) + int(hoa) + int(utilities) + int(maintenance) + int(pm) + int(vacancy) + int(capex) + int(mortgage)
+    total_monthly_expenses = int(taxes) + int(insurance) + int(hoa) + int(
+        utilities) + int(maintenance) + int(pm) + int(vacancy) + int(capex) + int(mortgage)
     cashflow = int(rent) - total_monthly_expenses
-    
-    #if user clicks SAVE, prompt LOGIN/SIGNUP and save data to db
 
+    # if user clicks SAVE, prompt LOGIN/SIGNUP and save data to db
 
+    return render_template('calculator.html', cashflow=cashflow, price=price, downpayment=down_payment, rate=rate, closing=closing, rehab=rehab, rent=rent, taxes=taxes, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
 
-    return render_template('calculator.html', cashflow=cashflow, price=price, downpayment=down_payment, rate=rate, closing=closing, rehab=rehab, rent=rent, taxes=taxes, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage )
 
 @app.route('/news')
 def get_news():
     '''show industry insight from news API'''
     return redirect('/')
+
+# @app.route('/')
+# def show_news():
+#     '''Search for news related to rental properties'''
+#     print(f'********************************')
+#     res = requests.get('https://newsapi.org/v2/everything?q=rental+property&sortBy=publishedAt&language=en&apiKey=e3e696baedae4868a1713500a219c5f4')
+
+#     print(f'==================res={res}')
+#     result = res.json()
+#     print(f'===================result={result}')
+#     if result['status'] == 'ok':
+#         data = result['articles']
+#         # title = data[0]['title']
+#         # content = data[0]['content']
+#         # image = data[0]['urlToImage']
+#         # link = data[0]['url']
+#         return title, content, image, link
+#         print(f'==================={len(data)}')
+#         return render_template('index.html', data=data)
+#     else:
+#         return '<p>Loading contents</p>'
+    # feed this into index news cards
+# show_news()
+# print(show_news())
 
 
 @app.route('/books')
@@ -68,12 +103,15 @@ def get_books():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
-#---------------------------Logged In Only Routes-------------------------------
+# ---------------------------Logged In Only Routes-------------------------------
+
+
 @app.route('/register')
 def register_page():
     '''landing page for register.'''
     return render_template('register.html')
-    
+
+
 @app.route('/register', methods=['POST'])
 def register_user():
     '''Create a new user.'''
@@ -86,23 +124,27 @@ def register_user():
     user = crud.get_user_by_email(email=email)
     if user:
         flash('Cannot create an account with that email. Try again.')
+        return redirect('/register')
     else:
         user = crud.create_user(first, last, email, password)
         db.session.add(user)
         db.session.commit()
-        flash('Account created! Please log in.')
+        flash('Account successfully created.')
+        session['email'] = user.email
 
-    return redirect('/users')
+    return render_template('user_profile.html', first=first)
+
 
 @app.route('/login')
 def login_page():
     '''Landing page for user login.'''
     return render_template('login.html')
 
+
 @app.route('/login', methods=['POST'])
 def process_login():
     '''Authenticate user login info.'''
-
+    print(f'========================process login func')
     email = request.form.get('email')
     password = request.form.get('password')
 
@@ -115,10 +157,12 @@ def process_login():
         flash(f'Welcome back, you\'re logging in using: {user.email}!')
         return redirect('/users')
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
+
 
 @app.route('/users')
 def profile_page():
@@ -129,7 +173,6 @@ def profile_page():
 def to_read_post():
     '''if user is logged in, show dashboard features'''
     return render_template('forum.html')
-
 
 
 if __name__ == "__main__":

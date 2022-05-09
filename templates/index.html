@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
+{% block head %}
+{# ChartJS #}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+{# randomColor: generate random colors #}
+<script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
+{% endblock %}
+<!-- content of page -->
 {% block content %}
+
 
 <section id="showcase" class="d-flex justify-content-center align-items-center">
     <div id="overlay"></div>
@@ -13,7 +22,7 @@
 <section id="map-section">
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-lg-4">
                 <div class="card shadow-lg" style="border-radius: 2rem">
                     <div class="card-body p-5 text-left">
                         <p id="result">Estimated monthly cashflow:</p>
@@ -52,13 +61,13 @@
             </div>
             <!-- need to udpdate the calculator responsiveness -->
             <!-- google map -->
-            <div class="col-8">
+            <div class="col-12 col-lg-8">
                 <div class="card shadow-lg" style="border-radius: 0rem; padding-top: 5px;">
                     <div class="card-body p-1 text-left">
-                        <form class="d-flex">
+                        <form class="d-flex" id="search-form">
                             <input class="form-control me-2" id="ggm-btn" for="location" type="search"
                                 placeholder="Enter a location" aria-label="Search">
-                            <button class="btn btn-md" name="location" type="submit">Search</button>
+                            <button class="btn btn-md" id="btn-search" name="location" type="submit">Search</button>
                         </form>
                         <!-- need to connect the location to the eventlistener -->
                         <div id="ggmap" style="height: 500px">
@@ -74,18 +83,19 @@
 </section>
 <section id="news-section">
     <div class="container text-center mt-2 p-3">
-        <h3>INDUSTRY NEWS</h3>
-        <div class="row m-2">
-            <div class="col-md-6 p-3">
+        <h3 ><a name="industry-news">INDUSTRY NEWS</a></h3>
+        <div class="row m-2" id="news_container">
+            <!-- <div class="col-md-6 p-3">
                 <div class="card">
-                    <img src="/static/discussion.jpg" alt="people" class="card-img-top">
+                    <img id="news-img" src="/static/calculator.jpg" alt="calculator" class="card-img-top">
                     <div class="card-body">
-                        <h2 class="card-title">NEWS 1</h2>
-                        <p class="card-text"> content pulled from news API
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quod excepturi recusandae
-                            eaque natus culpa ea voluptas ad ducimus obcaecati ut nulla ullam modi impedit assumenda,
-                            numquam quas deserunt. Dolorem!</p>
-                        <a href="#" class="btn btn-lg btn-outline-info">Read more</a>
+                        <h2 class="card-title" id="news-title">NEWS 1</h2>
+                        <p class="card-text" id="news-text">
+                            content pulled from news API
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus quod, debitis mollitia in
+                            laboriosam deleniti culpa. Numquam commodi blanditiis reiciendis cumque consequuntur rem
+                            quidem culpa ratione aut, molestias facilis quis?</p>
+                        <a href="#" id="news-link" class="btn btn-lg btn-outline-info">Read more</a>
                     </div>
                 </div>
             </div>
@@ -100,19 +110,19 @@
                             laboriosam deleniti culpa. Numquam commodi blanditiis reiciendis cumque consequuntur rem
                             quidem culpa ratione aut, molestias facilis quis?</p>
                         <a href="#" class="btn btn-lg btn-outline-info">Read more</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- line break -->
-</section>
-<!-- goodreads book remmendation api -->
+
+<!-- book remmendation api -->
 
 <section>
     <div class="container text-center mt-5">
-        <h3>TOP BOOKS ABOUT RENTAL PROPERTY INVESTMENTS</h3>
+        <h3>BOOKS ABOUT RENTAL PROPERTY INVESTMENTS</h3>
 
         <div class="row mt-4">
             <div class="col-6 col-lg-3 mb-4">
@@ -127,25 +137,20 @@
             <div class="col-6 col-lg-3 mb-4">
                 <img src="/static/calculator.jpg" alt="" class="img-fluid">
             </div>
-         
+
         </div>
     </div>
 </section>
 {% endblock %}
 
-{% block head %}
-{# ChartJS #}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 
-{# randomColor: generate random colors #}
-<script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
-{% endblock %}
+
+
 
 
 {% block js %}
 <script src="/static/maps.js"></script>
 <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7gmAcViJysl_pwmzh14p7JifHzsaR1Z0&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key={{GG_KEY}}&callback=initMap">
 </script>
-<!-- <script src="/static/js/charts.js"></script> -->
 {% endblock %}
