@@ -11,15 +11,9 @@ from jinja2 import StrictUndefined
 
 
 app = Flask(__name__)
-# tried resetting secret key a few times but still not working using a string for now
 app.secret_key = os.environ.get('SECRET_KEY')
-# app.config['SECRET_KEY'] = os.environ.get('SUPER_SECRET')
-# app.config['SESSION_TYPE'] = 'filesystem'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-
 GG_KEY = os.environ['GG_KEY']
-# app.secret_key = 'tempwhilewaitingtofixwslubuntu'
+
 # StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
 app.jinja_env.undefined = StrictUndefined
@@ -59,8 +53,6 @@ def to_calculate():
         utilities) + int(maintenance) + int(pm) + int(vacancy) + int(capex) + int(mortgage)
     cashflow = int(rent) - total_monthly_expenses
 
-    # if user clicks SAVE, prompt LOGIN/SIGNUP and save data to db
-
     return render_template('calculator.html', cashflow=cashflow, price=price, downpayment=down_payment, rate=rate, closing=closing, rehab=rehab, rent=rent, taxes=taxes, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
 
 
@@ -68,30 +60,6 @@ def to_calculate():
 def get_news():
     '''show industry insight from news API'''
     return redirect('/')
-
-# @app.route('/')
-# def show_news():
-#     '''Search for news related to rental properties'''
-#     print(f'********************************')
-#     res = requests.get('https://newsapi.org/v2/everything?q=rental+property&sortBy=publishedAt&language=en&apiKey=e3e696baedae4868a1713500a219c5f4')
-
-#     print(f'==================res={res}')
-#     result = res.json()
-#     print(f'===================result={result}')
-#     if result['status'] == 'ok':
-#         data = result['articles']
-#         # title = data[0]['title']
-#         # content = data[0]['content']
-#         # image = data[0]['urlToImage']
-#         # link = data[0]['url']
-#         return title, content, image, link
-#         print(f'==================={len(data)}')
-#         return render_template('index.html', data=data)
-#     else:
-#         return '<p>Loading contents</p>'
-    # feed this into index news cards
-# show_news()
-# print(show_news())
 
 
 @app.route('/books')

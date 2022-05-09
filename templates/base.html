@@ -26,7 +26,6 @@
 
 
   {% block nav %}
-
   {% if 'email' in session %}
   <nav id="mainNavbar" class="navbar fixed-top navbar-expand-md navbar-light bg-light py-0">
     <div class="container-fluid">
@@ -60,7 +59,7 @@
               FEATURES
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="{{url_for('get_news')}}">INDUSTRY INSIGHTS</a></li>
+              <li><a class="dropdown-item" href="{{url_for('get_news')}}#industry-news">INDUSTRY INSIGHTS</a></li>
               <li><a class="dropdown-item" href="{{url_for('get_books')}}">BOOK RECOMMENDATIONS</a></li>
               <li>
                 <hr class="dropdown-divider">
@@ -108,12 +107,12 @@
             </ul>
           </li>
         </ul>
-        <ul>
+        <!-- <ul>
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('process_login')}}">LOGIN</a>
         </li>
-      </ul>
-        <a href="{{url_for('register_user')}}" class="btn btn-outline-danger" style="color:#b40404">SIGN UP</a>
+      </ul> -->
+        <a href="{{url_for('process_login')}}" class="btn btn-outline-danger" style="color:#b40404">LOGIN</a>
 
       </div>
     </div>
