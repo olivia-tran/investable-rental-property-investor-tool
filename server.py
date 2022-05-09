@@ -13,7 +13,8 @@ from jinja2 import StrictUndefined
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 GG_KEY = os.environ['GG_KEY']
-
+API_KEY = os.environ['API_KEY']
+# how to pass an object to from jinja to js?
 # StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
 app.jinja_env.undefined = StrictUndefined
