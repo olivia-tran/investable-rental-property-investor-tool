@@ -135,7 +135,10 @@ def logout():
 
 @app.route('/users')
 def profile_page():
-    return render_template('profile_page.html')
+    email = session['email']
+    user = crud.get_user_by_email(email)
+
+    return render_template('profile_page.html', user=user)
 
 
 @app.route('/forum')

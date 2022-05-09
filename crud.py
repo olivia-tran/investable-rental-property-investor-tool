@@ -51,10 +51,11 @@ def create_property(price, down_payment, interest_rate, mortgage, closing_costs,
 # get a list of properties owned by one user via user_id
 
 
-def get_properties_by_a_user(user_id):
+def get_properties_by_user(user_id):
     '''Return a list of properties owned by a user'''
     owned_properties = Property.query.filter(Property.user_id == user_id).all()
     return owned_properties
+# when user logs in, we will have their email, use email to query properties
 # owned_properties is a list
 
 

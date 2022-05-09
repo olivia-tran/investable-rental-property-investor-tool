@@ -73,15 +73,16 @@
         aria-expanded="false">
         SETTINGS
       </a>
+      <!-- how to have user fullname shown here instead of Settings -->
       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="{{url_for('index')}}#industry-news">MY PROFILE</a></li>
-        <li><a class="dropdown-item" href="{{url_for('profile_page')}}">MY PROPERTIES</a></li>
-        
-        <li><a class="dropdown-item" href="{{url_for('contact_us')}}">CONTACT US</a></li>
+        <li><a class="dropdown-item" href="{{url_for('index')}}#industry-news">Profile</a></li>
+        <li><a class="dropdown-item" href="{{url_for('profile_page')}}">Properties</a></li>
+        <li><a class="dropdown-item" href="{{url_for('profile_page')}}">Dashboard</a></li>
+        <li><a class="dropdown-item" href="{{url_for('contact_us')}}">Contact Us</a></li>
         <li>
           <hr class="dropdown-divider">
         </li>
-        <li><a class="dropdown-item" href="{{url_for('logout')}}">LOG OUT</a></li>
+        <li><a class="dropdown-item" href="{{url_for('logout')}}">Sign Out</a></li>
       </ul>
         <!-- clear session -->
       </div>
