@@ -27,7 +27,7 @@
 
   {% block nav %}
   {% if 'email' in session %}
-  <nav id="mainNavbar" class="navbar fixed-top navbar-expand-md navbar-light bg-light py-0">
+  <nav id="mainNavbar" class="navbar sticky-top navbar-expand-md navbar-light bg-light py-0">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{url_for('index')}}">
         <img src="static/logo-final.png" alt="logo" width="40px">
@@ -74,7 +74,7 @@
     </div>
   </nav>
   {% else %}
-  <nav id="mainNavbar" class="navbar fixed-top navbar-expand-md navbar-light bg-light py-0">
+  <nav id="mainNavbar" class="navbar sticky-top navbar-expand-md navbar-light bg-light py-0">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{url_for('index')}}">
         <img src="static/logo-final.png" alt="logo" width="40px">
@@ -120,21 +120,18 @@
   {% endif  %}
 
   {% endblock %}
-  <!-- not showing my flash messages anymore! -->
-
-  {% for message in get_flashed_messages() %}
   <div class="container-fluid">
+  <!-- not showing my flash messages anymore! -->
+  {% for message in get_flashed_messages() %}
+  <!-- <div class="container-fluid"> -->
     <div class="card shadow-lg" id="flash_messages">
       <h3>
         <div class="flash-message" style="color:#b40404"> {{message}}!!!</div>
       </h3>
 
     </div>
-  </div>
+  <!-- </div> -->
   {% endfor %}
-  
-
-
 
   {% block content %}
   <!-- body of page goes here -->
@@ -142,10 +139,10 @@
   <!-- chart or map js -->
   {% block js %}{% endblock %}
   <!-- footer -->
-  <div class="container">
+
     <footer class="py-5">
       <div class="d-flex justify-content-between py-4 my-4 border-top">
-        <p>&copy; 2022 INVESTABLE, Capstone Project.</p>
+        <p>&copy; 2022 INVESTABLE</p>
 
         <!-- linkedin -->
         <a href="https://www.linkedin.com/in/oliviatran99/">
