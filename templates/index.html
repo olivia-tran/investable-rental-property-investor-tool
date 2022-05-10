@@ -16,88 +16,173 @@
         <h3 class="display-5 mb-0">Analyze any investment property in seconds</h3>
         <h1 class="display-1">INVESTABLE</h1>
         <p class="lead d-none d-md-block">Build your passive income streams with our property analysis tools.</p>
-        <a name="calculator" href="{{url_for('register_page')}}" id="action" class="btn btn-lg px-5 text-white shadow-lg" style="background-color:#739bc5; border-radius: 2rem;">REGISTER FOR FREE</a>
-       
+        <a name="calculator" href="{{url_for('register_page')}}" id="action"
+            class="btn btn-lg px-5 text-white shadow-lg" style="background-color:#739bc5; border-radius: 2rem;">REGISTER
+            FOR FREE</a>
+
     </div>
 </section>
 <section id="map-section">
     <div class="container">
         <div class="row">
-            <div class="col-12 col-lg-4">
-                <div class="card shadow-lg" style="border-radius: 2rem">
-                    <div class="card-body p-5 text-left">
-                        <p id="result">Estimated monthly cashflow:</p>
-                        <form action="/calculator" method="POST" class="form-control">
+            <div class="col col-md-4">
+                <!-- THIS IS A ROW CONTAINING BOTH CALCULATOR AND MAP -->
+                <div class="card shadow-lg" style="padding-top: 5px;">
+                    <div class="card-body p-1 text-left">
+                        <form name="calform">
+                            <table class="panel" align="center">
+                                <section id="caldiv">
+                                    <tr>
+                                        <td colspan="3" id="cashflow">Expected Cash Flow:</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" id="annual">Annual Cash Flow: </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" id="total-expense">Total Expenses: </td>
+                                    </tr>
+                                </section>
+                                <tr>
+                                    <td>Rental Income</td>
+                                    <td align="right"><input type="text" name="rent" id="rent" value="2,750.00"
+                                            class="inlong indollar"></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <td colspan="3" id="sectitle">Monthly Operating Expenses</td>
+                                <tr>
+                                    <td>Mortgage</td>
+                                    <td align="right"><input type="text" name="mortgage" id="mortgage" value="1,050.00"
+                                            class="innormal indollar"></td>
+                                </tr>
+                                <tr>
+                                    <td>Property Tax</td>
+                                    <td align="right"><input type="text" name="tax" id="tax" value="650.00"
+                                            class="innormal indollar"></td>
+                                </tr>
+                                <tr>
+                                    <td>Insurance</td>
+                                    <td align="right"><input type="text" name="insurance" id="insurance" value="185.00"
+                                            class="innormal indollar"></td>
+                                </tr>
+                                <tr>
+                                    <td>HOA Fee</td>
+                                    <td align="right"><input type="text" name="hoa" id="hoa" value="20.00"
+                                            class="innormal indollar"></td>
+                                </tr>
+                                <tr>
+                                    <td>Utilities</td>
+                                    <td align="right"><input type="text" name="utilities" id="utilities" value="150.00"
+                                            class="innormal indollar"></td>
 
-                            <p><label>Price: <input type="number" min="0" name="price" required></label></p>
-                            <p><label>Monthly Rental Income: <input type="number" min="0" name="rent" required></label>
-                            </p>
-                            <p><label>Monthly Mortgage: <input type="number" min="0" name="mortgage" required></label>
-                            </p>
-                            <p><label>Monthly Taxes: <input type="number" min="0" name="taxes" required></label></p>
-                            <p><label>Monthly Insurance: <input type="number" min="0" name="insurance" required></label>
-                            </p>
-                            <p><label>HOA: <input type="number" min="0" name="hoa" value="0"></label></p>
-                            <p><label>Utilities: <input type="number" min="0" name="utilities" value="0"></label></p>
-                            <p><label>Maintenance: <input type="number" min="0" name="maintenance" value="0"></label>
-                            </p>
-                            <p><label>Property Management: <input type="number" min="0" name="pm" value="0"></label></p>
-                            <p><label>Vacancy: <input type="number" min="0" name="vacancy" value="0"></label></p>
-                            <p><label>CapEx Reserve: <input type="number" min="0" name="capex" value="0"></label></p>
-                            <p><input type="submit"></p>
+                                </tr>
+                                <tr>
+                                    <td>Maintenance</td>
+                                    <td align="right"><input type="text" name="maintenance" id="maintenance"
+                                            value="150.00" class="innormal indollar"></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Property Management</td>
+                                    <td align="right"><input type="text" name="pm" id="pm" value="70"
+                                            class="innormal indollar">
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>Vacancy</td>
+                                    <td align="right"><input type="text" name="vacancy" id="vacancy" value="150.00"
+                                            class="innormal indollar">
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>CapEx</td>
+                                    <td align="right"><input type="text" name="capex" id="capex" value="150.00"
+                                            class="innormal indollar">
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                           
                         </form>
-                        <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a
-                                href="{{url_for('register_user')}}" class="link-danger">Register</a></p>
-                        <hr class="my-4">
+                        
                     </div>
+                    <button type="submit" class="btn btn-block text-white" style="background-color:#739bc5">Run Numbers</button>
+                    <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a
+                        href="{{url_for('register_user')}}" class="link-danger">Register</a></p>
+                <hr class="my-4">
                 </div>
 
+                <!-- THIS IS A ROW CONTAINING BOTH CALCULATOR AND MAP -->
             </div>
             <!-- need to udpdate the calculator responsiveness -->
             <!-- google map -->
-            <div class="col-12 col-lg-8">
-                <div class="card shadow-lg" style="border-radius: 0rem; padding-top: 5px;">
+            <div class="col col-md-7">
+                <div class="card shadow-lg" style="padding-top: 5px;">
                     <div class="card-body p-1 text-left">
                         <div class="row">
-                        <form class="d-flex" id="search-form">
-                            <input class="form-control me-2" id="ggm-btn" for="location" type="search"
-                                placeholder="Enter a location" aria-label="Search">
-                            <button class="btn btn-md" id="btn-search" name="location" type="submit">Search</button>
-                        </form>
+                            <form class="d-flex" id="search-form">
+                                <input class="form-control me-2" id="ggm-btn" for="location" type="search"
+                                    placeholder="Enter a location" aria-label="Search">
+                                <button class="btn btn-md" id="btn-search" name="location" type="submit">Search</button>
+                            </form>
 
-                        <div id="ggmap" style="height: 500px">
+                            <div id="ggmap" style="height: 500px">
+                            </div>
+
+
+                            <hr class="my-4">
+                        </div>
+                        <div class="row">
+
+                            <section id="explanation">
+                                <p>Thinking about buying an investment property? INVESTABLE calculator is a useful tool
+                                    to help you get a ballpark idea what the expected cash flow will be on your
+                                    property. Cash flow refers to the profit that the property generates after deducting
+                                    expenses. </p>
+                                <p>To use the calculator, plug in the values or your best estimates in dollars.</p>
+                                <h3>Glossary of Key Rental Property Terms</h3>
+                                <ol>
+                                    <li>Rental Income: total anticipated monthly rent when the property is fully rented,
+                                        including laundry income if applicable.</li>
+                                    <li>Mortgage: monthly payment including both interest and principal</li>
+                                    <li>Property Taxes: tax expense paid on the property. This number can be referenced
+                                        from Zillow or any MLS listing or the county tax database website. Mutltiply the
+                                        number by 1.5% for conservative of tax increase after purchase. Divide the cost
+                                        by 12 for the monthly expense. </li>
+                                    <li>Insurance: Homeowners insurance protects the property owner’s liability and
+                                        insures the residence against damages and losses. The average annual premium on
+                                        home insurance usually costs less than 1% of the purchase price. </li>
+                                    <li>HOA: Homeonwers Association fee</li>
+                                    <li>Utilities: such as water, sewer, trash and electricity if paid by landlord</li>
+                                    <li>Maintenance: repair costs might incur during the month. </li>
+                                    <li>Property Management: Fees paid for someone or a company to manage the property
+                                        for you. Usually runs between 5- 12%, but some companies do charge a flat fee,
+                                        e.g: $70 - $100</li>
+                                    <li>Vacancy: Vacancy rate represents the percentage of time rental income is lost
+                                        due to a property being unoccupied during the year. The national rental vacancy
+                                        rate is usually between 5% and 7%. For single family properties, use 5% vacancy
+                                        rate. </li>
+                                    <li>CapEx: Capital Expenditures is a fund reserve set aside for when subtanstial
+                                        repair or renovation is needed. Most common CapEx expenses include roofing,
+                                        foundation, siding, new appliances, HVAC maintenance </li>
+                                </ol>
+
+
+                                <p>Disclaimer: The information presented is not intended to be used as the sole basis of
+                                    any investment decisions, nor should it be construed as advice designed to meet the
+                                    investment needs of any particular investor. Nothing provided shall constitute
+                                    financial, tax, legal, or accounting advice or individually tailored investment
+                                    advice. This information is for educational purposes only. You are solely
+                                    responsible for determining whether any investment is appropriate for you based on
+                                    your personal investment objectives, financial circumstances, and risk tolerance.
+                                </p>
+
+
+                            </section>
+
                         </div>
 
-
-                        <hr class="my-4">
-                    </div>
-                    <div class="row">
-
-                        <section id="explanation">
-                            <p>Thinking about buying an investment property? INVESTABLE calculator is a useful tool to help you get a ballpark idea what the expected cash flow will be on your property. Cash flow refers to the profit that the property generates after deducting expenses. </p>
-                            <p>To use the calculator, plug in the values or your best estimates in dollars.</p>
-                            <h3>Glossary of Key Rental Property Terms</h3>
-                            <ol>
-                                <li>Rental Income: total anticipated monthly rent when the property is fully rented, including laundry income if applicable.</li>
-                                <li>Mortgage: monthly payment including both interest and principal</li>
-                                <li>Property Taxes: tax expense paid on the property. This number can be referenced from Zillow or any MLS listing or the county tax database website. Mutltiply the number by 1.5% for conservative of tax increase after purchase. Divide the cost by 12 for the monthly expense. </li>
-                                <li>Insurance: Homeowners insurance protects the property owner’s liability and insures the residence against damages and losses. The average annual premium on home insurance usually costs less than 1% of the purchase price. </li>
-                                <li>HOA: Homeonwers Association fee</li>
-                                <li>Utilities: such as water, sewer, trash and electricity if paid by landlord</li>
-                                <li>Maintenance: repair costs might incur during the month.  </li>
-                                <li>Property Management: Fees paid for someone or a company to manage the property for you. Usually runs between 5- 12%, but some companies do charge a flat fee, e.g: $70 - $100</li>
-                                <li>Vacancy: Vacancy rate represents the percentage of time rental income is lost due to a property being unoccupied during the year.  The national rental vacancy rate is usually between 5% and 7%. For single family properties, use 5% vacancy rate. </li>
-                                <li>CapEx: Capital Expenditures is a fund reserve set aside for when subtanstial repair or renovation is needed. Most common CapEx expenses include roofing, foundation, siding, new appliances, HVAC maintenance </li>
-                            </ol>
-                        
-                        
-                            <p>Disclaimer: The information presented is not intended to be used as the sole basis of any investment decisions, nor should it be construed as advice designed to meet the investment needs of any particular investor. Nothing provided shall constitute financial, tax, legal, or accounting advice or individually tailored investment advice. This information is for educational purposes only. You are solely responsible for determining whether any investment is appropriate for you based on your personal investment objectives, financial circumstances, and risk tolerance.</p>
-                        
-                        
-                        </section>
-
-                    </div>
-                        <!-- put new info here -->
                     </div>
                 </div>
             </div>
@@ -106,12 +191,12 @@
 </section>
 <section id="news-section">
     <div class="container text-center mt-2 p-3">
-        <h3 ><a name="industry-news"><strong>INDUSTRY NEWS</strong></a></h3>
+        <h3><a name="industry-news"><strong>INDUSTRY NEWS</strong></a></h3>
         <div class="row m-2" id="news_container">
             <!-- inserting news content from newsapi.js -->
-                </div>
-            </div>
         </div>
+    </div>
+    </div>
     </div>
 </section>
 <!-- line break -->
@@ -151,7 +236,6 @@
 
 {% block js %}
 <script src="/static/js/maps.js"></script>
-<script async
-    src="https://maps.googleapis.com/maps/api/js?key={{GG_KEY}}&callback=initMap">
+<script async src="https://maps.googleapis.com/maps/api/js?key={{GG_KEY}}&callback=initMap">
 </script>
 {% endblock %}

@@ -51,21 +51,17 @@ class Property(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(
         'users.id'), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
-    down_payment = db.Column(db.Integer, nullable=False)
-    interest_rate = db.Column(db.Integer, nullable=False)
+    rent = db.Column(db.Integer, nullable=False)
     mortgage = db.Column(db.Integer, nullable=False)
-    closing_costs = db.Column(db.Integer, nullable=False)
-    rehab = db.Column(db.Integer)
-    monthly_rent = db.Column(db.Integer, nullable=False)
-    property_taxes = db.Column(db.Integer, nullable=False)
+    tax = db.Column(db.Integer, nullable=False)
     insurance = db.Column(db.Integer, nullable=False)
     hoa = db.Column(db.Integer)  # need to update the data model
     utilities = db.Column(db.Integer)
-    misellaneous = db.Column(db.Integer)
-    capex = db.Column(db.Integer)
-    property_management = db.Column(db.Integer)
+    maintenance = db.Column(db.Integer)
+    pm = db.Column(db.Integer)
     vacancy = db.Column(db.Integer)
+    capex = db.Column(db.Integer)
+
     user = db.relationship('User', back_populates='properties')  # one to many
 
     def __repr__(self):

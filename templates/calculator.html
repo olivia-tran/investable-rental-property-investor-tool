@@ -6,16 +6,11 @@
     <div class="row">
        
         <div class="col-lg-2">
-            <p id="result">Estimated monthly cashflow: ${{ "%.2f"|format(cashflow) }}</p>
+            <p id="result">Expected monthly cashflow: ${{ "%.2f"|format(cashflow) }}</p>
             <form action="/calculator" method='POST'class="form-control">
                 
-                <p><label>Price: <input type="number" min="0" name="price" value="{{price}}" required></label></p>
-                <p><label>Downpayment: <input type="number" min="0" name="downpayment" value="{{downpayment}}"></label></p>
-                <p><label>Interest Rate: <input type="number" min="0" name="rate" step="any" required value="{{rate}}"></label></p>
-                <p><label>Monthly Mortgage: <input type="number" min="0" name="mortgage" value="{{mortgage}}" required></label></p>
-                <p><label>Closing costs: <input type="number" min="0" name="closing" value="{{closing}}"required></label></p>
-                <p><label>Rehab: <input type="number" min="0" name="rehab" value="{{rehab}}"></label></p>
                 <p><label>Monthly Rental Income: <input type="number" min="0" name="rent" value="{{rent}}"required></label></p>
+                <p><label>Monthly Mortgage: <input type="number" min="0" name="mortgage" value="{{mortgage}}" required></label></p>
                 <p><label>Monthly Taxes: <input type="number" min="0" name="taxes" value="{{taxes}}"required></label></p>
                 <p><label>Monthly Insurance: <input type="number" min="0" name="insurance" value="{{insurance}}" required></label></p>
                 <p><label>HOA: <input type="number" min="0" name="hoa" value="{{hoa}}"></label></p>
