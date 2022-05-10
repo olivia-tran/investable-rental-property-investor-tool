@@ -31,16 +31,11 @@ def index():
 
 @app.route('/calculator', methods=['POST'])
 def to_calculate():
-    '''return calculator interface'''
+    '''take user inputs to calculate rental cash flow'''
 
-    price = request.form.get('price')
-    down_payment = request.form.get('downpayment')
-    rate = request.form.get('rate')
-    mortgage = request.form.get('mortgage')
-    closing = request.form.get('closing')
-    rehab = request.form.get('rehab')
     rent = request.form.get('rent')
-    taxes = request.form.get('taxes')
+    mortgage = request.form.get('mortgage')
+    tax = request.form.get('tax')
     insurance = request.form.get('insurance')
     hoa = request.form.get('hoa')
     utilities = request.form.get('utilities')
@@ -50,11 +45,13 @@ def to_calculate():
     capex = request.form.get('capex')
 
     flash('Running numbers')
-    total_monthly_expenses = int(taxes) + int(insurance) + int(hoa) + int(
+    total_monthly_expenses = int(tax) + int(insurance) + int(hoa) + int(
         utilities) + int(maintenance) + int(pm) + int(vacancy) + int(capex) + int(mortgage)
     cashflow = int(rent) - total_monthly_expenses
+    annual_cashflow = cashflow * 12
+    return redirect('/')
 
-    return render_template('calculator.html', cashflow=cashflow, price=price, downpayment=down_payment, rate=rate, closing=closing, rehab=rehab, rent=rent, taxes=taxes, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
+    # return render_template('calculator.html', cashflow=cashflow, rent=rent, tax=tax, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
 
 
 @app.route('/news')
