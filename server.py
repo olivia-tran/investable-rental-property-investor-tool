@@ -32,6 +32,7 @@ def index():
 @app.route('/calculator.json', methods=['POST'])
 def to_calculate():
     '''take user inputs to calculate rental cash flow'''
+
     print(len(request.form), " >>>>>>>>> form data: ", request.form)
     # print(len(request.json), " >>>>>>>>> form json: ", request.json)
     rent = request.form.get('rent', 0)
@@ -51,20 +52,21 @@ def to_calculate():
         maintenance) + float(pm) + float(vacancy) + float(capex) + float(mortgage)
     cashflow = float(rent) - total_expenses
     annual_cashflow = cashflow * 12
-    return jsonify({'cashflow': cashflow, 'total_expenses': total_expenses,  'annual_cashflow': annual_cashflow})
-
+    print(f'===============cashflow = {cashflow}=====================')
+#    return jsonify({'cashflow': cashflow, 'total_expenses': total_expenses,  'annual_cashflow': annual_cashflow})
+    return redirect("/")
     # return render_template('calculator.html', cashflow=cashflow, rent=rent, tax=tax, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
-
-
-@ app.route('/news')
-def get_news():
-    '''show industry insight from news API'''
-    return redirect('/')
 
 
 @ app.route('/books')
 def get_books():
-    '''show industry insight from goodreads API'''
+    '''show related to rental property investment books from Books API'''
+    return redirect('/')
+
+
+@ app.route('/news')
+def get_news():
+    '''show industry insight from News API'''
     return redirect('/')
 
 
@@ -155,4 +157,5 @@ def contact_us():
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
     connect_to_db(app)
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=True)
+# host='0.0.0.0', port=8080
