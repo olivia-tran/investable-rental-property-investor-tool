@@ -1,5 +1,5 @@
 """Server for INVESTABLE app."""
-from flask import Flask, render_template, redirect, flash, session, request
+from flask import Flask, render_template, redirect, flash, session, request, jsonify
 import crud
 import requests
 import psycopg2
@@ -29,56 +29,58 @@ def index():
     return render_template('index.html', GG_KEY=GG_KEY)
 
 
-@app.route('/calculator', methods=['POST'])
+@app.route('/calculator.json', methods=['POST'])
 def to_calculate():
     '''take user inputs to calculate rental cash flow'''
-
-    rent = request.form.get('rent')
-    mortgage = request.form.get('mortgage')
-    tax = request.form.get('tax')
-    insurance = request.form.get('insurance')
-    hoa = request.form.get('hoa')
-    utilities = request.form.get('utilities')
-    maintenance = request.form.get('maintenance')
-    pm = request.form.get('pm')
-    vacancy = request.form.get('vacancy')
-    capex = request.form.get('capex')
-
+    print(len(request.form), " >>>>>>>>> form data: ", request.form)
+    # print(len(request.json), " >>>>>>>>> form json: ", request.json)
+    rent = request.form.get('rent', 0)
+    mortgage = request.form.get('mortgage', 0)
+    tax = request.form.get('tax', 0)
+    insurance = request.form.get('insurance', 0)
+    hoa = request.form.get('hoa', 0)
+    utilities = request.form.get('utilities', 0)
+    maintenance = request.form.get('maintenance', 0)
+    pm = request.form.get('pm', 0)
+    vacancy = request.form.get('vacancy', 0)
+    capex = request.form.get('capex', 0)
+    print(f'#######################{type(rent)}######################')
     flash('Running numbers')
-    total_monthly_expenses = int(tax) + int(insurance) + int(hoa) + int(
-        utilities) + int(maintenance) + int(pm) + int(vacancy) + int(capex) + int(mortgage)
-    cashflow = int(rent) - total_monthly_expenses
+
+    total_expenses = float(tax) + float(insurance) + float(hoa) + float(utilities) + float(
+        maintenance) + float(pm) + float(vacancy) + float(capex) + float(mortgage)
+    cashflow = float(rent) - total_expenses
     annual_cashflow = cashflow * 12
-    return redirect('/')
+    return jsonify({'cashflow': cashflow, 'total_expenses': total_expenses,  'annual_cashflow': annual_cashflow})
 
     # return render_template('calculator.html', cashflow=cashflow, rent=rent, tax=tax, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
 
 
-@app.route('/news')
+@ app.route('/news')
 def get_news():
     '''show industry insight from news API'''
     return redirect('/')
 
 
-@app.route('/books')
+@ app.route('/books')
 def get_books():
     '''show industry insight from goodreads API'''
     return redirect('/')
 
 
-@app.errorhandler(404)
+@ app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
 # ---------------------------Logged In Only Routes-------------------------------
 
 
-@app.route('/register')
+@ app.route('/register')
 def register_page():
     '''landing page for register.'''
     return render_template('register.html', GG_KEY=GG_KEY)
 
 
-@app.route('/register', methods=['POST'])
+@ app.route('/register', methods=['POST'])
 def register_user():
     '''Create a new user.'''
 
@@ -101,13 +103,13 @@ def register_user():
     return render_template('user_profile.html', first=first, GG_KEY=GG_KEY)
 
 
-@app.route('/login')
+@ app.route('/login')
 def login_page():
     '''Landing page for user login.'''
     return render_template('login.html')
 
 
-@app.route('/login', methods=['POST'])
+@ app.route('/login', methods=['POST'])
 def process_login():
     '''Authenticate user login info.'''
     print(f'========================process login func')
@@ -124,13 +126,13 @@ def process_login():
         return redirect('/users')
 
 
-@app.route('/logout')
+@ app.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
 
 
-@app.route('/users')
+@ app.route('/users')
 def profile_page():
     email = session['email']
     user = crud.get_user_by_email(email)
@@ -138,13 +140,13 @@ def profile_page():
     return render_template('profile_page.html', user=user)
 
 
-@app.route('/forum')
+@ app.route('/forum')
 def to_read_post():
     '''if user is logged in, show dashboard features'''
     return render_template('forum.html')
 
 
-@app.route('/contact')
+@ app.route('/contact')
 def contact_us():
     '''Allow user contact us to give feedback'''
     return render_template('contact_us.html')
@@ -153,4 +155,4 @@ def contact_us():
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
     connect_to_db(app)
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=8080)
