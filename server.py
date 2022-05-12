@@ -187,7 +187,7 @@ def save_data():
 
 
 @ app.route('/forum')
-def to_read_post():
+def forum():
     '''if user is logged in, show dashboard features'''
     return render_template('forum.html')
 
