@@ -197,6 +197,17 @@ def forum():
 def contact_us():
     '''Allow user contact us to give feedback'''
     return render_template('contact_us.html')
+# -------------------------------Handling image routes-------------------------------------
+@app.route('/profile', methods=['POST'])
+def upload_profile_photo():
+    '''Allow user upload profile picture'''
+    profile_pic = request.files['profile_pic']
+    if profile_pic.filename != '':
+        profile_pic.save(profile_pic.filename)
+    return redirect('/')
+
+
+
 # -------------------------------JSON routes-------------------------------------
 
 
