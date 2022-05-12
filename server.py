@@ -101,7 +101,7 @@ def register_user():
         flash('Account successfully created. 🥳️')
         session['email'] = user.email
 
-    return render_template('user_profile.html', first=first, GG_KEY=GG_KEY)
+    return render_template('user_profile.html', first=first, last=last, GG_KEY=GG_KEY)
 @app.route('/profile')
 def user_profile():
     'Show user profile'
@@ -109,8 +109,9 @@ def user_profile():
         email = session['email']
         user = crud.get_user_by_email(email)
         first = user.first_name
+        last = user.last_name
         print(f'==========={user}')
-        return render_template('user_profile.html', first=first, GG_KEY=GG_KEY)
+        return render_template('user_profile.html', first=first, last=last, GG_KEY=GG_KEY)
     else:
         return redirect('/login')
 
