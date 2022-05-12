@@ -1,9 +1,8 @@
 """Server for INVESTABLE app."""
-from flask import Flask, render_template, redirect, flash, session, request, jsonify
+from flask import Flask, render_template, redirect, flash, session, request, jsonify, json
 import crud
 import requests
 import psycopg2
-
 from model import connect_to_db, db, User
 # from importlib_metadata import files
 import os  # to access os.environ to access secrets.sh values
@@ -124,8 +123,13 @@ def process_login():
         return redirect('/login')
     else:
         session['email'] = user.email
+        # get user by email and then store id in session
+        user = crud.get_user_by_email(email)
+        id = user.id
+        print(f'user in login func = {user}====================')
+        print(f'user ID in login func = {id}====================')
         flash(f'😺Welcome back, you\'re logging in using: {user.email}!')
-        return redirect('/users')
+        return redirect('/properties')
 
 
 @ app.route('/logout')
@@ -134,12 +138,29 @@ def logout():
     return redirect('/')
 
 
-@ app.route('/users')
-def profile_page():
+@ app.route('/properties')
+def property_page():
     email = session['email']
     user = crud.get_user_by_email(email)
+    id = user.id
+    print(f'=====================email={email}=================')
+    properties = crud.get_properties_by_user(id)
+    print(f'====================={properties}=================')
+    # test = jsonify({'owned_properties': owned_properties})
+    # print(f'##############################{test}###########################')
 
-    return render_template('profile_page.html', user=user)
+    return render_template('properties.html', properties=properties, user=user)
+
+
+# @app.route('/properties/<id>')
+# def show_properties(id):
+#     '''show all properties owned by a user id'''
+#     print(f'=====================calling show_properties=================')
+#     email = session['email']
+#     print(f'=====================email={email}=================')
+#     owned_properties = crud.get_properties_by_user(id)
+#     print(f'====================={owned_properties}=================')
+#     return render_template('properties.html')
 
 
 @ app.route('/forum')
@@ -152,6 +173,27 @@ def to_read_post():
 def contact_us():
     '''Allow user contact us to give feedback'''
     return render_template('contact_us.html')
+# -------------------------------JSON routes-------------------------------------
+
+
+# @ app.route('/properties.json')
+# def show_properties_owned_by_user():
+#     email = session['email']
+#     user = crud.get_user_by_email(email)
+#     id = user.id
+#     print(f'=====================email={email}=================')
+#     owned_properties = crud.get_properties_by_user(id)
+#     print(
+#         f'====================owned_properties={owned_properties}=================')
+#     print(f'TYPE====================={type(owned_properties)}==========')
+
+    # return jsonify({'rent': owned_properties.rent,
+    #                 'id': owned_properties.id,
+    #                 'mortgage': owned_properties.mortgage,
+    #                 'tax': owned_properties.tax,
+    #                 'insurance': owned_properties.insurance,
+    #                 'hoa': owned_properties.hoa
+    #                 })
 
 
 if __name__ == "__main__":
