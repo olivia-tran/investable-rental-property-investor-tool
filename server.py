@@ -176,14 +176,14 @@ def save_data():
     pm=request.form.get('pm')
     vacancy=request.form.get('vacancy')
     email = session['email']
-    user_id = crud.get_user_by_email(email)
+    user = crud.get_user_by_email(email)
+    user_id = user.id
     new_property = crud.create_property(user_id, mortgage, rent, tax, insurance, hoa, utilities, maintenance, capex, pm, vacancy)
     db.session.add(new_property)
     db.session.commit()
     
     flash('Property was successfully saved! 🥳️')
-    # Error: Method not allowed, unprintable ProgrammingError
-    return redirect('/')
+    return redirect('/properties')
 
 
 

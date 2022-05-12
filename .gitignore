@@ -28,4 +28,5 @@ python-zillow/
 static/
 project-planning/project_journal.md
 templates/
+algo.py
 

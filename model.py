@@ -51,16 +51,16 @@ class Property(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(
         'users.id'), nullable=False)
-    rent = db.Column(db.Integer, nullable=False)
-    mortgage = db.Column(db.Integer, nullable=False)
-    tax = db.Column(db.Integer, nullable=False)
-    insurance = db.Column(db.Integer, nullable=False)
-    hoa = db.Column(db.Integer)  # need to update the data model
-    utilities = db.Column(db.Integer)
-    maintenance = db.Column(db.Integer)
-    pm = db.Column(db.Integer)
-    vacancy = db.Column(db.Integer)
-    capex = db.Column(db.Integer)
+    rent = db.Column(db.Float, nullable=False)
+    mortgage = db.Column(db.Float, nullable=False)
+    tax = db.Column(db.Float, nullable=False)
+    insurance = db.Column(db.Float, nullable=False)
+    hoa = db.Column(db.Float)  # need to update the data model
+    utilities = db.Column(db.Float)
+    maintenance = db.Column(db.Float)
+    pm = db.Column(db.Float)
+    vacancy = db.Column(db.Float)
+    capex = db.Column(db.Float)
 
     user = db.relationship('User', back_populates='properties')  # one to many
 
