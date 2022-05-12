@@ -28,7 +28,7 @@ def index():
     return render_template('index.html', GG_KEY=GG_KEY)
 
 
-@app.route('/calculator.json', methods=['POST'])
+@app.route('/calculator', methods=['POST'])
 def to_calculate():
     '''take user inputs to calculate rental cash flow'''
 
@@ -102,7 +102,17 @@ def register_user():
         session['email'] = user.email
 
     return render_template('user_profile.html', first=first, GG_KEY=GG_KEY)
-
+@app.route('/profile')
+def user_profile():
+    'Show user profile'
+    if 'email' in session:
+        email = session['email']
+        user = crud.get_user_by_email(email)
+        first = user.first_name
+        print(f'==========={user}')
+        return render_template('user_profile.html', first=first, GG_KEY=GG_KEY)
+    else:
+        return redirect('/login')
 
 @ app.route('/login')
 def login_page():
@@ -151,16 +161,29 @@ def property_page():
 
     return render_template('properties.html', properties=properties, user=user)
 
+@ app.route('/save_data', methods=['GET','POST'])
+def save_data():
+    '''Save property data to db.'''
+    rent=request.form.get('rent')
+    mortgage=request.form.get('mortgage')
+    maintenance=request.form.get('maintenance')
+    tax=request.form.get('tax')
+    insurance=request.form.get('insurance')
+    hoa=request.form.get('hoa')
+    utilities=request.form.get('utilities')
+    capex=request.form.get('capex')
+    pm=request.form.get('pm')
+    vacancy=request.form.get('vacancy')
+    email = session['email']
+    user_id = crud.get_user_by_email(email)
+    new_property = crud.create_property(user_id, mortgage, rent, tax, insurance, hoa, utilities, maintenance, capex, pm, vacancy)
+    db.session.add(new_property)
+    db.session.commit()
+    
+    flash('Property was successfully saved! 🥳️')
+    # Error: Method not allowed, unprintable ProgrammingError
+    return redirect('/')
 
-# @app.route('/properties/<id>')
-# def show_properties(id):
-#     '''show all properties owned by a user id'''
-#     print(f'=====================calling show_properties=================')
-#     email = session['email']
-#     print(f'=====================email={email}=================')
-#     owned_properties = crud.get_properties_by_user(id)
-#     print(f'====================={owned_properties}=================')
-#     return render_template('properties.html')
 
 
 @ app.route('/forum')

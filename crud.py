@@ -27,27 +27,23 @@ def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
 
 
-def create_property(price, down_payment, interest_rate, mortgage, closing_costs, rehab, monthly_rent, property_taxes, insurance, hoa, utilities, misellaneous, capex, property_management, vacancy):
+def create_property(user_id, mortgage, rent, tax, insurance, hoa, utilities, maintenance, capex, pm, vacancy):
     '''add to db and return a property'''
     new_property = Property(
-        price=price,
-        down_payment=down_payment,
-        interest_rate=interest_rate,
+        user_id=user_id,
+        rent=rent,
         mortgage=mortgage,
-        closing_costs=closing_costs,
-        rehab=rehab,
-        monthly_rent=monthly_rent,
-        property_taxes=property_taxes,
+        tax=tax,
         insurance=insurance,
         hoa=hoa,
         utilities=utilities,
-        misellaneous=misellaneous,
         capex=capex,
-        property_management=property_management,
+        pm=pm,
         vacancy=vacancy,
+        maintenance=maintenance
 
     )
-    return property
+    return new_property
 # get a list of properties owned by one user via user_id
 
 
