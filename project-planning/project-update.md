@@ -8,7 +8,7 @@ implemented all main view functions: logging, register, cash flow calculator, go
 
 ### This coming week, I plan to work on:
 
-blog, comment, add properties from calculator, find a substitute for goodreads API because this API has been retired since mid 2020
+blog, comment, add properties from calculator, find a substitute for goodreads API because this API has been retired
 
 ### My general work plan/estimate for the rest of Sprint 1:
 

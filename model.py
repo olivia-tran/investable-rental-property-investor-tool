@@ -1,5 +1,6 @@
 '''Models for INVESTABLE app'''
 from datetime import datetime
+# from email.policy import default
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -80,13 +81,14 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     blog_content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now())
     imgURL = db.Column(db.String)
     user = db.relationship('User', back_populates='blog_posts')
     blog_images = db.relationship('BlogImage', back_populates='blog_post')
     comments = db.relationship('Comment', back_populates='blog_post')
 
     def __repr__(self):
-        return f"<Blog Post: id={self.id} user_id={self.user_id}>"
+        return f"<Blog Post: id={self.id} user_id={self.user_id}, created_at={self.created_at}>"
 
 
 class Comment(db.Model):
@@ -96,11 +98,12 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'))
     comment_content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now())
     user = db.relationship('User', back_populates='comments')
     blog_post = db.relationship('BlogPost', back_populates='comments')
 
     def __repr__(self):
-        return f"<Comment: comment_id={self.id} Blog Post={self.blog_id}, user_id={self.user_id}>"
+        return f"<Comment: comment_id={self.id} Blog Post={self.blog_id}, user_id={self.user_id}>, created_at={self.created_at}"
 
 
 class UserImage(db.Model):
@@ -131,7 +134,7 @@ def connect_to_db(flask_app, db_uri='postgresql:///investables', echo=True):
     db.app = flask_app
     db.init_app(flask_app)
 
-    print('Connected to the db!')
+    print('Connected to the INVESTABLE db!')
 
 
 if __name__ == '__main__':
