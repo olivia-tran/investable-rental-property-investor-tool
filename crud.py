@@ -1,6 +1,7 @@
 """CRUD operations."""
 from model import db, User, Property, BlogPost, Comment, BlogImage, UserImage, connect_to_db
 import psycopg2
+from sqlalchemy import delete
 # Sign up
 
 
@@ -23,8 +24,22 @@ def get_user_by_id(user_id):
 
 
 def get_user_by_email(email):
-    '''return a user by email'''
+    '''Return a user by email'''
     return User.query.filter(User.email == email).first()
+
+def delete_user(email):
+    '''Delete user data from db by email'''
+    deleted_user = User.query.filter(User.email==email).first()
+    db.session.delete(deleted_user)
+    db.session.commit()
+    # sometimes can return the deleted id back
+    
+    
+def delete_property(id):
+    '''Delete property from db by property Id'''
+    deleted_property = Property.query.filter(Property.id==id).first()
+    db.session.delete(deleted_property)
+    db.session.commit()   
 
 
 def create_property(user_id, mortgage, rent, tax, insurance, hoa, utilities, maintenance, capex, pm, vacancy):

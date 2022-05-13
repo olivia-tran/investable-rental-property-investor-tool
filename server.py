@@ -30,7 +30,7 @@ def index():
 
 @app.route('/calculator', methods=['POST'])
 def to_calculate():
-    '''take user inputs to calculate rental cash flow'''
+    '''Take user inputs to calculate rental cash flow'''
 
     print(len(request.form), " >>>>>>>>> form data: ", request.form)
     # print(len(request.json), " >>>>>>>>> form json: ", request.json)
@@ -56,16 +56,26 @@ def to_calculate():
     return redirect("/")
     # return render_template('calculator.html', cashflow=cashflow, rent=rent, tax=tax, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
 
+@app.route('/properties/<int:id>/delete', methods=['POST'])
+def to_delete_property(id):
+    '''Delete a property by ID'''
+    # flash('The property is about to be deleted.')
+    # how to get the id, it's from the button that user clicks on
+    # how to check it here?
+    crud.delete_property(id)
+    flash(f'Property ID {id} was deleted.')
+    return redirect('/properties')
+# how to let user return to whichever page they were on previously prior to clicking delete
 
 @ app.route('/books')
 def get_books():
-    '''show related to rental property investment books from Books API'''
+    '''Show related to rental property investment books from Books API'''
     return redirect('/')
 
 
 @ app.route('/news')
 def get_news():
-    '''show industry insight from News API'''
+    '''Show industry insight from News API'''
     return redirect('/')
 
 
@@ -77,7 +87,7 @@ def page_not_found(error):
 
 @ app.route('/register')
 def register_page():
-    '''landing page for register.'''
+    '''Landing page for register.'''
     return render_template('register.html', GG_KEY=GG_KEY)
 
 
