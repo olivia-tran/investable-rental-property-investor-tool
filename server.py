@@ -1,5 +1,5 @@
 """Server for INVESTABLE app."""
-from flask import Flask, render_template, redirect, flash, session, request, jsonify, json
+from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for
 import crud
 import requests
 import psycopg2
@@ -7,7 +7,7 @@ from model import connect_to_db, db, User
 # from importlib_metadata import files
 import os  # to access os.environ to access secrets.sh values
 from jinja2 import StrictUndefined
-
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
@@ -23,8 +23,9 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     '''Display homepage'''
-    # flash("welcome to the app")
+    flash("Welcome to INVESTABLE community!")
     print(session)
+    # print(f'counter===={session.get("counter", 0)}')
     return render_template('index.html', GG_KEY=GG_KEY)
 
 
@@ -56,16 +57,7 @@ def to_calculate():
     return redirect("/")
     # return render_template('calculator.html', cashflow=cashflow, rent=rent, tax=tax, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
 
-@app.route('/properties/<int:id>/delete', methods=['POST'])
-def to_delete_property(id):
-    '''Delete a property by ID'''
-    # flash('The property is about to be deleted.')
-    # how to get the id, it's from the button that user clicks on
-    # how to check it here?
-    crud.delete_property(id)
-    flash(f'Property ID {id} was deleted.')
-    return redirect('/properties')
-# how to let user return to whichever page they were on previously prior to clicking delete
+
 
 @ app.route('/books')
 def get_books():
@@ -102,13 +94,13 @@ def register_user():
 
     user = crud.get_user_by_email(email=email)
     if user:
-        flash('Cannot create an account with that email🤔. Try again.')
+        flash('Cannot create an account with that email🤔. Try again.', 'error')
         return redirect('/register')
     else:
         user = crud.create_user(first, last, email, password)
         db.session.add(user)
         db.session.commit()
-        flash('Account successfully created. 🥳️')
+        flash('Account successfully created. 🥳️', 'info')
         session['email'] = user.email
 
     return render_template('user_profile.html', first=first, last=last, GG_KEY=GG_KEY)
@@ -125,6 +117,15 @@ def user_profile():
     else:
         return redirect('/login')
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        '''To set up @login_required decorator'''
+        if 'email' not in session:
+            return redirect(url_for('login_page'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @ app.route('/login')
 def login_page():
     '''Landing page for user login.'''
@@ -134,13 +135,14 @@ def login_page():
 @ app.route('/login', methods=['POST'])
 def process_login():
     '''Authenticate user login info.'''
-    print(f'========================process login func')
+    
     email = request.form.get('email')
     password = request.form.get('password')
-
+    
+    print(f'========================process login func request.form={request.form}')
     user = crud.get_user_by_email(email=email)
     if not user or user.password != password:
-        flash('The email or password you entered was incorrect 🤔. Try again')
+        flash('The email or password you entered was incorrect 🤔. Try again', 'error')
         return redirect('/login')
     else:
         session['email'] = user.email
@@ -156,10 +158,12 @@ def process_login():
 @ app.route('/logout')
 def logout():
     session.clear()
+    flash('You were logged out.')
     return redirect('/')
 
 
 @ app.route('/properties')
+@login_required
 def property_page():
     email = session['email']
     user = crud.get_user_by_email(email)
@@ -173,6 +177,7 @@ def property_page():
     return render_template('properties.html', properties=properties, user=user)
 
 @ app.route('/save_data', methods=['GET','POST'])
+@login_required
 def save_data():
     '''Save property data to db.'''
     rent=request.form.get('rent')
@@ -195,27 +200,54 @@ def save_data():
     flash('Property was successfully saved! 🥳️')
     return redirect('/properties')
 
+@app.route('/properties/<int:id>/delete', methods=['POST'])
+@login_required
+def to_delete_property(id):
+    '''Delete a property by ID'''
+    # flash('The property is about to be deleted.')
+    # how to get the id, it's from the button that user clicks on
+    # how to check it here?
+    crud.delete_property(id)
+    flash(f'Property ID {id} was deleted.')
+    return redirect('/properties')
+# how to let user return to whichever page they were on previously prior to clicking delete
 
 
 @ app.route('/forum')
+@login_required
 def forum():
     '''if user is logged in, show dashboard features'''
     return render_template('forum.html')
 
 
 @ app.route('/contact')
+@login_required
 def contact_us():
     '''Allow user contact us to give feedback'''
     return render_template('contact_us.html')
 # -------------------------------Handling image routes-------------------------------------
 @app.route('/profile', methods=['POST'])
+@login_required
 def upload_profile_photo():
     '''Allow user upload profile picture'''
     profile_pic = request.files['profile_pic']
     if profile_pic.filename != '':
         profile_pic.save(profile_pic.filename)
     return redirect('/')
+# -------------------------------Upload file routes-------------------------------------
+# from werkzeug.utils import secure_filename
 
+# @app.route('/upload')
+# def upload_file():
+#     '''Allow user upload files'''
+#     return render_template('upload.html')
+
+# @app.route('/uploader', methods = ['GET', 'POST'])
+# def upload_file():
+#     if request.method == 'POST':
+#         f = request.files['file']
+#         f.save(secure_filename(f.filename))
+#         return 'File uploaded successfully'
 
 
 # -------------------------------JSON routes-------------------------------------

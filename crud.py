@@ -2,8 +2,8 @@
 from model import db, User, Property, BlogPost, Comment, BlogImage, UserImage, connect_to_db
 import psycopg2
 from sqlalchemy import delete
-# Sign up
 
+#-----------------------------USER CRUD----------------------- 
 
 def create_user(first_name, last_name, email, password):
     '''Create and return a new user'''
@@ -33,7 +33,7 @@ def delete_user(email):
     db.session.delete(deleted_user)
     db.session.commit()
     # sometimes can return the deleted id back
-    
+#-----------------------------PROPERTY CRUD-----------------------  
     
 def delete_property(id):
     '''Delete property from db by property Id'''
@@ -68,8 +68,11 @@ def get_properties_by_user(id):
     return owned_properties
 # when user logs in, we will have their email, from email get the id to query properties
 # owned_properties is a list
+#-----------------------------BLOG CRUD-----------------------
+ 
+#-----------------------------COMMENT CRUD----------------------- 
 
-
+#-----------------------------IMAGE CRUD----------------------- 
 if __name__ == "__main__":
     from server import app
 
