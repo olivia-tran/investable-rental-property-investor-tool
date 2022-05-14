@@ -15,14 +15,22 @@ def create_user(first_name, last_name, email, password):
 def get_users():
     '''Return all users'''
     return User.query.all()
-
+def get_num_of_users():
+    '''Get the total numbers of all active users'''
+    user_nums = User.query.count()
+  
+    return user_nums
 
 def get_user_by_id(user_id):
     '''Return a user by primary key'''
     return User.query.get(user_id)
 # Log in: get user by email
-
-
+def get_user_full_name(id):
+    '''Return user full name given their ID'''
+    first = User.query.get(id).first_name
+    last = User.query.get(id).last_name
+    
+    return first + last
 def get_user_by_email(email):
     '''Return a user by email'''
     return User.query.filter(User.email == email).first()
@@ -60,8 +68,16 @@ def create_property(user_id, mortgage, rent, tax, insurance, hoa, utilities, mai
     )
     return new_property
 # get a list of properties owned by one user via user_id
-
-
+def get_num_of_properties():
+    '''Get the total numbers of all properties saved by all users'''
+    property_nums = Property.query.count()
+  
+    return property_nums 
+def count_num_properties_by_a_user(id):
+    '''Count the num of properties owned by a user'''
+    count = Property.query.count()
+    return count
+    
 def get_properties_by_user(id):
     '''Return a list of properties owned by a user'''
     owned_properties = Property.query.filter(Property.user_id == id).all()
@@ -69,8 +85,49 @@ def get_properties_by_user(id):
 # when user logs in, we will have their email, from email get the id to query properties
 # owned_properties is a list
 #-----------------------------BLOG CRUD-----------------------
+def create_a_post(title, content, user_id):
+     '''Create a blog post'''
+     blog = BlogPost(title=title, blog_content=content,user_id=user_id  )
+     return blog
  
-#-----------------------------COMMENT CRUD----------------------- 
+def get_num_of_posts():
+    '''Get the total numbers of posts created by all users'''
+    post_nums = BlogPost.query.count()
+  
+    return post_nums 
+
+def get_all_posts():
+    '''Get all posts created by all users'''
+    posts = BlogPost.query.all()
+    return posts
+
+def get_all_posts_by_a_user(id):
+    '''Get all posts created by a user'''
+    posts = BlogPost.query.filter_by(id=id).all()
+    return posts
+
+def get_blog_details(id):
+    '''Return blog details by ID'''
+    post = BlogPost.query.get(id)
+    return post
+
+# def get_post_authors():
+#     '''Get name of users who posted a blog'''
+#     users = User.query.options(db.joinedload(User.id)).all()
+#     return users
+
+    
+    
+#-----------------------------COMMENT CRUD-----------------------
+
+ 
+def get_num_of_comments():
+    '''Get the total numbers of posts created by all users'''
+    comments = Comment.query.count()
+  
+    return comments 
+
+
 
 #-----------------------------IMAGE CRUD----------------------- 
 if __name__ == "__main__":

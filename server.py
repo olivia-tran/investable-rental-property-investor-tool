@@ -112,8 +112,11 @@ def user_profile():
         user = crud.get_user_by_email(email)
         first = user.first_name
         last = user.last_name
+        user_id = user.id
+        posts = crud.get_all_posts_by_a_user(user_id)
+        property_count = crud.count_num_properties_by_a_user
         print(f'==========={user}')
-        return render_template('user_profile.html', first=first, last=last, GG_KEY=GG_KEY)
+        return render_template('user_profile.html', first=first, last=last, posts=posts, property_count=property_count, GG_KEY=GG_KEY)
     else:
         return redirect('/login')
 
@@ -205,26 +208,63 @@ def save_data():
 def to_delete_property(id):
     '''Delete a property by ID'''
     # flash('The property is about to be deleted.')
-    # how to get the id, it's from the button that user clicks on
-    # how to check it here?
     crud.delete_property(id)
     flash(f'Property ID {id} was deleted.')
     return redirect('/properties')
 # how to let user return to whichever page they were on previously prior to clicking delete
-
-
-@ app.route('/forum')
-@login_required
-def forum():
-    '''if user is logged in, show dashboard features'''
-    return render_template('forum.html')
-
 
 @ app.route('/contact')
 @login_required
 def contact_us():
     '''Allow user contact us to give feedback'''
     return render_template('contact_us.html')
+
+# -------------------------------Related to blogging routes-------------------------------------
+@ app.route('/forum')
+@login_required
+def forum():
+    '''if user is logged in, show dashboard features'''
+    # total_comments = crud.get_num_of_comments()
+    total_posts = crud.get_num_of_posts()
+    total_users = crud.get_num_of_users()
+    total_properties = crud.get_num_of_properties()
+    posts = crud.get_all_posts()
+    for post in posts:
+        full_name = crud.get_user_full_name(post.user_id)
+    return render_template('forum.html', full_name=full_name, posts=posts, user_nums=total_users, post_nums=total_posts, property_nums= total_properties)
+
+@ app.route('/blogging', methods=['POST'])
+@login_required
+def blogging():
+    '''if user is logged in, user can create blog posts'''
+    print('=====THIS IS BLOGGING FUNCTION=====')
+    title = request.form.get('title')
+    print('=====THIS IS BLOGGING FUNCTION=====')
+    blog_content = request.form.get('blog-content')
+    email = session['email']
+    user = crud.get_user_by_email(email)
+    user_id = user.id
+    blog = crud.create_a_post(title, blog_content, user_id)
+    db.session.add(blog)
+    db.session.commit()
+    flash('Blog was created!')
+    return redirect('/forum')
+    # return render_template('posting.html')
+    
+@app.route('/create_a_post')
+@login_required
+def create_a_post():
+    '''Create a post using normal routing'''
+    return render_template('posting.html')
+
+@app.route('/forum/<int:id>', methods=['POST'])
+@login_required
+def read_post(id):
+    '''Read details of a blog post'''
+    post = crud.get_blog_details(id)
+    return render_template('blog_details.html', post=post )
+# keep showing 404 errors for now
+
 # -------------------------------Handling image routes-------------------------------------
 @app.route('/profile', methods=['POST'])
 @login_required

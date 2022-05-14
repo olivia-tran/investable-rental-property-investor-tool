@@ -1,4 +1,5 @@
 '''Models for INVESTABLE app'''
+from collections import UserString
 from datetime import datetime
 # from email.policy import default
 from flask_sqlalchemy import SQLAlchemy
@@ -73,16 +74,19 @@ class Property(db.Model):
     #     '''Create and return a new property.'''
 
     #     return cls(user=user, property=property)
-
+#count of active users User.query.count()
+#num of blog posts
+#num of comments
 
 class BlogPost(db.Model):
     '''A blog post'''
     __tablename__ = 'blog_posts'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     blog_content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     imgURL = db.Column(db.String)
+    title = db.Column(db.Text, nullable=False)
     user = db.relationship('User', back_populates='blog_posts')
     blog_images = db.relationship('BlogImage', back_populates='blog_post')
     comments = db.relationship('Comment', back_populates='blog_post')
@@ -95,10 +99,10 @@ class Comment(db.Model):
     '''A blog comment'''
     __tablename__ = 'comments'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'), nullable=False)
     comment_content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     user = db.relationship('User', back_populates='comments')
     blog_post = db.relationship('BlogPost', back_populates='comments')
 

@@ -1,8 +1,9 @@
 '''Script to seed database for INVESTABLE app'''
-from model import User, Property, connect_to_db, db
+from model import User, Property,BlogPost, Comment, connect_to_db, db
 from server import app
 from csv import reader
 from random import randint
+from datetime import datetime
 
 
 def seed_users():
@@ -13,7 +14,19 @@ def seed_users():
         user = User(first_name=first_name, last_name=last_name, email=email)
         db.session.add(user)
     db.session.commit()
-
+    
+    
+def seed_blogs():
+    '''seed blog posts from blogs.csv into database '''
+    user_id = randint(1, 5)
+    with open ('data/blogs.csv') as f:
+        data = reader(f, delimiter=',')
+        for row in data:
+            blogs = ','.join(row).split(',')
+            print(f'=======TITLE======{blogs}')
+            posts = BlogPost(user_id= user_id, title=blogs[0], blog_content=blogs[1], created_at=datetime.now())
+        db.session.add(posts)
+    db.session.commit()
 
 def seed_properties():
     '''load property data from Redfin combined.csv into database'''
