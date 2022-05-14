@@ -32,9 +32,12 @@
 Real estate investing is fantastic way to create wealth and build a stream of passive income. Having been a real estate investor with a background in property accounting for numerous years, I have always wanted to build a tool that would assist new investors with their decision making and investing journey.<br>
 <br>
 
-- INVESTABLE is a research tool for investors looking to make a quick decision whether a rental property is a good investment.
+- INVESTABLE is a research tool for investors looking to make a quick decision whether a rental property is a good investment. Ultimately it strives to provide users with tools and a platform to share the passion for rental property investing.
+
 - This app allows users to input data and run the numbers quickly to see if a property is generating positive cash flows given your estimates of rental income and expenses are accurate.
+
 - It also allows users to ask questions, share knowledge and network through a community dashboard feature.
+
 - Users can also enrich their skills by industry insight and book recommedation API features.
 
 <br><br>
@@ -51,7 +54,7 @@ Real estate investing is fantastic way to create wealth and build a stream of pa
   <ul>
   <li>Backend: Python, Flask, PostgreSQL, SQLAlchemy </li>
 <li>Frontend: JavaScript, AJAX, JSON, Jinja2, Bootstrap 5, HTML, CSS </li>
-<li>APIs: Google Maps, Goodreads, News</li>
+<li>APIs: Google Maps API, News API, Cloudinary API</li>
 </ul>
 <p align="left">(<a href="#top">back to top</a>)</p>
 
