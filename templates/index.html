@@ -15,17 +15,20 @@
     <div id="header" class="container text-white text-center">
         <h3 class="display-5 mb-0">Analyze any investment property in seconds</h3>
         <h1 class="display-1">INVESTABLE</h1>
-        <p class="lead d-none d-md-block">Build your passive income streams with our property analysis tools and community support.</p>
-       
-        {% if 'email' not in session %}        
+        <p class="lead d-none d-md-block">Build your passive income streams with our property analysis tools and
+            community support.</p>
+
+        {% if 'email' not in session %}
         <a name="calculator" href="{{url_for('register_page')}}" id="action"
-            class="btn btn-lg px-5 text-white shadow-lg " style="background-color:#739bc5; border-radius: 2rem;">REGISTER
+            class="btn btn-lg px-5 text-white shadow-lg "
+            style="background-color:#739bc5; border-radius: 2rem;">REGISTER
             FOR FREE</a>
-           {% else %} 
-           <a name="calculator" href="{{url_for('register_page')}}" id="action"
-           class="btn btn-lg px-5 text-white shadow-lg d-none" style="background-color:#739bc5; border-radius: 2rem;">REGISTER
-           FOR FREE</a>
-           {% endif %}
+        {% else %}
+        <a name="calculator" href="{{url_for('register_page')}}" id="action"
+            class="btn btn-lg px-5 text-white shadow-lg d-none"
+            style="background-color:#739bc5; border-radius: 2rem;">REGISTER
+            FOR FREE</a>
+        {% endif %}
     </div>
 </section>
 <section id="map-section">
@@ -35,43 +38,47 @@
                 <!-- THIS IS A ROW CONTAINING BOTH CALCULATOR AND MAP -->
                 <div class="card shadow-lg" style="padding-top: 5px;">
                     <div class="card-body p-1 text-left">
-                        <form method="POST" action="/save_data" name="calform" id="calform" >
-                            <table class="panel" align="center">
+                        <form method="POST" action="/save_data" name="calform" id="calform">
+                            <div class="table-responsive">
+                            <table class="panel table-responsive">
+
                                 <section id="caldiv">
-                                    <tr><td colspan="3">&nbsp;</td></tr>
+                                    <tr>
+                                        <td colspan="3">&nbsp;</td>
+                                    </tr>
                                     <tr id="cashflow-row">
-                                        
+
                                         <td id="title-cash-flow">Expected Cash Flow:</td>
                                         <td id="result-cash-flow" step="0.01"></td>
                                     </tr>
                                     <!-- <tr><td colspan="3">&nbsp;</td></tr> -->
                                 </section>
-                                
+                                <!-- maybe add something here to make it more responsive -->
                                 <tr>
                                     <td>Rental Income</td>
-                                    <td align="right"><input type="number" step="0.01" name="rent" id="rent" value="2750.00"
-                                            class="inlong indollar"></td>
+                                    <td align="right"><input type="number" step="0.01" name="rent" id="rent"
+                                            value="2750.00" class="inlong indollar"></td>
                                     <td>&nbsp;</td>
                                 </tr>
 
                                 <tr>
-                                <td colspan="4" id="sectitle">Monthly Operating Expenses</td>
-                                <td>&nbsp;</td>
-                            </tr>
+                                    <td colspan="4" id="sectitle">Monthly Operating Expenses</td>
+                                    <td>&nbsp;</td>
+                                </tr>
                                 <tr>
                                     <td>Mortgage</td>
-                                    <td align="right"><input type="number" step="0.01" name="mortgage" id="mortgage" value="1051.52"
-                                            class="innormal indollar"></td>
+                                    <td align="right"><input type="number" step="0.01" name="mortgage" id="mortgage"
+                                            value="1051.52" class="innormal indollar"></td>
                                 </tr>
                                 <tr>
                                     <td>Property Tax</td>
-                                    <td align="right"><input type="number" step="0.01" name="tax" id="tax" value="658.56"
-                                            class="innormal indollar"></td>
+                                    <td align="right"><input type="number" step="0.01" name="tax" id="tax"
+                                            value="658.56" class="innormal indollar"></td>
                                 </tr>
                                 <tr>
                                     <td>Insurance</td>
-                                    <td align="right"><input type="number" step="0.01" name="insurance" id="insurance" value="185.78"
-                                            class="innormal indollar"></td>
+                                    <td align="right"><input type="number" step="0.01" name="insurance" id="insurance"
+                                            value="185.78" class="innormal indollar"></td>
                                 </tr>
                                 <tr>
                                     <td>HOA Fee</td>
@@ -80,14 +87,14 @@
                                 </tr>
                                 <tr>
                                     <td>Utilities</td>
-                                    <td align="right"><input type="number" step="0.01" name="utilities" id="utilities" value="150.00"
-                                            class="innormal indollar"></td>
+                                    <td align="right"><input type="number" step="0.01" name="utilities" id="utilities"
+                                            value="150.00" class="innormal indollar"></td>
 
                                 </tr>
                                 <tr>
                                     <td>Maintenance</td>
-                                    <td align="right"><input type="number" step="0.01" name="maintenance" id="maintenance"
-                                            value="150" class="innormal indollar"></td>
+                                    <td align="right"><input type="number" step="0.01" name="maintenance"
+                                            id="maintenance" value="150" class="innormal indollar"></td>
 
                                 </tr>
                                 <tr>
@@ -99,66 +106,76 @@
                                 </tr>
                                 <tr>
                                     <td>Vacancy</td>
-                                    <td align="right"><input type="number" step="0.01" name="vacancy" id="vacancy" value="150.00"
-                                            class="innormal indollar">
+                                    <td align="right"><input type="number" step="0.01" name="vacancy" id="vacancy"
+                                            value="150.00" class="innormal indollar">
                                     </td>
 
                                 </tr>
                                 <tr>
                                     <td>CapEx</td>
-                                    <td align="right"><input type="number" step="0.01" name="capex" id="capex" value="150.00"
-                                            class="innormal indollar">
+                                    <td align="right"><input type="number" step="0.01" name="capex" id="capex"
+                                            value="150.00" class="innormal indollar">
                                     </td>
                                 </tr>
-                                <tr><td>Total Expenses</td>
-                                    <td align="right"><input type="number" step="0.01" name="total-expenses" id="total-expenses" value="0.00"
-                                        class="innormal indollar">
-                                </td>
+                                <tr>
+                                    <td>Total Expenses</td>
+                                    <td align="right"><input type="number" step="0.01" name="total-expenses"
+                                            id="total-expenses" value="0.00" class="innormal indollar">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Annual Cash Flow: </td>
                                     <td align="right">
                                         <input type="number" step="0.01" name="annual" id="annual" value="0.00"
-                                        class="innormal indollar">
-                                </td>
+                                            class="innormal indollar">
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td><button type="button" id="run-numbers" class="btn text-white" style="background-color:#739bc5; border-radius: 2rem;">Run Numbers</button></td>
-                                    <td><button type="reset" id="reset" class="btn text-white" style="background-color:#a69698; border-radius: 2rem;">Reset</button></td>
+                                    <td><button type="button" id="run-numbers" class="btn text-white"
+                                            style="background-color:#739bc5; border-radius: 2rem;">Run Numbers</button>
+                                    </td>
+                                    <td><button type="reset" id="reset" class="btn text-white"
+                                            style="background-color:#a69698; border-radius: 2rem;">Reset</button></td>
                                 </tr>
+                            
                             </table>
+
+                         
                         </div>
-                        {% if 'email' not in session %}
-                        <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a
+                            <!-- maybe add something here to make it even more responsive above -->
+                    </div>
+                    {% if 'email' not in session %}
+                    <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a
                             href="{{url_for('register_user')}}" class="link-danger">Register</a></p>
-                            {% else %}
-                            <button type="submit" class="btn small fw-bold mt-2 pt-1 mb-0 text-center">Click here to save property data</button>
-                           
-    {% endif %}
-                        </form>
-                        
-                    
-                <hr class="my-4">
-<!-- drop charts for visualization here -->
-                <div class="chart-js">
-                    
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto at omnis quas consequuntur natus alias doloremque eius sequi placeat nesciunt iure rerum, animi ratione eaque magnam veniam dignissimos qui laborum?
+                    {% else %}
+                    <button type="submit" class="btn small fw-bold mt-2 pt-1 mb-0 text-center">Click here to save
+                        property data</button>
+
+                    {% endif %}
+                    </form>
 
 
+                    <hr class="my-4">
+                    <!-- drop charts for visualization here -->
+                    <div class="chart-js">
+                        <canvas id="myChart">
+
+
+
+                    </canvas>
+                    </div>
 
                 </div>
-                
-                </div>
-<!-- above is column 1 in row containing both calculator and map -->
+                <!-- above is column 1 in row containing both calculator and map -->
 
 
                 <!-- THIS IS A ROW CONTAINING BOTH CALCULATOR AND MAP -->
             </div>
             <!-- need to udpdate the calculator responsiveness -->
             <!-- google map -->
-            <div class="col col-md-7">
+            <div class="col col-lg-8">
                 <div class="card shadow-lg" style="padding-top: 5px;">
-                    <div class="card-body p-1 text-left">
+                    <div class="card-body p-4 text-left">
                         <div class="row">
                             <form class="d-flex" id="search-form">
                                 <input class="form-control me-2" id="ggm-btn" for="location" type="search"
@@ -278,4 +295,6 @@
 -<script src="/static/js/properties.js"></script> -
 <script async src="https://maps.googleapis.com/maps/api/js?key={{GG_KEY}}&callback=initMap">
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 {% endblock %}

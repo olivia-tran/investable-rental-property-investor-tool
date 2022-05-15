@@ -71,11 +71,12 @@ def create_property(user_id, mortgage, rent, tax, insurance, hoa, utilities, mai
 def get_num_of_properties():
     '''Get the total numbers of all properties saved by all users'''
     property_nums = Property.query.count()
-  
     return property_nums 
+
 def count_num_properties_by_a_user(id):
     '''Count the num of properties owned by a user'''
-    count = Property.query.count()
+    count = Property.query.filter(User.id==id).count()
+    # This is not accurate yet, count num of properties owned by a user
     return count
     
 def get_properties_by_user(id):
@@ -130,6 +131,17 @@ def get_num_of_comments():
 
 
 #-----------------------------IMAGE CRUD----------------------- 
+def save_profile_pic(url, user_id):
+    '''Save profile pic to db'''
+    profile_pic = UserImage(imgURL=url, user_id=user_id)
+    return profile_pic
+
+def get_img_url_by_email(email):
+    '''Get the latest image url by email'''
+    user_id = (get_user_by_email(email)).id
+    img_url = (UserImage.query.filter_by(user_id=user_id).order_by(UserImage.id.desc()).first()).imgURL
+    return img_url
+
 if __name__ == "__main__":
     from server import app
 

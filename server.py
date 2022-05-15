@@ -1,11 +1,8 @@
 """Server for INVESTABLE app."""
 from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for
-import crud
-import requests
-import psycopg2
+import crud, requests, psycopg2, os, cloudinary.uploader
 from model import connect_to_db, db, User
 # from importlib_metadata import files
-import os  # to access os.environ to access secrets.sh values
 from jinja2 import StrictUndefined
 from functools import wraps
 
@@ -13,6 +10,9 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 GG_KEY = os.environ['GG_KEY']
 API_KEY = os.environ['API_KEY']
+CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
+CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
+CLOUD_NAME = 'investable'
 # how to pass an object to from jinja to js?
 # StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
@@ -23,39 +23,40 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     '''Display homepage'''
-    flash("Welcome to INVESTABLE community!")
+    # flash("Welcome to INVESTABLE community!")
     print(session)
     # print(f'counter===={session.get("counter", 0)}')
     return render_template('index.html', GG_KEY=GG_KEY)
 
 
-@app.route('/calculator', methods=['POST'])
-def to_calculate():
-    '''Take user inputs to calculate rental cash flow'''
-
-    print(len(request.form), " >>>>>>>>> form data: ", request.form)
-    # print(len(request.json), " >>>>>>>>> form json: ", request.json)
-    rent = request.form.get('rent', 0)
-    mortgage = request.form.get('mortgage', 0)
-    tax = request.form.get('tax', 0)
-    insurance = request.form.get('insurance', 0)
-    hoa = request.form.get('hoa', 0)
-    utilities = request.form.get('utilities', 0)
-    maintenance = request.form.get('maintenance', 0)
-    pm = request.form.get('pm', 0)
-    vacancy = request.form.get('vacancy', 0)
-    capex = request.form.get('capex', 0)
-    print(f'#######################{type(rent)}######################')
-    flash('Running numbers')
-
-    total_expenses = float(tax) + float(insurance) + float(hoa) + float(utilities) + float(
-        maintenance) + float(pm) + float(vacancy) + float(capex) + float(mortgage)
-    cashflow = float(rent) - total_expenses
-    annual_cashflow = cashflow * 12
-    print(f'===============cashflow = {cashflow}=====================')
-#    return jsonify({'cashflow': cashflow, 'total_expenses': total_expenses,  'annual_cashflow': annual_cashflow})
-    return redirect("/")
-    # return render_template('calculator.html', cashflow=cashflow, rent=rent, tax=tax, insurance=insurance, hoa=hoa, utilities=utilities, maintenance=maintenance, pm=pm, vacancy=vacancy, capex=capex, mortgage=mortgage)
+# @app.route('/save_data')
+# def to_make_charts():
+#     '''Take user inputs to send a json object to chart js'''
+#     print(len(request.form), " >>>>>>>>> form data: ", request.form)
+#     rent=request.form.get('rent')
+#     mortgage=request.form.get('mortgage')
+#     print(f'mortgage={mortgage}')
+#     maintenance=request.form.get('maintenance')
+#     tax=request.form.get('tax')
+#     insurance=request.form.get('insurance')
+#     hoa=request.form.get('hoa')
+#     utilities=request.form.get('utilities')
+#     capex=request.form.get('capex')
+#     pm=request.form.get('pm')
+#     vacancy=request.form.get('vacancy')
+    # return jsonify({'Rent': rent, 
+    #                 'Mortgage': mortgage, 
+    #                 'Tax': tax,
+    #                 'Insurance': insurance,
+    #                 'HOA': hoa, 
+    #                 'Utilities': utilities,
+    #                 'Maintenance': maintenance,
+    #                 'PM': pm, 
+    #                 'Vacancy': vacancy,
+    #                 'CapEx': capex
+        
+    # })
+   
 
 
 
@@ -103,22 +104,8 @@ def register_user():
         flash('Account successfully created. 🥳️', 'info')
         session['email'] = user.email
 
-    return render_template('user_profile.html', first=first, last=last, GG_KEY=GG_KEY)
-@app.route('/profile')
-def user_profile():
-    'Show user profile'
-    if 'email' in session:
-        email = session['email']
-        user = crud.get_user_by_email(email)
-        first = user.first_name
-        last = user.last_name
-        user_id = user.id
-        posts = crud.get_all_posts_by_a_user(user_id)
-        property_count = crud.count_num_properties_by_a_user
-        print(f'==========={user}')
-        return render_template('user_profile.html', first=first, last=last, posts=posts, property_count=property_count, GG_KEY=GG_KEY)
-    else:
-        return redirect('/login')
+    return render_template('user_profile.html', user=user, GG_KEY=GG_KEY)
+
 
 def login_required(f):
     @wraps(f)
@@ -156,7 +143,23 @@ def process_login():
         print(f'user ID in login func = {id}====================')
         flash(f'😺Welcome back, you\'re logging in using: {user.email}!')
         return redirect('/properties')
-
+    
+@app.route('/profile')
+def user_profile():
+    'Show user profile'
+    if 'email' in session:
+        email = session['email']
+        user = crud.get_user_by_email(email)
+        first = user.first_name
+        last = user.last_name
+        user_id = user.id
+        posts = crud.get_all_posts_by_a_user(user_id)
+        property_count = crud.count_num_properties_by_a_user(user_id)
+        img_url = crud.get_img_url_by_email(email)
+        print(f'==========={user}')
+        return render_template('user_profile.html', user=user, posts=posts, property_count=property_count, img_url=img_url, GG_KEY=GG_KEY)
+    else:
+        return redirect('/login')
 
 @ app.route('/logout')
 def logout():
@@ -174,9 +177,6 @@ def property_page():
     print(f'=====================email={email}=================')
     properties = crud.get_properties_by_user(id)
     print(f'====================={properties}=================')
-    # test = jsonify({'owned_properties': owned_properties})
-    # print(f'##############################{test}###########################')
-
     return render_template('properties.html', properties=properties, user=user)
 
 @ app.route('/save_data', methods=['GET','POST'])
@@ -263,18 +263,53 @@ def read_post(id):
     '''Read details of a blog post'''
     post = crud.get_blog_details(id)
     return render_template('blog_details.html', post=post )
-# keep showing 404 errors for now
+# page doesn't display my navbar correctly
 
 # -------------------------------Handling image routes-------------------------------------
-@app.route('/profile', methods=['POST'])
+@app.route('/post-form-data', methods=['POST'])
 @login_required
 def upload_profile_photo():
-    '''Allow user upload profile picture'''
-    profile_pic = request.files['profile_pic']
-    if profile_pic.filename != '':
-        profile_pic.save(profile_pic.filename)
-    return redirect('/')
+    '''Process form data and redirect to /show_profile_image page'''
+    my_file = request.files['my-file']
+    img_url = upload_to_cloudinary(my_file)
+    add_user_img_record(img_url)
+    flash('Your picture has been successfully uploaded!')
+    return redirect(url_for('show_profile_image', img_url=img_url))
+   
+@app.route('/profile_image')
+@login_required
+def show_profile_image():
+    '''Show the profile pic uploaded by user'''
+    email=session['email']
+    user = crud.get_user_by_email(email)
+    user_id = (crud.get_user_by_email(email)).id
+    posts = crud.get_all_posts_by_a_user(user_id)
+    property_count = crud.count_num_properties_by_a_user(user_id)
+    # img_url = request.args.get('img_url')
+    img_url = crud.get_img_url_by_email(email)
+    return render_template('user_profile.html', img_url=img_url, GG_KEY=GG_KEY, posts=posts, property_count=property_count, user=user)
+# this shows the pic on the diff page which is not what I want 
+   
+
+
+
 # -------------------------------Upload file routes-------------------------------------
+def upload_to_cloudinary(media_file):
+    '''Upload media file to cloudinary'''
+    result = cloudinary.uploader.upload(media_file, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)
+    return result['secure_url']
+
+def add_user_img_record(img_url):
+    '''Save img url to db by user ID'''
+    print('\n'.join([f"{'*' * 20}", 'Save this url to your database!', img_url, f"{'*' * 20}"]))
+    user_id = (crud.get_user_by_email(session['email'])).id
+    print(f'user_id==============={user_id}')
+    new_pic = crud.save_profile_pic(url=img_url, user_id=user_id)
+    db.session.add(new_pic)
+    db.session.commit()
+    flash('Image URL saved to db!')
+
+
 # from werkzeug.utils import secure_filename
 
 # @app.route('/upload')
