@@ -254,10 +254,10 @@
     </div>
 </section>
 <!-- starting news api -->
-<section id="news-section">
-    <div class="container text-center mt-2 p-3">
+<section id="news-section" >
+    <div class="container text-center mt-5 p-3 mb-5">
         <h3><a name="industry-news"><strong>INDUSTRY NEWS</strong></a></h3>
-        <div class="row m-2" id="news_container">
+        <div class="row m-2 d-flex" id="news_container">
             <!-- inserting news content from newsapi.js -->
         </div>
     </div>
@@ -265,9 +265,27 @@
     </div>
 </section>
 <!-- line break -->
+<!-- vector illustration in the middle -->
+<!-- contact form below -->
+<!-- <section class="vh-30"> -->
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+            <img src="/static/Team.png" class="img-fluid w-50" alt="freepik">
+            
+        </div>
+        
+        </div>
+      </div>
+    </div>
+   
+  <!-- </section> -->
+
+
+
 
 <!-- book remmendation api -->
-<section id="book-section" class=" text-center">
+<section id="book-section" class=" text-center mt-5">
     <h3><a name="book-recommendation"><strong>BOOKS ABOUT RENTAL PROPERTY INVESTMENTS</strong></a></h3>
     <div class="container shadow-lg pt-1" style="background-color: white; border-radius: 0rem;">
         <div class="container text-center mt-5">
@@ -279,25 +297,19 @@
         </div>
     </div>
 </section>
-<!-- contact form below -->
 
-
-
-
-
-<!-- contact form above -->
 {% endblock %}
 
 
 
 {% block js %}
-<!-- newsapi and book api conflicting? -->
+
 <script src="/static/js/booksandnews.js"></script>
-<!-- <script src="/static/js/newsapi.js"></script> -->
+
 
 <script src="/static/js/maps.js"></script>
 
--<script src="/static/js/properties.js"></script> -
+
 <script async src="https://maps.googleapis.com/maps/api/js?key={{GG_KEY}}&callback=initMap">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
