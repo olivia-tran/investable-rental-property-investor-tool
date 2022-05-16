@@ -1,10 +1,11 @@
 """Server for INVESTABLE app."""
 from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for
-import crud, requests, psycopg2, os, cloudinary.uploader
+import crud, requests, psycopg2, os, cloudinary.uploader, random
 from model import connect_to_db, db, User
 # from importlib_metadata import files
 from jinja2 import StrictUndefined
 from functools import wraps
+from real_estate_quotes import QUOTES
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
@@ -311,49 +312,18 @@ def add_user_img_record(img_url):
     flash('Image URL saved to db!')
 
 #-----------------------------API Routes---------------------------
-def get_fred_series_data(api_key, series):
-    '''Federal Reserve Economic Data API'''
-    # 30 year fixed rate mortgage average in the US
-    series = 'MORTGAGE30US'
-    fred_url = 'https://api.stlouisfed.org/fred/series?series_id=GNPCA&api_key={FRED_KEY}&file_type=json'
+@app.route('/quotes.json')
+def get_quotes():
+    '''send jsonified quotes to front end'''
+    return jsonify({"quotes": QUOTES})
 
-    
-# from werkzeug.utils import secure_filename
+        
 
-# @app.route('/upload')
-# def upload_file():
-#     '''Allow user upload files'''
-#     return render_template('upload.html')
-
-# @app.route('/uploader', methods = ['GET', 'POST'])
-# def upload_file():
-#     if request.method == 'POST':
-#         f = request.files['file']
-#         f.save(secure_filename(f.filename))
-#         return 'File uploaded successfully'
 
 
 # -------------------------------JSON routes-------------------------------------
 
 
-# @ app.route('/properties.json')
-# def show_properties_owned_by_user():
-#     email = session['email']
-#     user = crud.get_user_by_email(email)
-#     id = user.id
-#     print(f'=====================email={email}=================')
-#     owned_properties = crud.get_properties_by_user(id)
-#     print(
-#         f'====================owned_properties={owned_properties}=================')
-#     print(f'TYPE====================={type(owned_properties)}==========')
-
-    # return jsonify({'rent': owned_properties.rent,
-    #                 'id': owned_properties.id,
-    #                 'mortgage': owned_properties.mortgage,
-    #                 'tax': owned_properties.tax,
-    #                 'insurance': owned_properties.insurance,
-    #                 'hoa': owned_properties.hoa
-    #                 })
 
 
 if __name__ == "__main__":
