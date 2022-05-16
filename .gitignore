@@ -31,3 +31,4 @@ static/js/booksandnews.js
 # GG_KEY does not work for book api
 algo.py
 
+backup/

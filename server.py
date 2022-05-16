@@ -5,7 +5,7 @@ from model import connect_to_db, db, User
 # from importlib_metadata import files
 from jinja2 import StrictUndefined
 from functools import wraps
-from real_estate_quotes import QUOTES
+from data import QUOTES
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
@@ -15,7 +15,7 @@ CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
 CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
 CLOUD_NAME = 'investable'
 FRED_KEY = os.environ['FRED_KEY']
-# how to pass an object to from jinja to js?
+
 # StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
 app.jinja_env.undefined = StrictUndefined
@@ -152,14 +152,12 @@ def user_profile():
     if 'email' in session:
         email = session['email']
         user = crud.get_user_by_email(email)
-        first = user.first_name
-        last = user.last_name
         user_id = user.id
-        posts = crud.get_all_posts_by_a_user(user_id)
+        count = crud.get_all_posts_by_a_user(user_id)
         property_count = crud.count_num_properties_by_a_user(user_id)
         img_url = crud.get_img_url_by_email(email)
         print(f'==========={user}')
-        return render_template('user_profile.html', user=user, posts=posts, property_count=property_count, img_url=img_url, GG_KEY=GG_KEY)
+        return render_template('user_profile.html', user=user, count=count, property_count=property_count, img_url=img_url, GG_KEY=GG_KEY)
     else:
         return redirect('/login')
 
@@ -231,32 +229,36 @@ def forum():
     total_users = crud.get_num_of_users()
     total_properties = crud.get_num_of_properties()
     posts = crud.get_all_posts()
-    for post in posts:
-        full_name = crud.get_user_full_name(post.user_id)
-    return render_template('forum.html', full_name=full_name, posts=posts, user_nums=total_users, post_nums=total_posts, property_nums= total_properties)
+    # full_name = crud.get_user_full_name(id)
+#   where is the id from tho? It's from the blogpost, but all posts so no ID in particular...
+
+    return render_template('forum.html', posts=posts, user_nums=total_users, post_nums=total_posts, property_nums= total_properties)
 
 @ app.route('/blogging', methods=['POST'])
 @login_required
 def blogging():
     '''if user is logged in, user can create blog posts'''
-    print('=====THIS IS BLOGGING FUNCTION=====')
     title = request.form.get('title')
-    print('=====THIS IS BLOGGING FUNCTION=====')
     blog_content = request.form.get('blog-content')
     email = session['email']
     user = crud.get_user_by_email(email)
     user_id = user.id
+    # if user chooses to add a photo in the post
+    blog_photo = request.files['blog-photo']
+    img_url = upload_to_cloudinary(blog_photo)
+    add_user_img_record(img_url)
+    
     blog = crud.create_a_post(title, blog_content, user_id)
     db.session.add(blog)
     db.session.commit()
     flash('Blog was created!')
     return redirect('/forum')
-    # return render_template('posting.html')
+ 
     
 @app.route('/create_a_post')
 @login_required
 def create_a_post():
-    '''Create a post using normal routing'''
+    '''Create a post using normal routing instead of a modal'''
     return render_template('posting.html')
 
 @app.route('/forum/<int:id>', methods=['POST'])
@@ -266,6 +268,16 @@ def read_post(id):
     post = crud.get_blog_details(id)
     return render_template('blog_details.html', post=post )
 # page doesn't display my navbar correctly
+
+# too tired now to do this, let do this tomorrow: make form and crud func
+@app.route('/forum/<int:id>/delete', methods=['POST'])
+@login_required
+def to_delete_post(id):
+    '''Delete a post by ID'''
+    flash('The blog post is about to be deleted.')
+    crud.delete_post(id)
+    flash(f'Blog Post ID {id} was deleted.')
+    return redirect('/forum')
 
 # -------------------------------Handling image routes-------------------------------------
 @app.route('/post-form-data', methods=['POST'])
@@ -290,7 +302,7 @@ def show_profile_image():
     # img_url = request.args.get('img_url')
     img_url = crud.get_img_url_by_email(email)
     return render_template('user_profile.html', img_url=img_url, GG_KEY=GG_KEY, posts=posts, property_count=property_count, user=user)
-# this shows the pic on the diff page which is not what I want 
+
    
 
 
@@ -310,7 +322,16 @@ def add_user_img_record(img_url):
     db.session.add(new_pic)
     db.session.commit()
     flash('Image URL saved to db!')
-
+    
+def add_blog_img_record(img_url):
+    '''Save img url to db by blog ID'''
+    print('\n'.join([f"{'*' * 20}", 'Save this url to your database!', img_url, f"{'*' * 20}"]))
+    user_id = (crud.get_user_by_email(session['email'])).id
+    print(f'user_id==============={user_id}')
+    new_pic = crud.save_profile_pic(url=img_url, user_id=user_id)
+    db.session.add(new_pic)
+    db.session.commit()
+    flash('Image URL saved to db!')
 #-----------------------------API Routes---------------------------
 @app.route('/quotes.json')
 def get_quotes():

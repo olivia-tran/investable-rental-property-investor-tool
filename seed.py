@@ -6,6 +6,8 @@ from random import randint
 from datetime import datetime
 
 
+
+
 def seed_users():
     '''seed users from investables.csv into database '''
     for i, row in enumerate(open('data/investables_db.csv')):
@@ -18,16 +20,15 @@ def seed_users():
     
 def seed_blogs():
     '''seed blog posts from blogs.csv into database '''
-    user_id = randint(1, 5)
+    user_id = randint(1, 2)
     with open ('data/blogs.csv') as f:
-        reader = csv.reader(f):
-        # data = reader(f, delimiter=',')
+        next(f)
+        data = reader(f)
         for row in data:
-            blogs = ','.join(row).split(',')
-            print(f'=======TITLE======{blogs}')
+            blogs= '","'.join(row).split('","')
             posts = BlogPost(user_id= user_id, title=blogs[0], blog_content=blogs[1], created_at=datetime.now())
-        db.session.add(posts)
-    db.session.commit()
+            db.session.add(posts)
+        db.session.commit()
 
 def seed_properties():
     '''load property data from Redfin combined.csv into database'''
@@ -57,3 +58,4 @@ if __name__ == "__main__":
     db.create_all()
     seed_users()
     seed_properties()
+    seed_blogs()

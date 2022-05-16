@@ -115,7 +115,7 @@ class UserImage(db.Model):
     __tablename__ = 'user_images'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     imgURL = db.Column(db.String, default='static/default_photo.png')
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', uselist=False, back_populates='user_image')
 
 
@@ -124,7 +124,7 @@ class BlogImage(db.Model):
     __tablename__ = 'blog_images'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     imgURL = db.Column(db.String)
-    blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'))
+    blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'), nullable=False)
     blog_post = db.relationship('BlogPost', back_populates='blog_images')
 
 

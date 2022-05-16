@@ -1,4 +1,5 @@
 """CRUD operations."""
+from unicodedata import name
 from model import db, User, Property, BlogPost, Comment, BlogImage, UserImage, connect_to_db
 import psycopg2
 from sqlalchemy import delete
@@ -27,10 +28,10 @@ def get_user_by_id(user_id):
 # Log in: get user by email
 def get_user_full_name(id):
     '''Return user full name given their ID'''
-    first = User.query.get(id).first_name
-    last = User.query.get(id).last_name
-    
-    return first + last
+    full_name = first + last
+    return full_name
+
+
 def get_user_by_email(email):
     '''Return a user by email'''
     return User.query.filter(User.email == email).first()
@@ -73,10 +74,9 @@ def get_num_of_properties():
     property_nums = Property.query.count()
     return property_nums 
 
-def count_num_properties_by_a_user(id):
+def count_num_properties_by_a_user(user_id):
     '''Count the num of properties owned by a user'''
-    count = Property.query.filter(User.id==id).count()
-    # This is not accurate yet, count num of properties owned by a user
+    count = Property.query.filter(Property.user_id==user_id).count()
     return count
     
 def get_properties_by_user(id):
@@ -86,9 +86,13 @@ def get_properties_by_user(id):
 # when user logs in, we will have their email, from email get the id to query properties
 # owned_properties is a list
 #-----------------------------BLOG CRUD-----------------------
-def create_a_post(title, content, user_id):
+def create_a_post(title, content, user_id, imgURL=None):
      '''Create a blog post'''
-     blog = BlogPost(title=title, blog_content=content,user_id=user_id  )
+     if imgURL:
+         imgURL = imgURL
+     blog = BlogPost(title=title, blog_content=content,user_id=user_id )    
+     #have an empty list as default param
+     #append each item in that list to the BlogImage object
      return blog
  
 def get_num_of_posts():
@@ -102,9 +106,9 @@ def get_all_posts():
     posts = BlogPost.query.all()
     return posts
 
-def get_all_posts_by_a_user(id):
+def get_all_posts_by_a_user(user_id):
     '''Get all posts created by a user'''
-    posts = BlogPost.query.filter_by(id=id).all()
+    posts = BlogPost.query.filter(BlogPost.user_id==user_id).count()
     return posts
 
 def get_blog_details(id):
@@ -139,8 +143,13 @@ def save_profile_pic(url, user_id):
 def get_img_url_by_email(email):
     '''Get the latest image url by email'''
     user_id = (get_user_by_email(email)).id
-    img_url = (UserImage.query.filter_by(user_id=user_id).order_by(UserImage.id.desc()).first()).imgURL
-    return img_url
+    img_url = (UserImage.query.filter_by(user_id=user_id).order_by(UserImage.id.desc()).first())
+    if img_url != None:
+        img_url= img_url.imgURL
+        return img_url
+    else:
+        return 'static/pup.jpg'
+        
 
 if __name__ == "__main__":
     from server import app
