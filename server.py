@@ -13,6 +13,7 @@ API_KEY = os.environ['API_KEY']
 CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
 CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
 CLOUD_NAME = 'investable'
+FRED_KEY = os.environ['FRED_KEY']
 # how to pass an object to from jinja to js?
 # StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
 
@@ -309,7 +310,14 @@ def add_user_img_record(img_url):
     db.session.commit()
     flash('Image URL saved to db!')
 
+#-----------------------------API Routes---------------------------
+def get_fred_series_data(api_key, series):
+    '''Federal Reserve Economic Data API'''
+    # 30 year fixed rate mortgage average in the US
+    series = 'MORTGAGE30US'
+    fred_url = 'https://api.stlouisfed.org/fred/series?series_id=GNPCA&api_key={FRED_KEY}&file_type=json'
 
+    
 # from werkzeug.utils import secure_filename
 
 # @app.route('/upload')

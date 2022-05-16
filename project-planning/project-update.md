@@ -4,19 +4,20 @@
 
 ### I have completed these features for my MVP:
 
-implemented all main view functions: logging, register, cash flow calculator, google map API, news API
+[x] API: Google Maps, News, Google Books, Cloudinary,
+[x] Data Model
+[x] Core views and functions: logging, blogging, photo uploading, property analysis
+[x] Data visualization with Chartjs
 
 ### This coming week, I plan to work on:
 
-blog, comment, add properties from calculator, find a substitute for goodreads API because this API has been retired
+[x] Update default value for chart js
+[x] Add CRUD for commenting feature
+[x] Add Update feature for properties, users and blogs
+[x] Make search bar and pagination in dashboard work
+[x] Update create function for creating a post to link to cloudinary
+[x] Explore using React for certain features
 
 ### My general work plan/estimate for the rest of Sprint 1:
 
-<ul>
-<li> Add blogging feature </li>
-<li> Add commenting feature </li>
-<li> Add profile pix option</li>
-<li> Add property comparison feature </li>
-<li> Chart.JS </li>
-<li> Some book API </li>
-</ul>
+Aiming for the end of next week

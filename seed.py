@@ -20,7 +20,8 @@ def seed_blogs():
     '''seed blog posts from blogs.csv into database '''
     user_id = randint(1, 5)
     with open ('data/blogs.csv') as f:
-        data = reader(f, delimiter=',')
+        reader = csv.reader(f):
+        # data = reader(f, delimiter=',')
         for row in data:
             blogs = ','.join(row).split(',')
             print(f'=======TITLE======{blogs}')
