@@ -57,7 +57,7 @@ def register_page():
 def register_user():
     '''Create a new user.'''
     if request.method == 'GET':
-        return render_template('register.html', GG_KEY=GG_KEY)
+        return render_template('properties.html', GG_KEY=GG_KEY)
     else:
         email = request.form.get('email')
         if crud.get_user_by_email(email):
@@ -76,7 +76,7 @@ def register_user():
              user_id = (crud.get_user_by_email(email)).id
              properties = crud.get_properties_by_user(user_id)
     return render_template('properties.html', user=user, properties=properties, GG_KEY=GG_KEY, session=session)
-
+# realized the importance of user testing here. Updated titlecase for names
 
 def login_required(f):
     @wraps(f)
@@ -126,8 +126,9 @@ def user_profile():
         property_count = crud.count_num_properties_by_a_user(user_id)
         img_url = crud.get_img_url_by_email(email)
         count = crud.get_all_posts_by_a_user(user_id)
+        comment_count = crud.get_all_comments_by_a_user(user_id)
         print(f'==========={user}')
-        return render_template('user_profile.html', user=user, count=count, property_count=property_count, img_url=img_url, GG_KEY=GG_KEY, session=session)
+        return render_template('user_profile.html',comment_count=comment_count, user=user, count=count, property_count=property_count, img_url=img_url, GG_KEY=GG_KEY, session=session)
     else:
         return redirect('/login')
 
@@ -190,7 +191,7 @@ def contact_us():
     #need to connect the form to backend server here
     return render_template('contact_us.html')
 
-# -------------------------------Related to blogging routes-------------------------------------
+# -------------------------------Related to BLOG POSTS routes-------------------------------------
 @ app.route('/forum')
 @login_required
 def forum():
@@ -209,7 +210,8 @@ def blogging():
     title = request.form.get('title')
     blog_content = request.form.get('blog_content')
     email = session['email']
-    user_id = (crud.get_user_by_email(email)).id
+    user = crud.get_user_by_email(email)
+    user_id = user.id
     blog_photo = request.files.get('blog_image')
     print(f' this is BLOG PHOTO====={blog_photo}')
     # if user chooses to add a photo in the post
@@ -241,7 +243,25 @@ def read_post(id):
     return render_template('blog_details.html', post=post )
 # page doesn't display my navbar correctly
 
-# too tired now to do this, let do this tomorrow: make form and crud func
+@app.route('/forum/<int:blog_id>/<int:comment_id>', methods=['GET','POST'])
+@login_required
+def to_post_a_comment(blog_id):
+    '''To leave a comment on a blog'''
+    flash('The comment is to be posted.')
+    comment_content = request.form.get('comment')
+    email = session['email']
+    user = crud.get_user_by_email(email)
+    user_id = user.id
+    comment = crud.create_a_comment(blog_id, user_id, comment_content)
+    db.session.add(comment)
+    db.session.commit()
+    comments = crud.get_all_comments_on_a_post(blog_id)
+    # comments object is a list, so this doesn't look right yet
+    flash(f'Comment ID {comment.id} was successfully posted.')
+    # return redirect('/forum/<int:blog_id>')
+    return render_template('blog_details.html', comment=comment, comments=comments)
+
+
 @app.route('/forum/<int:id>/delete', methods=['POST'])
 @login_required
 def to_delete_post(id):
@@ -250,8 +270,18 @@ def to_delete_post(id):
     crud.delete_post(id)
     flash(f'Blog Post ID {id} was deleted.')
     return redirect('/forum')
+#------------------------------COMMENT routes----------------
+# @app.route('/forum/<int:blog_id>/<int:comment_id>', methods=['GET','POST'])
+# @login_required
+# def to_post_a_comment(blog_id):
+#     '''To leave a comment on a blog'''
+#     flash('The comment is to be posted.')
+#     comment = crud.create_a_comment(blog_id)
+#     flash(f'Comment ID {comment.id} was successfully posted.')
+#     return redirect('/forum/<int:blog_id>')
 
-# -------------------------------Handling image routes-------------------------------------
+
+# -------------------------------Handling User IMAGES routes-------------------------------------
 @app.route('/post-form-data', methods=['POST'])
 @login_required
 def upload_profile_photo():
@@ -271,15 +301,13 @@ def show_profile_image():
     user_id = (crud.get_user_by_email(email)).id
     posts = crud.get_all_posts_by_a_user(user_id)
     property_count = crud.count_num_properties_by_a_user(user_id)
-    
+    count = crud.get_all_posts_by_a_user(user_id)
     img_url = crud.get_img_url_by_email(email)
-    return render_template('user_profile.html', img_url=img_url, GG_KEY=GG_KEY, posts=posts, property_count=property_count, user=user)
+    return render_template('user_profile.html', img_url=img_url, GG_KEY=GG_KEY,count=count, posts=posts, property_count=property_count, user=user)
 
    
 
-
-
-# -------------------------------Upload file routes-------------------------------------
+# -------------------------------Upload photo HELPER functions-------------------------------------
 def upload_to_cloudinary(media_file):
     '''Upload media file to cloudinary'''
     result = cloudinary.uploader.upload(media_file, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)

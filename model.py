@@ -85,6 +85,7 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     blog_content = db.Column(db.Text, nullable=False)
+    # my blog_content is not nullable how did the post num 13 get committed?
     created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     imgURL = db.Column(db.String)
     title = db.Column(db.Text, nullable=False)

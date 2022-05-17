@@ -86,9 +86,10 @@ def create_a_post(title, content, user_id, img_url=None):
      if img_url:
          blog = BlogPost(title=title, blog_content=content,user_id=user_id, imgURL=img_url)
      else:
-         blog = BlogPost(title=title, blog_content=content,user_id=user_id, imgURL=img_url)       
+         blog = BlogPost(title=title, blog_content=content,user_id=user_id)       
      #have an empty list as default param
      #append each item in that list to the BlogImage object
+     #I might have done this differently, check when refactoring the code
      return blog
  
 def get_num_of_posts():
@@ -112,23 +113,29 @@ def get_blog_details(id):
     post = BlogPost.query.get(id)
     return post
 
-# def get_post_authors():
-#     '''Get name of users who posted a blog'''
-#     users = User.query.options(db.joinedload(User.id)).all()
-#     return users
-
-    
-    
 #-----------------------------COMMENT CRUD-----------------------
+def get_all_comments_by_a_user(user_id):
+    '''Get all comments posted by a user'''
+    comments = Comment.query.filter(Comment.user_id==user_id).count()
+    return comments
 
- 
+def get_all_comments_on_a_post(blog_id):
+    '''Get all comments replied to a post'''
+    comments = Comment.query.filter(Comment.blog_id==blog_id)
+    return comments
 def get_num_of_comments():
     '''Get the total numbers of posts created by all users'''
     comments = Comment.query.count()
-  
     return comments 
+def create_a_comment(user_id, blog_id, comment_content):
+    '''Create a comment on a blog post'''
+    comment = Comment(user_id=user_id, blog_id=blog_id, comment_content=comment_content)
+    return comment
 
-
+def get_comment_details(comment_id):
+    '''Return comment details by its ID'''
+    comment = Comment.query.get(comment_id)
+    return comment
 
 #-----------------------------IMAGE CRUD----------------------- 
 def save_profile_pic(url, user_id):
