@@ -121,7 +121,7 @@ def get_all_comments_by_a_user(user_id):
 
 def get_all_comments_on_a_post(blog_id):
     '''Get all comments replied to a post'''
-    comments = Comment.query.filter(Comment.blog_id==blog_id)
+    comments = Comment.query.filter(Comment.blog_id==blog_id).all()
     return comments
 def get_num_of_comments():
     '''Get the total numbers of posts created by all users'''

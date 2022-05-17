@@ -235,31 +235,36 @@ def create_a_post():
     '''Landing page to create a post using normal routing instead of a modal'''
     return render_template('posting.html')
 
-@app.route('/forum/<int:id>', methods=['GET','POST'])
-@login_required
-def read_post(id):
-    '''Read details of a blog post'''
-    post = crud.get_blog_details(id)
-    return render_template('blog_details.html', post=post )
+# @app.route('/forum/<int:id>', methods=['GET','POST'])
+# @login_required
+# def read_post(id):
+#     '''Read details of a blog post'''
+#     post = crud.get_blog_details(id)
+#     return render_template('blog_details.html', post=post )
 # page doesn't display my navbar correctly
 
-@app.route('/forum/<int:blog_id>/<int:comment_id>', methods=['GET','POST'])
+@app.route('/forum/<int:blog_id>', methods=['GET','POST'])
 @login_required
 def to_post_a_comment(blog_id):
     '''To leave a comment on a blog'''
-    flash('The comment is to be posted.')
-    comment_content = request.form.get('comment')
-    email = session['email']
-    user = crud.get_user_by_email(email)
-    user_id = user.id
-    comment = crud.create_a_comment(blog_id, user_id, comment_content)
-    db.session.add(comment)
-    db.session.commit()
-    comments = crud.get_all_comments_on_a_post(blog_id)
-    # comments object is a list, so this doesn't look right yet
-    flash(f'Comment ID {comment.id} was successfully posted.')
-    # return redirect('/forum/<int:blog_id>')
-    return render_template('blog_details.html', comment=comment, comments=comments)
+    if request.method == 'GET':
+        flash('IF STMT ')
+        post = crud.get_blog_details(blog_id)
+        comments = crud.get_all_comments_on_a_post(blog_id)
+        return render_template('blog_details.html', comments=comments, post=post)
+    else:
+        flash('ELSE STMT')
+        flash('The comment is to be posted.')
+        comment_content = request.form.get('comment')
+        email = session['email']
+        user = crud.get_user_by_email(email)
+        user_id = user.id
+        comment = crud.create_a_comment(blog_id, user_id, comment_content)
+        db.session.add(comment)
+        db.session.commit()
+        flash(f'Comment ID {comment.id} was successfully posted.')
+        # return redirect('/forum/<int:blog_id>')
+        return redirect(f'/forum/{blog_id}')
 
 
 @app.route('/forum/<int:id>/delete', methods=['POST'])
@@ -290,7 +295,7 @@ def upload_profile_photo():
     img_url = upload_to_cloudinary(my_file)
     add_user_img_record(img_url)
     flash('Your picture has been successfully uploaded!')
-    return redirect(url_for('show_profile_image', img_url=img_url))
+    return redirect('/profile')
    
 @app.route('/profile_image')
 @login_required
