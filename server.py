@@ -27,44 +27,11 @@ def index():
     '''Display homepage'''
     # flash("Welcome to INVESTABLE community!")
     print(session)
-    # print(f'counter===={session.get("counter", 0)}')
     return render_template('index.html', GG_KEY=GG_KEY)
-
-
-# @app.route('/save_data')
-# def to_make_charts():
-#     '''Take user inputs to send a json object to chart js'''
-#     print(len(request.form), " >>>>>>>>> form data: ", request.form)
-#     rent=request.form.get('rent')
-#     mortgage=request.form.get('mortgage')
-#     print(f'mortgage={mortgage}')
-#     maintenance=request.form.get('maintenance')
-#     tax=request.form.get('tax')
-#     insurance=request.form.get('insurance')
-#     hoa=request.form.get('hoa')
-#     utilities=request.form.get('utilities')
-#     capex=request.form.get('capex')
-#     pm=request.form.get('pm')
-#     vacancy=request.form.get('vacancy')
-    # return jsonify({'Rent': rent, 
-    #                 'Mortgage': mortgage, 
-    #                 'Tax': tax,
-    #                 'Insurance': insurance,
-    #                 'HOA': hoa, 
-    #                 'Utilities': utilities,
-    #                 'Maintenance': maintenance,
-    #                 'PM': pm, 
-    #                 'Vacancy': vacancy,
-    #                 'CapEx': capex
-        
-    # })
-   
-
-
 
 @ app.route('/books')
 def get_books():
-    '''Show related to rental property investment books from Books API'''
+    '''Show related to rental property investment books from Google Books API'''
     return redirect('/')
 
 
@@ -86,27 +53,29 @@ def register_page():
     return render_template('register.html', GG_KEY=GG_KEY)
 
 
-@ app.route('/register', methods=['POST'])
+@ app.route('/register', methods=['GET', 'POST'])
 def register_user():
     '''Create a new user.'''
-
-    first = request.form.get('first')
-    last = request.form.get('last')
-    email = request.form.get('email')
-    password = request.form.get('password')
-
-    user = crud.get_user_by_email(email=email)
-    if user:
-        flash('Cannot create an account with that email🤔. Try again.', 'error')
-        return redirect('/register')
+    if request.method == 'GET':
+        return render_template('register.html', GG_KEY=GG_KEY)
     else:
-        user = crud.create_user(first, last, email, password)
-        db.session.add(user)
-        db.session.commit()
-        flash('Account successfully created. 🥳️', 'info')
-        session['email'] = user.email
-
-    return render_template('user_profile.html', user=user, GG_KEY=GG_KEY)
+        email = request.form.get('email')
+        if crud.get_user_by_email(email):
+             flash('Cannot create an account with that email🤔. Try again.', 'error')
+             return redirect('/register')
+        else:
+             first = request.form.get('first')
+             last = request.form.get('last')
+             email = request.form.get('email')
+             password = request.form.get('password')
+             user = crud.create_user(first, last, email, password)
+             db.session.add(user)
+             db.session.commit()
+             flash('Account was successfully created. 🥳️', 'info')
+             session['email'] = user.email
+             user_id = (crud.get_user_by_email(email)).id
+             properties = crud.get_properties_by_user(user_id)
+    return render_template('properties.html', user=user, properties=properties, GG_KEY=GG_KEY, session=session)
 
 
 def login_required(f):
@@ -141,8 +110,8 @@ def process_login():
         # get user by email and then store id in session
         user = crud.get_user_by_email(email)
         id = user.id
-        print(f'user in login func = {user}====================')
-        print(f'user ID in login func = {id}====================')
+        # print(f'user in login func = {user}====================')
+        # print(f'user ID in login func = {id}====================')
         flash(f'😺Welcome back, you\'re logging in using: {user.email}!')
         return redirect('/properties')
     
@@ -156,8 +125,9 @@ def user_profile():
         count = crud.get_all_posts_by_a_user(user_id)
         property_count = crud.count_num_properties_by_a_user(user_id)
         img_url = crud.get_img_url_by_email(email)
+        count = crud.get_all_posts_by_a_user(user_id)
         print(f'==========={user}')
-        return render_template('user_profile.html', user=user, count=count, property_count=property_count, img_url=img_url, GG_KEY=GG_KEY)
+        return render_template('user_profile.html', user=user, count=count, property_count=property_count, img_url=img_url, GG_KEY=GG_KEY, session=session)
     else:
         return redirect('/login')
 
@@ -211,12 +181,13 @@ def to_delete_property(id):
     crud.delete_property(id)
     flash(f'Property ID {id} was deleted.')
     return redirect('/properties')
-# how to let user return to whichever page they were on previously prior to clicking delete
+
 
 @ app.route('/contact')
 @login_required
 def contact_us():
     '''Allow user contact us to give feedback'''
+    #need to connect the form to backend server here
     return render_template('contact_us.html')
 
 # -------------------------------Related to blogging routes-------------------------------------
@@ -229,26 +200,27 @@ def forum():
     total_users = crud.get_num_of_users()
     total_properties = crud.get_num_of_properties()
     posts = crud.get_all_posts()
-    # full_name = crud.get_user_full_name(id)
-#   where is the id from tho? It's from the blogpost, but all posts so no ID in particular...
-
     return render_template('forum.html', posts=posts, user_nums=total_users, post_nums=total_posts, property_nums= total_properties)
 
-@ app.route('/blogging', methods=['POST'])
+@ app.route('/blogging', methods=['GET', 'POST'])
 @login_required
 def blogging():
     '''if user is logged in, user can create blog posts'''
     title = request.form.get('title')
-    blog_content = request.form.get('blog-content')
+    blog_content = request.form.get('blog_content')
     email = session['email']
-    user = crud.get_user_by_email(email)
-    user_id = user.id
+    user_id = (crud.get_user_by_email(email)).id
+    blog_photo = request.files.get('blog_image')
+    print(f' this is BLOG PHOTO====={blog_photo}')
     # if user chooses to add a photo in the post
-    blog_photo = request.files['blog-photo']
-    img_url = upload_to_cloudinary(blog_photo)
-    add_user_img_record(img_url)
-    
-    blog = crud.create_a_post(title, blog_content, user_id)
+    if blog_photo:
+        print(f'==================={request.files}')
+        img_url = upload_to_cloudinary(blog_photo)
+        blog = crud.create_a_post(title, blog_content, user_id, img_url)
+        flash('IF STMT RAN')
+    else:
+        blog = crud.create_a_post(title, blog_content, user_id)
+        flash('ELSE STMT RAN')
     db.session.add(blog)
     db.session.commit()
     flash('Blog was created!')
@@ -258,10 +230,10 @@ def blogging():
 @app.route('/create_a_post')
 @login_required
 def create_a_post():
-    '''Create a post using normal routing instead of a modal'''
+    '''Landing page to create a post using normal routing instead of a modal'''
     return render_template('posting.html')
 
-@app.route('/forum/<int:id>', methods=['POST'])
+@app.route('/forum/<int:id>', methods=['GET','POST'])
 @login_required
 def read_post(id):
     '''Read details of a blog post'''
@@ -299,7 +271,7 @@ def show_profile_image():
     user_id = (crud.get_user_by_email(email)).id
     posts = crud.get_all_posts_by_a_user(user_id)
     property_count = crud.count_num_properties_by_a_user(user_id)
-    # img_url = request.args.get('img_url')
+    
     img_url = crud.get_img_url_by_email(email)
     return render_template('user_profile.html', img_url=img_url, GG_KEY=GG_KEY, posts=posts, property_count=property_count, user=user)
 
@@ -323,15 +295,8 @@ def add_user_img_record(img_url):
     db.session.commit()
     flash('Image URL saved to db!')
     
-def add_blog_img_record(img_url):
-    '''Save img url to db by blog ID'''
-    print('\n'.join([f"{'*' * 20}", 'Save this url to your database!', img_url, f"{'*' * 20}"]))
-    user_id = (crud.get_user_by_email(session['email'])).id
-    print(f'user_id==============={user_id}')
-    new_pic = crud.save_profile_pic(url=img_url, user_id=user_id)
-    db.session.add(new_pic)
-    db.session.commit()
-    flash('Image URL saved to db!')
+
+    
 #-----------------------------API Routes---------------------------
 @app.route('/quotes.json')
 def get_quotes():

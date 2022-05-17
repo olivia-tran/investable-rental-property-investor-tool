@@ -25,11 +25,6 @@ def get_num_of_users():
 def get_user_by_id(user_id):
     '''Return a user by primary key'''
     return User.query.get(user_id)
-# Log in: get user by email
-def get_user_full_name(id):
-    '''Return user full name given their ID'''
-    full_name = first + last
-    return full_name
 
 
 def get_user_by_email(email):
@@ -86,11 +81,12 @@ def get_properties_by_user(id):
 # when user logs in, we will have their email, from email get the id to query properties
 # owned_properties is a list
 #-----------------------------BLOG CRUD-----------------------
-def create_a_post(title, content, user_id, imgURL=None):
+def create_a_post(title, content, user_id, img_url=None):
      '''Create a blog post'''
-     if imgURL:
-         imgURL = imgURL
-     blog = BlogPost(title=title, blog_content=content,user_id=user_id )    
+     if img_url:
+         blog = BlogPost(title=title, blog_content=content,user_id=user_id, imgURL=img_url)
+     else:
+         blog = BlogPost(title=title, blog_content=content,user_id=user_id, imgURL=img_url)       
      #have an empty list as default param
      #append each item in that list to the BlogImage object
      return blog
