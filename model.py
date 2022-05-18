@@ -21,7 +21,7 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False, default='123456')
     properties = db.relationship('Property', back_populates='user')
     blog_posts = db.relationship('BlogPost', back_populates='user')
-    blog_images = db.relationship('BlogImage', back_populates='user')
+    # blog_images = db.relationship('BlogImage', back_populates='user')
     comments = db.relationship('Comment', back_populates='user')
     user_image = db.relationship(
         'UserImage', uselist=False, back_populates='user')
@@ -90,7 +90,7 @@ class BlogPost(db.Model):
     imgURL = db.Column(db.String)
     title = db.Column(db.Text, nullable=False)
     user = db.relationship('User', back_populates='blog_posts')
-    blog_images = db.relationship('BlogImage', back_populates='blog_post')
+    # blog_images = db.relationship('BlogImage', back_populates='blog_post')
     comments = db.relationship('Comment', back_populates='blog_post')
 
     def __repr__(self):
@@ -121,15 +121,15 @@ class UserImage(db.Model):
     user = db.relationship('User', uselist=False, back_populates='user_image')
 
 
-class BlogImage(db.Model):
-    '''Blog Post Photos '''
-    __tablename__ = 'blog_images'
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    imgURL = db.Column(db.String)
-    blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'), nullable=False)
-    blog_post = db.relationship('BlogPost', back_populates='blog_images')
-    user = db.relationship('User', back_populates='blog_images')
+# class BlogImage(db.Model):
+#     '''Blog Post Photos '''
+#     __tablename__ = 'blog_images'
+#     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+#     imgURL = db.Column(db.String)
+#     blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'), nullable=False)
+#     blog_post = db.relationship('BlogPost', back_populates='blog_images')
+#     user = db.relationship('User', back_populates='blog_images')
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///investables', echo=True):

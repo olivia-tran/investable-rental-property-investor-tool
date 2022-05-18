@@ -1,6 +1,6 @@
 """CRUD operations."""
 from unicodedata import name
-from model import db, User, Property, BlogPost, Comment, BlogImage, UserImage, connect_to_db
+from model import db, User, Property, BlogPost, Comment, UserImage, connect_to_db
 import psycopg2
 from sqlalchemy import delete
 
@@ -87,9 +87,7 @@ def create_a_post(title, content, user_id, img_url=None):
          blog = BlogPost(title=title, blog_content=content,user_id=user_id, imgURL=img_url)
      else:
          blog = BlogPost(title=title, blog_content=content,user_id=user_id)       
-     #have an empty list as default param
-     #append each item in that list to the BlogImage object
-     #I might have done this differently, check when refactoring the code
+
      return blog
  
 def get_num_of_posts():
@@ -108,9 +106,9 @@ def get_all_posts_by_a_user(user_id):
     posts = BlogPost.query.filter(BlogPost.user_id==user_id).count()
     return posts
 
-def get_blog_details(id):
-    '''Return blog details by ID'''
-    post = BlogPost.query.get(id)
+def get_blog_details(blog_id):
+    '''Return blog details by blog ID'''
+    post = BlogPost.query.get(blog_id)
     return post
 
 #-----------------------------COMMENT CRUD-----------------------
@@ -127,9 +125,9 @@ def get_num_of_comments():
     '''Get the total numbers of posts created by all users'''
     comments = Comment.query.count()
     return comments 
-def create_a_comment(user_id, blog_id, comment_content):
+def create_a_comment(blog_id, user_id, comment_content):
     '''Create a comment on a blog post'''
-    comment = Comment(user_id=user_id, blog_id=blog_id, comment_content=comment_content)
+    comment = Comment(blog_id=blog_id, user_id=user_id, comment_content=comment_content)
     return comment
 
 def get_comment_details(comment_id):

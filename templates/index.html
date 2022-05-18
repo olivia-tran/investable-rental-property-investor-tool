@@ -19,12 +19,12 @@
             community support.</p>
 
         {% if 'email' not in session %}
-        <a name="calculator" href="{{url_for('register_page')}}" id="action"
+        <a name="calculator" href="{{url_for('register_user')}}" id="action"
             class="btn btn-lg px-5 text-white shadow-lg "
             style="background-color:#739bc5; border-radius: 2rem;">REGISTER
             FOR FREE</a>
         {% else %}
-        <a name="calculator" href="{{url_for('register_page')}}" id="action"
+        <a name="calculator" href="{{url_for('register_user')}}" id="action"
             class="btn btn-lg px-5 text-white shadow-lg d-none"
             style="background-color:#739bc5; border-radius: 2rem;">REGISTER
             FOR FREE</a>

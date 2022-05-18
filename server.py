@@ -51,12 +51,14 @@ def page_not_found(error):
 def register_page():
     '''Landing page for register.'''
     return render_template('register.html', GG_KEY=GG_KEY)
+#comebine this with the register_user route, so that when user refreshes it doesn't takem them to new register page!
 
 
 @ app.route('/register', methods=['GET', 'POST'])
 def register_user():
     '''Create a new user.'''
     if request.method == 'GET':
+        flash('if stmt request.method == get')
         return render_template('properties.html', GG_KEY=GG_KEY)
     else:
         email = request.form.get('email')
@@ -196,12 +198,12 @@ def contact_us():
 @login_required
 def forum():
     '''if user is logged in, show dashboard features'''
-    # total_comments = crud.get_num_of_comments()
+    total_comments = crud.get_num_of_comments()
     total_posts = crud.get_num_of_posts()
     total_users = crud.get_num_of_users()
     total_properties = crud.get_num_of_properties()
     posts = crud.get_all_posts()
-    return render_template('forum.html', posts=posts, user_nums=total_users, post_nums=total_posts, property_nums= total_properties)
+    return render_template('forum.html', total_comments=total_comments, posts=posts, user_nums=total_users, post_nums=total_posts, property_nums= total_properties)
 
 @ app.route('/blogging', methods=['GET', 'POST'])
 @login_required
@@ -228,25 +230,12 @@ def blogging():
     flash('Blog was created!')
     return redirect('/forum')
  
-    
-@app.route('/create_a_post')
-@login_required
-def create_a_post():
-    '''Landing page to create a post using normal routing instead of a modal'''
-    return render_template('posting.html')
 
-# @app.route('/forum/<int:id>', methods=['GET','POST'])
-# @login_required
-# def read_post(id):
-#     '''Read details of a blog post'''
-#     post = crud.get_blog_details(id)
-#     return render_template('blog_details.html', post=post )
-# page doesn't display my navbar correctly
 
 @app.route('/forum/<int:blog_id>', methods=['GET','POST'])
 @login_required
 def to_post_a_comment(blog_id):
-    '''To leave a comment on a blog'''
+    '''To leave a comment on a blog post'''
     if request.method == 'GET':
         flash('IF STMT ')
         post = crud.get_blog_details(blog_id)
@@ -255,15 +244,12 @@ def to_post_a_comment(blog_id):
     else:
         flash('ELSE STMT')
         flash('The comment is to be posted.')
-        comment_content = request.form.get('comment')
-        email = session['email']
-        user = crud.get_user_by_email(email)
-        user_id = user.id
+        comment_content = request.form.get('comment-content')
+        user_id = get_user_id_by_session_email()
         comment = crud.create_a_comment(blog_id, user_id, comment_content)
         db.session.add(comment)
         db.session.commit()
         flash(f'Comment ID {comment.id} was successfully posted.')
-        # return redirect('/forum/<int:blog_id>')
         return redirect(f'/forum/{blog_id}')
 
 
@@ -276,14 +262,7 @@ def to_delete_post(id):
     flash(f'Blog Post ID {id} was deleted.')
     return redirect('/forum')
 #------------------------------COMMENT routes----------------
-# @app.route('/forum/<int:blog_id>/<int:comment_id>', methods=['GET','POST'])
-# @login_required
-# def to_post_a_comment(blog_id):
-#     '''To leave a comment on a blog'''
-#     flash('The comment is to be posted.')
-#     comment = crud.create_a_comment(blog_id)
-#     flash(f'Comment ID {comment.id} was successfully posted.')
-#     return redirect('/forum/<int:blog_id>')
+
 
 
 # -------------------------------Handling User IMAGES routes-------------------------------------
@@ -312,7 +291,7 @@ def show_profile_image():
 
    
 
-# -------------------------------Upload photo HELPER functions-------------------------------------
+# -------------------------------HELPER functions-------------------------------------
 def upload_to_cloudinary(media_file):
     '''Upload media file to cloudinary'''
     result = cloudinary.uploader.upload(media_file, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)
@@ -328,6 +307,12 @@ def add_user_img_record(img_url):
     db.session.commit()
     flash('Image URL saved to db!')
     
+def get_user_id_by_session_email():
+    '''get a user ID via accessing session['email']'''
+    email = session['email']
+    user = crud.get_user_by_email(email)
+    user_id = user.id
+    return user_id    
 
     
 #-----------------------------API Routes---------------------------
