@@ -146,9 +146,8 @@ def logout():
 def property_page():
     email = session['email']
     user = crud.get_user_by_email(email)
-    id = user.id
-    print(f'=====================email={email}=================')
-    properties = crud.get_properties_by_user(id)
+    user_id = user.id
+    properties = crud.get_properties_by_user(user_id)
     print(f'====================={properties}=================')
     return render_template('properties.html', properties=properties, user=user)
 
@@ -209,26 +208,29 @@ def forum():
 @login_required
 def blogging():
     '''if user is logged in, user can create blog posts'''
-    title = request.form.get('title')
-    blog_content = request.form.get('blog_content')
-    email = session['email']
-    user = crud.get_user_by_email(email)
-    user_id = user.id
-    blog_photo = request.files.get('blog_image')
-    print(f' this is BLOG PHOTO====={blog_photo}')
-    # if user chooses to add a photo in the post
-    if blog_photo:
-        print(f'==================={request.files}')
-        img_url = upload_to_cloudinary(blog_photo)
-        blog = crud.create_a_post(title, blog_content, user_id, img_url)
-        flash('IF STMT RAN')
+    if request.method == 'GET':
+        return render_template('posting.html')
+    # the blog content was not posted is it because of the enctype?
     else:
-        blog = crud.create_a_post(title, blog_content, user_id)
-        flash('ELSE STMT RAN')
-    db.session.add(blog)
-    db.session.commit()
-    flash('Blog was created!')
-    return redirect('/forum')
+        
+        user_id = get_user_id_by_session_email()
+        blog_content = request.form.get('blog_content')
+        title = request.form.get('title')
+        blog_photo = request.files.get('blog_image')
+        print(f' this is BLOG PHOTO====={blog_photo}')
+        # if user chooses to add a photo in the post
+        if blog_photo:
+            print(f'==================={request.files}')
+            img_url = upload_to_cloudinary(blog_photo)
+            blog = crud.create_a_post(user_id, blog_content, title, img_url)
+            flash('IF STMT RAN')
+        else:
+            blog = crud.create_a_post(user_id, blog_content, title)
+            flash('ELSE STMT RAN')
+        db.session.add(blog)
+        db.session.commit()
+        flash('Blog was created!')
+        return redirect('/forum')
  
 
 
@@ -238,9 +240,10 @@ def to_post_a_comment(blog_id):
     '''To leave a comment on a blog post'''
     if request.method == 'GET':
         flash('IF STMT ')
+        user_id = get_user_id_by_session_email()
         post = crud.get_blog_details(blog_id)
         comments = crud.get_all_comments_on_a_post(blog_id)
-        return render_template('blog_details.html', comments=comments, post=post)
+        return render_template('blog_details.html', comments=comments, post=post, user_id=user_id)
     else:
         flash('ELSE STMT')
         flash('The comment is to be posted.')

@@ -1,6 +1,7 @@
 '''Models for INVESTABLE app'''
 from collections import UserString
 from datetime import datetime
+from email.policy import default
 # from email.policy import default
 from flask_sqlalchemy import SQLAlchemy
 
@@ -85,10 +86,9 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     blog_content = db.Column(db.Text, nullable=False)
-    # my blog_content is not nullable how did the post num 13 get committed?
-    created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
-    imgURL = db.Column(db.String)
     title = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+    imgURL = db.Column(db.String, default='/static/aerialview.jpg', nullable=False)
     user = db.relationship('User', back_populates='blog_posts')
     # blog_images = db.relationship('BlogImage', back_populates='blog_post')
     comments = db.relationship('Comment', back_populates='blog_post')

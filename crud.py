@@ -81,13 +81,10 @@ def get_properties_by_user(id):
 # when user logs in, we will have their email, from email get the id to query properties
 # owned_properties is a list
 #-----------------------------BLOG CRUD-----------------------
-def create_a_post(title, content, user_id, img_url=None):
+def create_a_post(user_id, content, title, img_url= None):
      '''Create a blog post'''
-     if img_url:
-         blog = BlogPost(title=title, blog_content=content,user_id=user_id, imgURL=img_url)
-     else:
-         blog = BlogPost(title=title, blog_content=content,user_id=user_id)       
-
+    #  the parameters are positions so I cannot have img_url=None in the middle.
+     blog = BlogPost(user_id=user_id, blog_content=content, title=title, imgURL=img_url)
      return blog
  
 def get_num_of_posts():
