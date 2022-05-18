@@ -118,6 +118,12 @@ def show_posts_by_a_user_desc(user_id):
     '''Show posts by a user in desc order'''
     posts = BlogPost.query.filter_by(BlogPost.user_id==user_id).order_by(BlogPost.created_at.desc()).all()
     return posts
+def search_blog_posts(keyword):
+    '''Search in blog post content by the keyword'''
+    searched_posts = BlogPost.query.filter(BlogPost.blog_content.like(f'%{keyword}%')).all()
+    print(keyword)
+    return searched_posts
+
 #-----------------------------COMMENT CRUD-----------------------
 def get_all_comments_by_a_user(user_id):
     '''Get all comments posted by a user'''

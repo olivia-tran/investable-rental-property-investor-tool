@@ -232,7 +232,29 @@ def blogging():
         flash('Blog was created!')
         return redirect('/forum')
  
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    '''Accept searched keyword by user, output searched results'''
+    if request.method == 'POST':
+        searched_keyword = request.form.get('searched_keyword')
+        searched_posts = crud.search_blog_posts(searched_keyword)
+        print(f'THIS IS searched_result= {searched_posts}')
+        return render_template('search.html', searched_posts=searched_posts, searched_keyword=searched_keyword)
+    else:
+        return redirect('/forum')
+    
+    
+@app.route('/forum/<int:id>/delete', methods=['POST'])
+@login_required
+def to_delete_post(id):
+    '''Delete a post by ID'''
+    flash('The blog post is about to be deleted.')
+    crud.delete_post(id)
+    flash(f'Blog Post ID {id} was deleted.')
+    return redirect('/forum')
 
+#------------------------------COMMENT routes----------------
 
 @app.route('/forum/<int:blog_id>', methods=['GET','POST'])
 @login_required
@@ -254,17 +276,6 @@ def to_post_a_comment(blog_id):
         db.session.commit()
         flash(f'Comment ID {comment.id} was successfully posted.')
         return redirect(f'/forum/{blog_id}')
-
-
-@app.route('/forum/<int:id>/delete', methods=['POST'])
-@login_required
-def to_delete_post(id):
-    '''Delete a post by ID'''
-    flash('The blog post is about to be deleted.')
-    crud.delete_post(id)
-    flash(f'Blog Post ID {id} was deleted.')
-    return redirect('/forum')
-#------------------------------COMMENT routes----------------
 
 
 
