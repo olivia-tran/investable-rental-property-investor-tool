@@ -126,11 +126,12 @@ def user_profile():
         user_id = user.id
         count = crud.get_all_posts_by_a_user(user_id)
         property_count = crud.count_num_properties_by_a_user(user_id)
+        show_posts = crud.show_posts_by_a_user_desc(user_id)
         img_url = crud.get_img_url_by_email(email)
         count = crud.get_all_posts_by_a_user(user_id)
         comment_count = crud.get_all_comments_by_a_user(user_id)
         print(f'==========={user}')
-        return render_template('user_profile.html',comment_count=comment_count, user=user, count=count, property_count=property_count, img_url=img_url, GG_KEY=GG_KEY, session=session)
+        return render_template('user_profile.html',comment_count=comment_count, user=user, count=count, property_count=property_count, show_posts=show_posts, img_url=img_url, GG_KEY=GG_KEY, session=session)
     else:
         return redirect('/login')
 
@@ -243,6 +244,7 @@ def search():
         return render_template('search.html', searched_posts=searched_posts, searched_keyword=searched_keyword)
     else:
         return redirect('/forum')
+    # prefer routing user back to search page if hit refresh
     
     
 @app.route('/forum/<int:id>/delete', methods=['POST'])

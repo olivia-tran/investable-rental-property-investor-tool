@@ -116,7 +116,7 @@ def show_posts_by_order():
 
 def show_posts_by_a_user_desc(user_id):
     '''Show posts by a user in desc order'''
-    posts = BlogPost.query.filter_by(BlogPost.user_id==user_id).order_by(BlogPost.created_at.desc()).all()
+    posts = BlogPost.query.filter(BlogPost.user_id==user_id).order_by(BlogPost.created_at.desc()).all()
     return posts
 def search_blog_posts(keyword):
     '''Search in blog post content by the keyword'''
