@@ -1,4 +1,5 @@
 """CRUD operations."""
+from itertools import count
 from unicodedata import name
 from model import db, User, Property, BlogPost, Comment, UserImage, connect_to_db
 import psycopg2
@@ -99,15 +100,24 @@ def get_all_posts():
     return posts
 
 def get_all_posts_by_a_user(user_id):
-    '''Get all posts created by a user'''
-    posts = BlogPost.query.filter(BlogPost.user_id==user_id).count()
-    return posts
+    '''Count all posts created by a user'''
+    count = BlogPost.query.filter(BlogPost.user_id==user_id).count()
+    return count
 
 def get_blog_details(blog_id):
     '''Return blog details by blog ID'''
     post = BlogPost.query.get(blog_id)
     return post
 
+def show_posts_by_order():
+    '''Show all blog posts by descending order'''
+    posts = BlogPost.query.order_by(BlogPost.created_at.desc()).all()
+    return posts
+
+def show_posts_by_a_user_desc(user_id):
+    '''Show posts by a user in desc order'''
+    posts = BlogPost.query.filter_by(BlogPost.user_id==user_id).order_by(BlogPost.created_at.desc()).all()
+    return posts
 #-----------------------------COMMENT CRUD-----------------------
 def get_all_comments_by_a_user(user_id):
     '''Get all comments posted by a user'''
@@ -146,7 +156,7 @@ def get_img_url_by_email(email):
         img_url= img_url.imgURL
         return img_url
     else:
-        return 'static/pup.jpg'
+        return '/static/pup.jpg'
         
 
 if __name__ == "__main__":

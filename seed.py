@@ -20,11 +20,11 @@ def seed_users():
     
 def seed_blogs():
     '''seed blog posts from blogs.csv into database '''
-    user_id = randint(1, 2)
     with open ('data/blogs.csv') as f:
         next(f)
         data = reader(f)
         for row in data:
+            user_id = randint(1, 8)
             blogs= '","'.join(row).split('","')
             posts = BlogPost(user_id= user_id, title=blogs[0], blog_content=blogs[1], created_at=datetime.now())
             db.session.add(posts)
