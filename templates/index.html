@@ -4,7 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 
 {# randomColor: generate random colors #}
-<script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/randomcolor@0.6.2/randomColor.js"></script> -->
 {% endblock %}
 <!-- content of page -->
 {% block content %}
@@ -15,8 +15,8 @@
     <div id="header" class="container text-white text-center">
         <h3 class="display-5 mb-0">Analyze any investment property in seconds</h3>
         <h1 class="display-1">INVESTABLE</h1>
-        <p class="lead d-none d-md-block">Build your passive income streams with our property analysis tools and
-            community support.</p>
+        <p class="lead d-none d-md-block"><h4>Build your passive income streams with our property analysis tools and
+            community support.</h4></p>
 
         {% if 'email' not in session %}
         <a name="calculator" href="{{url_for('register_user')}}" id="action"
@@ -33,230 +33,277 @@
 </section>
 <!-- refactoring the layout of index here -->
 <!-- refactoring the layout of index here -->
+<!-- 05/18/2022 restructuring index page below -->
+<div class="container shadow-lg" style="background-color: white; border-radius: 0rem;">
+<div class="row">
+<div class="col col-md-4">
+    <!-- col 1 -->
+        <div class="card-body shadow-sm p-2 text-left" style="border-radius: 1rem">
+            <form method="POST" action="/save_data" class="" name="calform" id="calform">
+                <div class="table-responsive">
+                    <table class="panel table-responsive">
 
-<!-- refactoring the layout of index above -->
-<!-- refactoring the layout of index above -->
-<section id="map-section">
-    <div class="container">
-        <div class="row">
-            <div class="col col-md-4">
-                <!-- THIS IS A ROW CONTAINING BOTH CALCULATOR AND MAP -->
-                <div class="card shadow-lg" style="padding-top: 5px;">
-                    <div class="card-body p-1 text-left">
-                        <form method="POST" action="/save_data" name="calform" id="calform">
-                            <div class="table-responsive">
-                                <table class="panel table-responsive">
+                        <section id="caldiv">
+                            <tr>
+                                <td colspan="3">&nbsp;</td>
+                            </tr>
+                            <tr id="cashflow-row">
 
-                                    <section id="caldiv">
-                                        <tr>
-                                            <td colspan="3">&nbsp;</td>
-                                        </tr>
-                                        <tr id="cashflow-row">
+                                <td id="title-cash-flow">Expected Cash Flow:</td>
+                                <td id="result-cash-flow" step="0.01"></td>
+                            </tr>
+                          
+                        </section>
+                        <!-- maybe add something here to make it more responsive -->
+                        <tr>
+                            <td>Rental Income</td>
+                            <td align="right"><input type="number" step="0.01" name="rent" id="rent"
+                                    value="2750.00" class="inlong indollar"></td>
+                            <td>&nbsp;</td>
+                        </tr>
 
-                                            <td id="title-cash-flow">Expected Cash Flow:</td>
-                                            <td id="result-cash-flow" step="0.01"></td>
-                                        </tr>
-                                        <!-- <tr><td colspan="3">&nbsp;</td></tr> -->
-                                    </section>
-                                    <!-- maybe add something here to make it more responsive -->
-                                    <tr>
-                                        <td>Rental Income</td>
-                                        <td align="right"><input type="number" step="0.01" name="rent" id="rent"
-                                                value="2750.00" class="inlong indollar"></td>
-                                        <td>&nbsp;</td>
-                                    </tr>
+                        <tr>
+                            <td colspan="4" id="sectitle">Monthly Operating Expenses</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Mortgage</td>
+                            <td align="right"><input type="number" step="0.01" name="mortgage" id="mortgage"
+                                    value="1051.52" class="innormal indollar"></td>
+                        </tr>
+                        <tr>
+                            <td>Property Tax</td>
+                            <td align="right"><input type="number" step="0.01" name="tax" id="tax"
+                                    value="658.56" class="innormal indollar"></td>
+                        </tr>
+                        <tr>
+                            <td>Insurance</td>
+                            <td align="right"><input type="number" step="0.01" name="insurance"
+                                    id="insurance" value="185.78" class="innormal indollar"></td>
+                        </tr>
+                        <tr>
+                            <td>HOA Fee</td>
+                            <td align="right"><input type="number" step="0.01" name="hoa" id="hoa"
+                                    value="20.00" class="innormal indollar"></td>
+                        </tr>
+                        <tr>
+                            <td>Utilities</td>
+                            <td align="right"><input type="number" step="0.01" name="utilities"
+                                    id="utilities" value="150.00" class="innormal indollar"></td>
 
-                                    <tr>
-                                        <td colspan="4" id="sectitle">Monthly Operating Expenses</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mortgage</td>
-                                        <td align="right"><input type="number" step="0.01" name="mortgage" id="mortgage"
-                                                value="1051.52" class="innormal indollar"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Property Tax</td>
-                                        <td align="right"><input type="number" step="0.01" name="tax" id="tax"
-                                                value="658.56" class="innormal indollar"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Insurance</td>
-                                        <td align="right"><input type="number" step="0.01" name="insurance"
-                                                id="insurance" value="185.78" class="innormal indollar"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>HOA Fee</td>
-                                        <td align="right"><input type="number" step="0.01" name="hoa" id="hoa"
-                                                value="20.00" class="innormal indollar"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Utilities</td>
-                                        <td align="right"><input type="number" step="0.01" name="utilities"
-                                                id="utilities" value="150.00" class="innormal indollar"></td>
+                        </tr>
+                        <tr>
+                            <td>Maintenance</td>
+                            <td align="right"><input type="number" step="0.01" name="maintenance"
+                                    id="maintenance" value="150" class="innormal indollar"></td>
 
-                                    </tr>
-                                    <tr>
-                                        <td>Maintenance</td>
-                                        <td align="right"><input type="number" step="0.01" name="maintenance"
-                                                id="maintenance" value="150" class="innormal indollar"></td>
+                        </tr>
+                        <tr>
+                            <td>Property Management</td>
+                            <td align="right"><input type="number" step="0.01" name="pm" id="pm"
+                                    value="79.99" class="innormal indollar">
+                            </td>
 
-                                    </tr>
-                                    <tr>
-                                        <td>Property Management</td>
-                                        <td align="right"><input type="number" step="0.01" name="pm" id="pm"
-                                                value="79.99" class="innormal indollar">
-                                        </td>
+                        </tr>
+                        <tr>
+                            <td>Vacancy</td>
+                            <td align="right"><input type="number" step="0.01" name="vacancy" id="vacancy"
+                                    value="150.00" class="innormal indollar">
+                            </td>
 
-                                    </tr>
-                                    <tr>
-                                        <td>Vacancy</td>
-                                        <td align="right"><input type="number" step="0.01" name="vacancy" id="vacancy"
-                                                value="150.00" class="innormal indollar">
-                                        </td>
+                        </tr>
+                        <tr>
+                            <td>CapEx</td>
+                            <td align="right"><input type="number" step="0.01" name="capex" id="capex"
+                                    value="150.00" class="innormal indollar">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Expenses</td>
+                            <td align="right"><input type="number" step="0.01" name="total-expenses"
+                                    id="total-expenses" value="0.00" class="innormal indollar">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Annual Cash Flow: </td>
+                            <td align="right">
+                                <input type="number" step="0.01" name="annual" id="annual" value="0.00"
+                                    class="innormal indollar">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button type="button" id="run-numbers" class="btn text-white"
+                                    style="background-color:#739bc5; border-radius: 2rem;">Run
+                                    Numbers</button>
+                            </td>
+                            <td><button type="reset" id="reset" class="btn text-white"
+                                    style="background-color:#a69698; border-radius: 2rem;">Reset</button>
+                            </td>
+                        </tr>
 
-                                    </tr>
-                                    <tr>
-                                        <td>CapEx</td>
-                                        <td align="right"><input type="number" step="0.01" name="capex" id="capex"
-                                                value="150.00" class="innormal indollar">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total Expenses</td>
-                                        <td align="right"><input type="number" step="0.01" name="total-expenses"
-                                                id="total-expenses" value="0.00" class="innormal indollar">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Annual Cash Flow: </td>
-                                        <td align="right">
-                                            <input type="number" step="0.01" name="annual" id="annual" value="0.00"
-                                                class="innormal indollar">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><button type="button" id="run-numbers" class="btn text-white"
-                                                style="background-color:#739bc5; border-radius: 2rem;">Run
-                                                Numbers</button>
-                                        </td>
-                                        <td><button type="reset" id="reset" class="btn text-white"
-                                                style="background-color:#a69698; border-radius: 2rem;">Reset</button>
-                                        </td>
-                                    </tr>
-
-                                </table>
-
-
-                            </div>
-                            <!-- maybe add something here to make it even more responsive above -->
-                    </div>
-                    {% if 'email' not in session %}
-                    <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a
-                            href="{{url_for('register_user')}}" class="link-danger">Register</a></p>
-                    {% else %}
-                    <button type="submit" class="btn small fw-bold mt-2 pt-1 mb-0 text-center">Click here to save
-                        property data</button>
-
-                    {% endif %}
-                    </form>
-
-
-                    <hr class="my-4">
-                    <!-- drop charts for visualization here -->
-                    <div class="chart-js">
-                        <canvas id="pieChart"></canvas>
-                        <canvas id="lineChart"></canvas>
-                        <canvas id="barChart"></canvas>
-                        <canvas id="donutChart"></canvas>
-                    </div>
-
+                    </table>
                 </div>
-                <!-- above is column 1 in row containing both calculator and map -->
-
-
-                <!-- THIS IS A ROW CONTAINING BOTH CALCULATOR AND MAP -->
-            </div>
-            <!-- need to udpdate the calculator responsiveness -->
-            <!-- google map -->
-            <div class="col col-lg-8">
-                <div class="card shadow-lg" style="padding-top: 5px;">
-                    <div class="card-body p-4 text-left">
-                        <div class="row">
-
-
-                            <form class="d-flex" id="search-form">
-                                <input class="form-control me-2" id="ggm-btn" for="location" type="search"
-                                    placeholder="Enter a location" aria-label="Search">
-                                <button class="btn btn-md" id="btn-search" name="location" type="submit">Search</button>
-                            </form>
-
-                            <div id="ggmap" style="height: 500px">
-                            </div>
-
-
-                            <hr class="my-4">
-                        </div>
-                        <div class="row">
-
-                            <section id="explanation">
-                                <p>Thinking about buying an investment property? INVESTABLE calculator is a useful tool
-                                    to help you get a ballpark idea what the expected cash flow will be on your
-                                    property. Cash flow refers to the profit that the property generates after deducting
-                                    expenses. </p>
-                                <p>To use the calculator, plug in the values or your best estimates in dollars.</p>
-                                <h3>Glossary of Key Rental Property Terms</h3>
-                                <ol>
-                                    <li>Rental Income: total anticipated monthly rent when the property is fully rented,
-                                        including laundry income if applicable.</li>
-                                    <li>Mortgage: monthly payment including both interest and principal</li>
-                                    <li>Property Taxes: tax expense paid on the property. This number can be referenced
-                                        from Zillow or any MLS listing or the county tax database website. Mutltiply the
-                                        number by 1.5% for conservative of tax increase after purchase. Divide the cost
-                                        by 12 for the monthly expense. </li>
-                                    <li>Insurance: Homeowners insurance protects the property owner’s liability and
-                                        insures the residence against damages and losses. The average annual premium on
-                                        home insurance usually costs less than 1% of the purchase price. </li>
-                                    <li>HOA: Homeonwers Association fee</li>
-                                    <li>Utilities: such as water, sewer, trash and electricity if paid by landlord</li>
-                                    <li>Maintenance: repair costs might incur during the month. </li>
-                                    <li>Property Management: Fees paid for someone or a company to manage the property
-                                        for you. Usually runs between 5- 12%, but some companies do charge a flat fee,
-                                        e.g: $70 - $100</li>
-                                    <li>Vacancy: Vacancy rate represents the percentage of time rental income is lost
-                                        due to a property being unoccupied during the year. The national rental vacancy
-                                        rate is usually between 5% and 7%. For single family properties, use 5% vacancy
-                                        rate. </li>
-                                    <li>CapEx: Capital Expenditures is a fund reserve set aside for when subtanstial
-                                        repair or renovation is needed. Most common CapEx expenses include roofing,
-                                        foundation, siding, new appliances, HVAC maintenance </li>
-                                </ol>
-
-
-                                <p>Disclaimer: The information presented is not intended to be used as the sole basis of
-                                    any investment decisions, nor should it be construed as advice designed to meet the
-                                    investment needs of any particular investor. Nothing provided shall constitute
-                                    financial, tax, legal, or accounting advice or individually tailored investment
-                                    advice. This information is for educational purposes only. You are solely
-                                    responsible for determining whether any investment is appropriate for you based on
-                                    your personal investment objectives, financial circumstances, and risk tolerance.
-                                </p>
-
-
-                            </section>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+                <!-- maybe add something here to make it even more responsive above -->
         </div>
+        {% if 'email' not in session %}
+        <p class="small fw-bold mt-2 pt-1 mb-0">Want to save property data? <a
+                href="{{url_for('register_user')}}" class="link-danger">Register</a></p>
+        {% else %}
+        <button type="submit" class="btn btn-sm fw-bold mt-2 pt-1 mb-0 text-center">Click here to save
+            property data</button>
+        {% endif %}
+        </form>
+        
+        <div class="card my-2"  >
+        <small class="card-text text-muted text-small">Disclaimer: The information presented is not intended to be used as the sole basis of
+            any investment decisions, nor should it be construed as advice designed to meet the
+            investment needs of any particular investor. Nothing provided shall constitute
+            financial, tax, legal, or accounting advice or individually tailored investment
+            advice. This information is for educational purposes only. You are solely
+            responsible for determining whether any investment is appropriate for you based on
+            your personal investment objectives, financial circumstances, and risk tolerance.
+        </small>
     </div>
-</section>
+   
+</div>
+<div class="col col-md-8" id="hidden" >
+    <!-- col 2 containing charts -->
+     <!-- drop charts for visualization here -->
+     <div class="chart-js" style="position: relative; height:20vh; width:40vw">
+        <canvas id="pieChart"></canvas>
+        <canvas id="barChart"></canvas>
+    </div>
+</div>
+<!-- above is row 1 content -->
+</div>
+<!-- above is new container content -->
+</div>
+<!-- below is the new map and glossary section -->
+<div class="container text-center mt-4">
+    <p>&nbsp;&nbsp;</p>
+<h2 class="text-uppercase"><strong>Thinking about buying an investment property? </strong></h2>
+    
+    <p><h4>INVESTABLE calculator is a useful tool
+    to help you get a ballpark idea what the expected cash flow will be on your
+    property. </h4></p>
+    <p>&nbsp;&nbsp;</p>
+</div>
+<div class="container shadow-lg" style="background-color: white; border-radius: 0rem;">
+    <div class="row">
+        <div class="container px-5">
+    <section id="explanation" class="fs-5 my-4">
+     
+        <h2 class="text-center"><strong>Glossary of Key Rental Property Terms</strong></h2>
+        <p class="text-center">To use the calculator, plug in the values or your best estimates in dollars.</p>
+        <p>&nbsp;&nbsp;</p>
+    <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Expense</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Rental Income</td>
+            <td>Total anticipated monthly rent when the property is fully rented,
+                including laundry income if applicable.</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Mortgage</td>
+            <td>Monthly payment including both interest and principal.</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Property Taxes</td>
+            <td>Tax expense paid on the property. This number can be referenced
+                from Zillow or any MLS listing or the county tax database website. Mutltiply the
+                number by 1.5% for conservative of tax increase after purchase. Divide the cost
+                by 12 for the monthly expense.</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Insurance</td>
+            <td>Homeowners insurance protects the property owner’s liability and
+                insures the residence against damages and losses. The average annual premium on
+                home insurance usually costs less than 1% of the purchase price.</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>HOA</td>
+            <td>Homeowners Association fee.</td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td>Utilities</td>
+            <td>Such as water, sewer, trash and electricity if paid by landlord.</td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td>Maintenance</td>
+            <td>Repair costs might incur during the month.</td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td>Property Management</td>
+            <td>Fees paid for someone or a company to manage the property
+                for you. Usually runs between 5- 12%, but some companies do charge a flat fee,
+                e.g: $70 - $100.</td>
+          </tr>
+          <tr>
+            <th scope="row">9</th>
+            <td>Vacancy</td>
+            <td>Vacancy rate represents the percentage of time rental income is lost
+                due to a property being unoccupied during the year. The national rental vacancy
+                rate is usually between 5% and 7%. For single family properties, use 5% vacancy
+                rate.</td>
+          </tr>
+          <tr>
+            <th scope="row">10</th>
+            <td>CapEx</td>
+            <td>Capital Expenditures is a fund reserve set aside for when subtanstial
+                repair or renovation is needed. Most common CapEx expenses include roofing,
+                foundation, siding, new appliances, HVAC maintenance.</td>
+          </tr>
+        </tbody>
+      </table>
+        <!-- above is a table  -->
+    </section>
+</div>
+</div>
+<!-- above is inside the container lg -->
+</div>
+<!-- map section below -->
+<p>&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;</p>
+<h2 class="text-center text-uppercase"><strong>Out of State Investors? See a property and its surroundings</strong></h2>
+<p>&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;</p>
+<div class="container shadow-lg" style="background-color: white; border-radius: 0rem;">
+<div class="row">
+    <div class="card-body p-4 text-left">
+    <form class="d-flex" id="search-form">
+        <input class="form-control me-2" id="ggm-btn" for="location" type="search"
+            placeholder="Enter a location" aria-label="Search">
+        <button class="btn btn-md" id="btn-search" name="location" type="submit">Search</button>
+    </form>
+
+    <div id="ggmap" style="height: 500px">
+    </div>
+    </div>
+<!-- inside row -->
+</div>
+<!-- inside the map container -->
+</div>
+<!-- 05/18/2022 restructuring index page above -->
 <!-- starting news api -->
 <section id="news-section" >
     <div class="container text-center mt-5 p-3 mb-5">
-        <h3><a name="industry-news"><strong>INDUSTRY NEWS</strong></a></h3>
+        <h2><a name="industry-news"><strong>INDUSTRY NEWS</strong></a></h2>
         <div class="row m-2 d-flex" id="news_container">
             <!-- inserting news content from newsapi.js -->
         </div>
@@ -264,14 +311,11 @@
     </div>
     </div>
 </section>
-<!-- line break -->
 <!-- vector illustration in the middle -->
-<!-- contact form below -->
-<!-- <section class="vh-30"> -->
     <div class="container">
       <div class="row d-flex justify-content-center align-items-center">
         <div class="col-md-9 col-lg-6 col-xl-5">
-            <img src="/static/Team.png" class="img-fluid w-50 mx-auto d-block" alt="freepik">
+            <img src="/static/banner.png" class="img-fluid w-50 mx-auto d-block" alt="freepik">
             
         </div>
         
@@ -279,33 +323,24 @@
       </div>
     </div>
    
-  <!-- </section> -->
-
-
-
-
 <!-- book remmendation api -->
 <section id="book-section" class=" text-center mt-5">
-    <h3><strong>BOOKS ABOUT RENTAL PROPERTY INVESTMENTS</strong></h3>
+    <h2><strong>BOOKS ON RENTAL PROPERTY INVESTMENTS</strong></h2>
     <div class="container shadow-lg pt-1" style="background-color: white; border-radius: 0rem;">
        <a name="book-recommendation"></a>
         <div class="container text-center mt-5">
-
             <div id="book" class="row mt-4">
                 <!-- book api content here  -->
-
             </div>
         </div>
     </div>
 </section>
- <!-- perhaps finding a quote api -->
+ 
  <section>
-    <div class="container text-center mt-4">
+    <div class="container text-center mt-4 fs-4">
         <i class="bi bi-quote fa-10x my-5" style="color: #739bc5"></i>
         <blockquote class="blockquote">
-            <p id="quote">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cumque, veniam dolorum quidem illo eos ipsam voluptatem
-            officiis quas impedit fugit, maxime numquam placeat, odio ducimus vel voluptas assumenda architecto optio sit non
-            aperiam harum qui. Facilis mollitia atque nostrum maiores.
+            <p id="quote"> Example quote
             </p>
             <footer id="author" class="blockquote-footer">Mark Twain</footer>
         </blockquote>
