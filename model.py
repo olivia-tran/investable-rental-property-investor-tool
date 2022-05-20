@@ -1,6 +1,7 @@
 '''Models for INVESTABLE app'''
 from collections import UserString
 from datetime import datetime
+import pytz
 from email.policy import default
 # from email.policy import default
 from flask_sqlalchemy import SQLAlchemy
@@ -87,7 +88,7 @@ class BlogPost(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     blog_content = db.Column(db.Text, nullable=False)
     title = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now(pytz.timezone('US/Pacific')), nullable=False)
     imgURL = db.Column(db.String, default='/static/aerialview.jpg', nullable=False)
     user = db.relationship('User', back_populates='blog_posts')
     # blog_images = db.relationship('BlogImage', back_populates='blog_post')
@@ -104,7 +105,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'), nullable=False)
     comment_content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now(pytz.timezone('US/Pacific')), nullable=False)
     user = db.relationship('User', back_populates='comments')
     blog_post = db.relationship('BlogPost', back_populates='comments')
 

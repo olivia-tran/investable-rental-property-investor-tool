@@ -1,6 +1,7 @@
 """Server for INVESTABLE app."""
+from datetime import datetime
 from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for
-import crud, requests, psycopg2, os, cloudinary.uploader, random
+import crud, requests, psycopg2, os, cloudinary.uploader, random, pytz
 from model import connect_to_db, db, User
 # from importlib_metadata import files
 from jinja2 import StrictUndefined
@@ -216,7 +217,11 @@ def blogging():
         
         user_id = get_user_id_by_session_email()
         blog_content = request.form.get('blog_content')
+        print(f' this is BLOG CONTENT====={blog_content}')
         title = request.form.get('title')
+        test = request.form.get('test')
+        print(f' this is BLOG TESTTTTTTTT====={test}')
+        print(f' this is BLOG TITLE====={title}')
         blog_photo = request.files.get('blog_image')
         print(f' this is BLOG PHOTO====={blog_photo}')
         # if user chooses to add a photo in the post
@@ -267,7 +272,7 @@ def to_post_a_comment(blog_id):
         user_id = get_user_id_by_session_email()
         post = crud.get_blog_details(blog_id)
         comments = crud.get_all_comments_on_a_post(blog_id)
-        return render_template('blog_details.html', comments=comments, post=post, user_id=user_id)
+        return render_template('blog_details.html', datetime=datetime, pytz=pytz, comments=comments, post=post, user_id=user_id)
     else:
         flash('ELSE STMT')
         flash('The comment is to be posted.')
@@ -337,7 +342,18 @@ def get_quotes():
     '''send jsonified quotes to front end'''
     return jsonify({"quotes": QUOTES})
 
-        
+@app.route('/compare-properties.json', methods=['POST'])
+def send_property_data_to_charts():
+    '''Use property ID from JS to query db and send corresponding data back to JS for charts'''
+    property_ids = request.json.get('propertyIds')
+    print(f'PROPERTY_ID received from JS=== {type(property_ids)}')
+    # so cool we got a list back, next is to loop over and get each property
+    # however, what is a better way to retrieve db data and send it back to JS for charts
+    # so smooth! I got the data back from db! how to send it to js efficiently now as it has like 10 different attributes!
+    for property_id in property_ids:
+        property_data = crud.get_property_details_by_id(property_id)
+        print(f'PROPERTY DATA FROM DB===={property_data}')
+    return property_data
 
 
 

@@ -64,7 +64,11 @@ def create_property(user_id, mortgage, rent, tax, insurance, hoa, utilities, mai
 
     )
     return new_property
-# get a list of properties owned by one user via user_id
+def get_property_details_by_id(property_id):
+    '''Get all details of a property by its id'''
+    chosen_property = Property.query.get(property_id)
+    return chosen_property
+
 def get_num_of_properties():
     '''Get the total numbers of all properties saved by all users'''
     property_nums = Property.query.count()
