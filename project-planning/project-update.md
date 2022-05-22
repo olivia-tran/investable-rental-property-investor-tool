@@ -1,3 +1,27 @@
+## Sprint 2: Part 1 -- Project Update
+
+### I have completed my MVP (yes/no): no
+
+### I have completed these features for my MVP:
+
+Almost done with everything, except for the last charts for expense comparison
+and hoping to incorporate react next week
+
+### For the first half of sprint 2, I worked on:
+
+restructuring index page
+completed blogging and commenting features
+did some styling
+
+### My general work plan/estimate for the remainder of Sprint 2:
+
+add expense comparison
+use react for certain feature
+refactor the code
+write some testing
+
+<!-- ###################################### -->
+
 ## Sprint 1: Part 1 -- Project Update
 
 ### I have completed my MVP (yes/no): no

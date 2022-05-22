@@ -1,7 +1,13 @@
 """Server for INVESTABLE app."""
 from datetime import datetime
-from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for
-import crud, requests, psycopg2, os, cloudinary.uploader, random, pytz
+from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for, make_response
+import crud
+import requests
+import psycopg2
+import os
+import cloudinary.uploader
+import random
+import pytz
 from model import connect_to_db, db, User
 # from importlib_metadata import files
 from jinja2 import StrictUndefined
@@ -30,6 +36,7 @@ def index():
     print(session)
     return render_template('index.html', GG_KEY=GG_KEY)
 
+
 @ app.route('/books')
 def get_books():
     '''Show related to rental property investment books from Google Books API'''
@@ -52,7 +59,7 @@ def page_not_found(error):
 def register_page():
     '''Landing page for register.'''
     return render_template('register.html', GG_KEY=GG_KEY)
-#comebine this with the register_user route, so that when user refreshes it doesn't takem them to new register page!
+# comebine this with the register_user route, so that when user refreshes it doesn't takem them to new register page!
 
 
 @ app.route('/register', methods=['GET', 'POST'])
@@ -64,22 +71,23 @@ def register_user():
     else:
         email = request.form.get('email')
         if crud.get_user_by_email(email):
-             flash('Cannot create an account with that email🤔. Try again.', 'error')
-             return redirect('/register')
+            flash('Cannot create an account with that email🤔. Try again.', 'error')
+            return redirect('/register')
         else:
-             first = request.form.get('first')
-             last = request.form.get('last')
-             email = request.form.get('email')
-             password = request.form.get('password')
-             user = crud.create_user(first, last, email, password)
-             db.session.add(user)
-             db.session.commit()
-             flash('Account was successfully created. 🥳️', 'info')
-             session['email'] = user.email
-             user_id = (crud.get_user_by_email(email)).id
-             properties = crud.get_properties_by_user(user_id)
+            first = request.form.get('first')
+            last = request.form.get('last')
+            email = request.form.get('email')
+            password = request.form.get('password')
+            user = crud.create_user(first, last, email, password)
+            db.session.add(user)
+            db.session.commit()
+            flash('Account was successfully created. 🥳️', 'info')
+            session['email'] = user.email
+            user_id = (crud.get_user_by_email(email)).id
+            properties = crud.get_properties_by_user(user_id)
     return render_template('properties.html', user=user, properties=properties, GG_KEY=GG_KEY, session=session)
 # realized the importance of user testing here. Updated titlecase for names
+
 
 def login_required(f):
     @wraps(f)
@@ -90,6 +98,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
 @ app.route('/login')
 def login_page():
     '''Landing page for user login.'''
@@ -99,11 +108,12 @@ def login_page():
 @ app.route('/login', methods=['POST'])
 def process_login():
     '''Authenticate user login info.'''
-    
+
     email = request.form.get('email')
     password = request.form.get('password')
-    
-    print(f'========================process login func request.form={request.form}')
+
+    print(
+        f'========================process login func request.form={request.form}')
     user = crud.get_user_by_email(email=email)
     if not user or user.password != password:
         flash('The email or password you entered was incorrect 🤔. Try again', 'error')
@@ -117,7 +127,8 @@ def process_login():
         # print(f'user ID in login func = {id}====================')
         flash(f'😺Welcome back, you\'re logging in using: {user.email}!')
         return redirect('/properties')
-    
+
+
 @app.route('/profile')
 def user_profile():
     'Show user profile'
@@ -132,9 +143,10 @@ def user_profile():
         count = crud.get_all_posts_by_a_user(user_id)
         comment_count = crud.get_all_comments_by_a_user(user_id)
         print(f'==========={user}')
-        return render_template('user_profile.html',comment_count=comment_count, user=user, count=count, property_count=property_count, show_posts=show_posts, img_url=img_url, GG_KEY=GG_KEY, session=session)
+        return render_template('user_profile.html', comment_count=comment_count, user=user, count=count, property_count=property_count, show_posts=show_posts, img_url=img_url, GG_KEY=GG_KEY, session=session)
     else:
         return redirect('/login')
+
 
 @ app.route('/logout')
 def logout():
@@ -153,29 +165,32 @@ def property_page():
     print(f'====================={properties}=================')
     return render_template('properties.html', properties=properties, user=user)
 
-@ app.route('/save_data', methods=['GET','POST'])
+
+@ app.route('/save_data', methods=['GET', 'POST'])
 @login_required
 def save_data():
     '''Save property data to db.'''
-    rent=request.form.get('rent')
-    mortgage=request.form.get('mortgage')
-    maintenance=request.form.get('maintenance')
-    tax=request.form.get('tax')
-    insurance=request.form.get('insurance')
-    hoa=request.form.get('hoa')
-    utilities=request.form.get('utilities')
-    capex=request.form.get('capex')
-    pm=request.form.get('pm')
-    vacancy=request.form.get('vacancy')
+    rent = request.form.get('rent')
+    mortgage = request.form.get('mortgage')
+    maintenance = request.form.get('maintenance')
+    tax = request.form.get('tax')
+    insurance = request.form.get('insurance')
+    hoa = request.form.get('hoa')
+    utilities = request.form.get('utilities')
+    capex = request.form.get('capex')
+    pm = request.form.get('pm')
+    vacancy = request.form.get('vacancy')
     email = session['email']
     user = crud.get_user_by_email(email)
     user_id = user.id
-    new_property = crud.create_property(user_id, mortgage, rent, tax, insurance, hoa, utilities, maintenance, capex, pm, vacancy)
+    new_property = crud.create_property(
+        user_id, mortgage, rent, tax, insurance, hoa, utilities, maintenance, capex, pm, vacancy)
     db.session.add(new_property)
     db.session.commit()
-    
+
     flash('Property was successfully saved! 🥳️')
     return redirect('/properties')
+
 
 @app.route('/properties/<int:id>/delete', methods=['POST'])
 @login_required
@@ -191,10 +206,12 @@ def to_delete_property(id):
 @login_required
 def contact_us():
     '''Allow user contact us to give feedback'''
-    #need to connect the form to backend server here
+    # need to connect the form to backend server here
     return render_template('contact_us.html')
 
 # -------------------------------Related to BLOG POSTS routes-------------------------------------
+
+
 @ app.route('/forum')
 @login_required
 def forum():
@@ -204,7 +221,8 @@ def forum():
     total_users = crud.get_num_of_users()
     total_properties = crud.get_num_of_properties()
     posts = crud.get_all_posts()
-    return render_template('forum.html', total_comments=total_comments, posts=posts, user_nums=total_users, post_nums=total_posts, property_nums= total_properties)
+    return render_template('forum.html', total_comments=total_comments, posts=posts, user_nums=total_users, post_nums=total_posts, property_nums=total_properties)
+
 
 @ app.route('/blogging', methods=['GET', 'POST'])
 @login_required
@@ -214,7 +232,7 @@ def blogging():
         return render_template('posting.html')
     # the blog content was not posted is it because of the enctype?
     else:
-        
+
         user_id = get_user_id_by_session_email()
         blog_content = request.form.get('blog_content')
         print(f' this is BLOG CONTENT====={blog_content}')
@@ -237,7 +255,8 @@ def blogging():
         db.session.commit()
         flash('Blog was created!')
         return redirect('/forum')
- 
+
+
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
@@ -250,8 +269,8 @@ def search():
     else:
         return redirect('/forum')
     # prefer routing user back to search page if hit refresh
-    
-    
+
+
 @app.route('/forum/<int:id>/delete', methods=['POST'])
 @login_required
 def to_delete_post(id):
@@ -261,9 +280,10 @@ def to_delete_post(id):
     flash(f'Blog Post ID {id} was deleted.')
     return redirect('/forum')
 
-#------------------------------COMMENT routes----------------
+# ------------------------------COMMENT routes----------------
 
-@app.route('/forum/<int:blog_id>', methods=['GET','POST'])
+
+@app.route('/forum/<int:blog_id>', methods=['GET', 'POST'])
 @login_required
 def to_post_a_comment(blog_id):
     '''To leave a comment on a blog post'''
@@ -285,7 +305,6 @@ def to_post_a_comment(blog_id):
         return redirect(f'/forum/{blog_id}')
 
 
-
 # -------------------------------Handling User IMAGES routes-------------------------------------
 @app.route('/post-form-data', methods=['POST'])
 @login_required
@@ -296,70 +315,91 @@ def upload_profile_photo():
     add_user_img_record(img_url)
     flash('Your picture has been successfully uploaded!')
     return redirect('/profile')
-   
+
+
 @app.route('/profile_image')
 @login_required
 def show_profile_image():
     '''Show the profile pic uploaded by user'''
-    email=session['email']
+    email = session['email']
     user = crud.get_user_by_email(email)
     user_id = (crud.get_user_by_email(email)).id
     posts = crud.get_all_posts_by_a_user(user_id)
     property_count = crud.count_num_properties_by_a_user(user_id)
     count = crud.get_all_posts_by_a_user(user_id)
     img_url = crud.get_img_url_by_email(email)
-    return render_template('user_profile.html', img_url=img_url, GG_KEY=GG_KEY,count=count, posts=posts, property_count=property_count, user=user)
+    return render_template('user_profile.html', img_url=img_url, GG_KEY=GG_KEY, count=count, posts=posts, property_count=property_count, user=user)
 
-   
 
 # -------------------------------HELPER functions-------------------------------------
 def upload_to_cloudinary(media_file):
     '''Upload media file to cloudinary'''
-    result = cloudinary.uploader.upload(media_file, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)
+    result = cloudinary.uploader.upload(
+        media_file, api_key=CLOUDINARY_KEY, api_secret=CLOUDINARY_SECRET, cloud_name=CLOUD_NAME)
     return result['secure_url']
+
 
 def add_user_img_record(img_url):
     '''Save img url to db by user ID'''
-    print('\n'.join([f"{'*' * 20}", 'Save this url to your database!', img_url, f"{'*' * 20}"]))
+    print('\n'.join(
+        [f"{'*' * 20}", 'Save this url to your database!', img_url, f"{'*' * 20}"]))
     user_id = (crud.get_user_by_email(session['email'])).id
     print(f'user_id==============={user_id}')
     new_pic = crud.save_profile_pic(url=img_url, user_id=user_id)
     db.session.add(new_pic)
     db.session.commit()
     flash('Image URL saved to db!')
-    
+
+
 def get_user_id_by_session_email():
     '''get a user ID via accessing session['email']'''
     email = session['email']
     user = crud.get_user_by_email(email)
     user_id = user.id
-    return user_id    
+    return user_id
 
-    
-#-----------------------------API Routes---------------------------
+
+# -----------------------------API Routes---------------------------
 @app.route('/quotes.json')
 def get_quotes():
     '''send jsonified quotes to front end'''
     return jsonify({"quotes": QUOTES})
 
+
 @app.route('/compare-properties.json', methods=['POST'])
 def send_property_data_to_charts():
     '''Use property ID from JS to query db and send corresponding data back to JS for charts'''
+
+    print (" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& are we in the function?")
+
     property_ids = request.json.get('propertyIds')
+
+    print ("  (((((((((()))))))))))) what is the id: ", property_ids)    
     print(f'PROPERTY_ID received from JS=== {type(property_ids)}')
     # so cool we got a list back, next is to loop over and get each property
     # however, what is a better way to retrieve db data and send it back to JS for charts
     # so smooth! I got the data back from db! how to send it to js efficiently now as it has like 10 different attributes!
+    properties_data = []
     for property_id in property_ids:
         property_data = crud.get_property_details_by_id(property_id)
+        properties_data.append(property_data)
         print(f'PROPERTY DATA FROM DB===={property_data}')
-    return property_data
+        print(f'PROPERTIESSSSS DATA FROM DB===={type(properties_data)}')
+    print(f'PROPERTIESSSSS DATA FROM DB===={properties_data}')
+
+    data = {}
+
+    for i in range(len(properties_data)):
+        data[i] = properties_data[i].__dict__
+        data[i].pop('_sa_instance_state')
+
+    print (type(data), "  ^^^^^^^^^^^^^^ ", data)
+    return data
+#    return ({'properties_data': properties_data})
 
 
 
 # -------------------------------JSON routes-------------------------------------
-
-
 
 
 if __name__ == "__main__":
