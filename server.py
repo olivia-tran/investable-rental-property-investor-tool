@@ -370,31 +370,33 @@ def get_quotes():
 def send_property_data_to_charts():
     '''Use property ID from JS to query db and send corresponding data back to JS for charts'''
 
-    print (" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& are we in the function?")
-
     property_ids = request.json.get('propertyIds')
 
     print ("  (((((((((()))))))))))) what is the id: ", property_ids)    
     print(f'PROPERTY_ID received from JS=== {type(property_ids)}')
-    # so cool we got a list back, next is to loop over and get each property
-    # however, what is a better way to retrieve db data and send it back to JS for charts
-    # so smooth! I got the data back from db! how to send it to js efficiently now as it has like 10 different attributes!
+
     properties_data = []
     for property_id in property_ids:
         property_data = crud.get_property_details_by_id(property_id)
-        properties_data.append(property_data)
+        properties_data.append(property_data.__dict__)
         print(f'PROPERTY DATA FROM DB===={property_data}')
         print(f'PROPERTIESSSSS DATA FROM DB===={type(properties_data)}')
+        properties_data[-1].pop('_sa_instance_state')
     print(f'PROPERTIESSSSS DATA FROM DB===={properties_data}')
+    
+    return jsonify(properties_data)
 
-    data = {}
+    # data = {}
 
-    for i in range(len(properties_data)):
-        data[i] = properties_data[i].__dict__
-        data[i].pop('_sa_instance_state')
+    # for i in range(len(properties_data)):
+        # data[i] = properties_data[i].__dict__
+        # data[i].pop('_sa_instance_state')
+        
+        
+# to remove the 1st item in dictionary {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7fe034fbafd0>, 'id': 12, 'mortgage': 4806.3, 'insurance': 166.67, 'utilities': None, 'pm': None, 'vacancy': None, 'rent': 5000.0, 'user_id': 2, 'tax': 1623.75, 'hoa': 493.0, 'maintenance': None, 'capex': None}
 
-    print (type(data), "  ^^^^^^^^^^^^^^ ", data)
-    return data
+    # print (type(data), "  ^^^^^^^^^^^^^^ ", data)
+    # return data
 #    return ({'properties_data': properties_data})
 
 
