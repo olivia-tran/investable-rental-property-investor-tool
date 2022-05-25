@@ -32,9 +32,9 @@ def get_user_by_email(email):
     '''Return a user by email'''
     return User.query.filter(User.email == email).first()
 
-def delete_user(id):
+def delete_user(user_id):
     '''Delete user data from db by user ID'''
-    deleted_user = User.query.filter(User.id==id).first()
+    deleted_user = User.query.filter(User.id==user_id).first()
     db.session.delete(deleted_user)
     db.session.commit()
     # sometimes can return the deleted id back

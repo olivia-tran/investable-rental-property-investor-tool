@@ -1,13 +1,8 @@
 """Server for INVESTABLE app."""
 from datetime import datetime
 from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for, make_response
-import crud
-import requests
-import psycopg2
-import os
-import cloudinary.uploader
-import random
-import pytz
+import crud, requests, psycopg2, os, cloudinary.uploader, random, pytz
+import pandas as pd
 from model import connect_to_db, db, User
 # from importlib_metadata import files
 from jinja2 import StrictUndefined
@@ -164,14 +159,16 @@ def update_profile(user_id):
         return redirect('/profile')
     else:
         return render_template('update_user_info.html', user=user)
-@app.route('/profile/<int:id>/delete', methods=['POST'])
+@app.route('/profile/<int:user_id>/delete', methods=['POST'])
 @login_required
-def to_delete_account(id):
+def to_delete_account(user_id):
     '''Delete user account by user ID'''
     #check user_id to be deleted vs current_user.id
-    user = get_user_id_by_session_email()
-    if id == user.id:
-        crud.delete_user(id)
+    # to keep vs to delete all posts done by deleted users
+    
+    user = crud.get_user_by_email(session['email'])
+    if user_id == user.id:
+        crud.delete_user(user_id)
         flash(f'Your account was deactivated.')
         session.clear()
         return redirect('/contact')
@@ -231,12 +228,18 @@ def to_delete_property(id):
     return redirect('/properties')
 
 
-@ app.route('/contact')
-@login_required
+@ app.route('/contact', methods=['GET', 'POST'])
 def contact():
     '''Allow user contact us to give feedback'''
-    # need to connect the form to backend server here
+    if request.method == 'POST':
+        email = request.form.get('email')
+        feedback = request.form.get('textarea')
+        data = pd.DataFrame({'email': email, 'feedback': feedback}, index=[0])
+        data.to_csv('data/userFeedback.csv')
+        flash('Thank you for your message!')
     return render_template('contact.html')
+    #want to save but not overwriting old content in the csv file
+        
 
 # -------------------------------Related to BLOG POSTS routes-------------------------------------
 
@@ -419,7 +422,7 @@ def add_user_img_record(img_url):
     db.session.commit()
     flash('Image URL saved to db!')
 
-
+#to remove this and refactor code
 def get_user_id_by_session_email():
     '''get a user ID via accessing session['email']'''
     email = session.get('email')

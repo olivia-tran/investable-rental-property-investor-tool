@@ -55,7 +55,7 @@ class Property(db.Model):
     __tablename__ = 'properties'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(
-        'users.id'), nullable=False)
+        'users.id'))
     rent = db.Column(db.Float, nullable=False)
     mortgage = db.Column(db.Float, nullable=False)
     tax = db.Column(db.Float, nullable=False)
@@ -85,7 +85,7 @@ class BlogPost(db.Model):
     '''A blog post'''
     __tablename__ = 'blog_posts'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     blog_content = db.Column(db.Text, nullable=False)
     title = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(pytz.timezone('US/Pacific')), nullable=False)
@@ -102,7 +102,7 @@ class Comment(db.Model):
     '''A blog comment'''
     __tablename__ = 'comments'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     blog_id = db.Column(db.Integer, db.ForeignKey('blog_posts.id'), nullable=False)
     comment_content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(pytz.timezone('US/Pacific')), nullable=False)
