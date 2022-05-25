@@ -60,22 +60,24 @@
             </ul>
           </li>
         </ul>
+<!-- testing new nav links -->
 
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+<!-- testing new nav links -->
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
-          SETTINGS
+          {{user.first_name|upper()}} {{user.last_name|upper()}}
         </a>
-        <!-- how to have user Initials shown here instead of Settings -->
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><a class="dropdown-item" href="{{url_for('user_profile')}}">Profile</a></li>
           <li><a class="dropdown-item" href="{{url_for('property_page')}}">Properties</a></li>
           <li><a class="dropdown-item" href="{{url_for('forum')}}">Dashboard</a></li>
-          <li><a class="dropdown-item" href="{{url_for('contact_us')}}">Contact Us</a></li>
+          <li><a class="dropdown-item" href="{{url_for('contact')}}">Contact Us</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
           <li><a class="dropdown-item" href="{{url_for('logout')}}">Sign Out</a></li>
         </ul>
+      
         <!-- clear session -->
       </div>
     </div>
@@ -115,7 +117,7 @@
             </ul>
           </li>
         </ul>
-        <a href="{{url_for('process_login')}}" class="btn btn-outline-danger"
+        <a href="{{url_for('process_login')}}" class="btn btn-outline-primary"
           style="color:#b40404; border-radius: 2rem;">LOGIN</a>
 
       </div>

@@ -135,18 +135,48 @@ def user_profile():
     if 'email' in session:
         email = session['email']
         user = crud.get_user_by_email(email)
-        user_id = user.id
-        count = crud.get_all_posts_by_a_user(user_id)
-        property_count = crud.count_num_properties_by_a_user(user_id)
-        show_posts = crud.show_posts_by_a_user_desc(user_id)
+        count = crud.get_all_posts_by_a_user(user.id)
+        property_count = crud.count_num_properties_by_a_user(user.id)
+        show_posts = crud.show_posts_by_a_user_desc(user.id)
         img_url = crud.get_img_url_by_email(email)
-        count = crud.get_all_posts_by_a_user(user_id)
-        comment_count = crud.get_all_comments_by_a_user(user_id)
+        count = crud.get_all_posts_by_a_user(user.id)
+        comment_count = crud.get_all_comments_by_a_user(user.id)
         print(f'==========={user}')
         return render_template('user_profile.html', comment_count=comment_count, user=user, count=count, property_count=property_count, show_posts=show_posts, img_url=img_url, GG_KEY=GG_KEY, session=session)
     else:
         return redirect('/login')
 
+@app.route('/profile/<int:user_id>', methods=['GET','POST'])
+def update_profile(user_id):
+    '''Update user profile name, email or password'''
+    user = crud.get_user_by_id(user_id)
+    if request.method == 'POST':
+        if user and user.password == request.form.get('old-password'):
+            user.first_name = request.form.get('first')
+            user.last_name = request.form.get('last')
+            user.email = request.form.get('email')
+            user.password = request.form.get('password')
+            db.session.add(user)
+            db.session.commit()
+            flash('Account was succesfully updated! ')
+        else:
+            flash(f'No user with the {user_id} was found or old password was enterred incorrectly. ')
+        return redirect('/profile')
+    else:
+        return render_template('update_user_info.html', user=user)
+@app.route('/profile/<int:id>/delete', methods=['POST'])
+@login_required
+def to_delete_account(id):
+    '''Delete user account by user ID'''
+    #check user_id to be deleted vs current_user.id
+    user = get_user_id_by_session_email()
+    if id == user.id:
+        crud.delete_user(id)
+        flash(f'Your account was deactivated.')
+        session.clear()
+        return redirect('/contact')
+    else:
+        flash('Sorry, can\'t delete that user!' )
 
 @ app.route('/logout')
 def logout():
@@ -160,8 +190,7 @@ def logout():
 def property_page():
     email = session['email']
     user = crud.get_user_by_email(email)
-    user_id = user.id
-    properties = crud.get_properties_by_user(user_id)
+    properties = crud.get_properties_by_user(user.id)
     print(f'====================={properties}=================')
     return render_template('properties.html', properties=properties, user=user)
 
@@ -204,10 +233,10 @@ def to_delete_property(id):
 
 @ app.route('/contact')
 @login_required
-def contact_us():
+def contact():
     '''Allow user contact us to give feedback'''
     # need to connect the form to backend server here
-    return render_template('contact_us.html')
+    return render_template('contact.html')
 
 # -------------------------------Related to BLOG POSTS routes-------------------------------------
 
@@ -233,7 +262,7 @@ def blogging():
     # the blog content was not posted is it because of the enctype?
     else:
 
-        user_id = get_user_id_by_session_email()
+        user_id = get_user_id_by_session_email().id
         blog_content = request.form.get('blog_content')
         print(f' this is BLOG CONTENT====={blog_content}')
         title = request.form.get('title')
@@ -271,14 +300,51 @@ def search():
     # prefer routing user back to search page if hit refresh
 
 
-@app.route('/forum/<int:id>/delete', methods=['POST'])
+@app.route('/forum/<int:id>/delete', methods=['GET', 'POST'])
 @login_required
 def to_delete_post(id):
     '''Delete a post by ID'''
-    flash('The blog post is about to be deleted.')
-    crud.delete_post(id)
-    flash(f'Blog Post ID {id} was deleted.')
+    # flash('The blog post is about to be deleted.')
+    user = get_user_id_by_session_email()
+    if len(user.blog_posts) > 0 and user.blog_posts[0].id == id:
+        crud.delete_post(id)
+        flash(f'Blog Post ID {id} was deleted.')
+    else:
+        flash('Can\'t delete the post. ')
+    #need to update logic for submit/delete btn blog post. This somehow was called when clicked on submit and back
     return redirect('/forum')
+
+
+@app.route('/forum/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def to_update_post(id):
+    '''Update a post by its ID'''
+    flash(f'About to update the post {id}')
+    #query the post by its id
+    post = crud.get_blog_details(id)
+    if request.method == 'POST':
+        if post:
+            post.title = request.form.get('title')
+            post.blog_content = request.form.get('blog_content')
+            blog_photo = request.files.get('blog_image')
+            if blog_photo:
+                post.imgURL = upload_to_cloudinary(blog_photo)
+            db.session.add(post)
+            db.session.commit()
+            flash('Blog was created!')   
+        else:
+            flash(f'No blog post with the {id} was found.')
+        return redirect(f'/forum')
+    else:
+        return render_template('update.html', post=post )
+    #add to session
+    #commit
+    #if get method, show the updated content on the same page
+    
+    
+    
+
+
 
 # ------------------------------COMMENT routes----------------
 
@@ -289,7 +355,7 @@ def to_post_a_comment(blog_id):
     '''To leave a comment on a blog post'''
     if request.method == 'GET':
         flash('IF STMT ')
-        user_id = get_user_id_by_session_email()
+        user_id = get_user_id_by_session_email().id
         post = crud.get_blog_details(blog_id)
         comments = crud.get_all_comments_on_a_post(blog_id)
         return render_template('blog_details.html', datetime=datetime, pytz=pytz, comments=comments, post=post, user_id=user_id)
@@ -297,11 +363,14 @@ def to_post_a_comment(blog_id):
         flash('ELSE STMT')
         flash('The comment is to be posted.')
         comment_content = request.form.get('comment-content')
-        user_id = get_user_id_by_session_email()
-        comment = crud.create_a_comment(blog_id, user_id, comment_content)
-        db.session.add(comment)
-        db.session.commit()
-        flash(f'Comment ID {comment.id} was successfully posted.')
+        if len(comment_content) > 5:
+            user_id = get_user_id_by_session_email().id
+            comment = crud.create_a_comment(blog_id, user_id, comment_content)
+            db.session.add(comment)
+            db.session.commit()
+            flash(f'Comment ID {comment.id} was successfully posted.')
+        else:
+            flash('Please write a longer response')
         return redirect(f'/forum/{blog_id}')
 
 
@@ -343,9 +412,9 @@ def add_user_img_record(img_url):
     '''Save img url to db by user ID'''
     print('\n'.join(
         [f"{'*' * 20}", 'Save this url to your database!', img_url, f"{'*' * 20}"]))
-    user_id = (crud.get_user_by_email(session['email'])).id
-    print(f'user_id==============={user_id}')
-    new_pic = crud.save_profile_pic(url=img_url, user_id=user_id)
+    user = get_user_id_by_session_email()
+    print(f'user_id==============={user.id}')
+    new_pic = crud.save_profile_pic(url=img_url, user_id=user.id)
     db.session.add(new_pic)
     db.session.commit()
     flash('Image URL saved to db!')
@@ -353,11 +422,16 @@ def add_user_img_record(img_url):
 
 def get_user_id_by_session_email():
     '''get a user ID via accessing session['email']'''
-    email = session['email']
+    email = session.get('email')
     user = crud.get_user_by_email(email)
-    user_id = user.id
-    return user_id
+    return user
 
+#pass variables to base.html
+@app.context_processor
+def base():
+    '''Pass variables to base.html'''
+    user = get_user_id_by_session_email()
+    return dict(user=user)
 
 # -----------------------------API Routes---------------------------
 @app.route('/quotes.json')
@@ -386,21 +460,7 @@ def send_property_data_to_charts():
     
     return jsonify(properties_data)
 
-    # data = {}
-
-    # for i in range(len(properties_data)):
-        # data[i] = properties_data[i].__dict__
-        # data[i].pop('_sa_instance_state')
-        
-        
-# to remove the 1st item in dictionary {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7fe034fbafd0>, 'id': 12, 'mortgage': 4806.3, 'insurance': 166.67, 'utilities': None, 'pm': None, 'vacancy': None, 'rent': 5000.0, 'user_id': 2, 'tax': 1623.75, 'hoa': 493.0, 'maintenance': None, 'capex': None}
-
-    # print (type(data), "  ^^^^^^^^^^^^^^ ", data)
-    # return data
-#    return ({'properties_data': properties_data})
-
-
-
+    
 # -------------------------------JSON routes-------------------------------------
 
 

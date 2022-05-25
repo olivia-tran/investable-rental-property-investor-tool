@@ -32,9 +32,9 @@ def get_user_by_email(email):
     '''Return a user by email'''
     return User.query.filter(User.email == email).first()
 
-def delete_user(email):
-    '''Delete user data from db by email'''
-    deleted_user = User.query.filter(User.email==email).first()
+def delete_user(id):
+    '''Delete user data from db by user ID'''
+    deleted_user = User.query.filter(User.id==id).first()
     db.session.delete(deleted_user)
     db.session.commit()
     # sometimes can return the deleted id back
@@ -127,6 +127,11 @@ def search_blog_posts(keyword):
     searched_posts = BlogPost.query.filter(BlogPost.blog_content.like(f'%{keyword}%')).all()
     print(keyword)
     return searched_posts
+def delete_post(blog_id):
+    '''Delete a post from db by its Id'''
+    deleted_post = BlogPost.query.filter(BlogPost.id==blog_id).first()
+    db.session.delete(deleted_post)
+    db.session.commit()   
 
 #-----------------------------COMMENT CRUD-----------------------
 def get_all_comments_by_a_user(user_id):
