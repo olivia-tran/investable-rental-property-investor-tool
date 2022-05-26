@@ -1,7 +1,12 @@
 """Server for INVESTABLE app."""
 from datetime import datetime
 from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for, make_response
-import crud, requests, psycopg2, os, cloudinary.uploader, random, pytz
+import crud
+import requests
+import psycopg2
+import os
+import random
+import pytz
 import pandas as pd
 from model import connect_to_db, db, User
 # from importlib_metadata import files
@@ -141,7 +146,8 @@ def user_profile():
     else:
         return redirect('/login')
 
-@app.route('/profile/<int:user_id>', methods=['GET','POST'])
+
+@app.route('/profile/<int:user_id>', methods=['GET', 'POST'])
 def update_profile(user_id):
     '''Update user profile name, email or password'''
     user = crud.get_user_by_id(user_id)
@@ -155,17 +161,20 @@ def update_profile(user_id):
             db.session.commit()
             flash('Account was succesfully updated! ')
         else:
-            flash(f'No user with the {user_id} was found or old password was enterred incorrectly. ')
+            flash(
+                f'No user with the {user_id} was found or old password was enterred incorrectly. ')
         return redirect('/profile')
     else:
         return render_template('update_user_info.html', user=user)
+
+
 @app.route('/profile/<int:user_id>/delete', methods=['POST'])
 @login_required
 def to_delete_account(user_id):
     '''Delete user account by user ID'''
-    #check user_id to be deleted vs current_user.id
+    # check user_id to be deleted vs current_user.id
     # to keep vs to delete all posts done by deleted users
-    
+
     user = crud.get_user_by_email(session['email'])
     if user_id == user.id:
         crud.delete_user(user_id)
@@ -173,7 +182,8 @@ def to_delete_account(user_id):
         session.clear()
         return redirect('/contact')
     else:
-        flash('Sorry, can\'t delete that user!' )
+        flash('Sorry, can\'t delete that user!')
+
 
 @ app.route('/logout')
 def logout():
@@ -238,8 +248,8 @@ def contact():
         data.to_csv('data/userFeedback.csv')
         flash('Thank you for your message!')
     return render_template('contact.html')
-    #want to save but not overwriting old content in the csv file
-        
+    # want to save but not overwriting old content in the csv file
+
 
 # -------------------------------Related to BLOG POSTS routes-------------------------------------
 
@@ -314,7 +324,7 @@ def to_delete_post(id):
         flash(f'Blog Post ID {id} was deleted.')
     else:
         flash('Can\'t delete the post. ')
-    #need to update logic for submit/delete btn blog post. This somehow was called when clicked on submit and back
+    # need to update logic for submit/delete btn blog post. This somehow was called when clicked on submit and back
     return redirect('/forum')
 
 
@@ -323,7 +333,7 @@ def to_delete_post(id):
 def to_update_post(id):
     '''Update a post by its ID'''
     flash(f'About to update the post {id}')
-    #query the post by its id
+    # query the post by its id
     post = crud.get_blog_details(id)
     if request.method == 'POST':
         if post:
@@ -334,19 +344,15 @@ def to_update_post(id):
                 post.imgURL = upload_to_cloudinary(blog_photo)
             db.session.add(post)
             db.session.commit()
-            flash('Blog was created!')   
+            flash('Blog was created!')
         else:
             flash(f'No blog post with the {id} was found.')
         return redirect(f'/forum')
     else:
-        return render_template('update.html', post=post )
-    #add to session
-    #commit
-    #if get method, show the updated content on the same page
-    
-    
-    
-
+        return render_template('update.html', post=post)
+    # add to session
+    # commit
+    # if get method, show the updated content on the same page
 
 
 # ------------------------------COMMENT routes----------------
@@ -422,14 +428,18 @@ def add_user_img_record(img_url):
     db.session.commit()
     flash('Image URL saved to db!')
 
-#to remove this and refactor code
+# to remove this and refactor code
+
+
 def get_user_id_by_session_email():
     '''get a user ID via accessing session['email']'''
     email = session.get('email')
     user = crud.get_user_by_email(email)
     return user
 
-#pass variables to base.html
+# pass variables to base.html
+
+
 @app.context_processor
 def base():
     '''Pass variables to base.html'''
@@ -437,6 +447,8 @@ def base():
     return dict(user=user)
 
 # -----------------------------API Routes---------------------------
+
+
 @app.route('/quotes.json')
 def get_quotes():
     '''send jsonified quotes to front end'''
@@ -449,7 +461,7 @@ def send_property_data_to_charts():
 
     property_ids = request.json.get('propertyIds')
 
-    print ("  (((((((((()))))))))))) what is the id: ", property_ids)    
+    print("  (((((((((()))))))))))) what is the id: ", property_ids)
     print(f'PROPERTY_ID received from JS=== {type(property_ids)}')
 
     properties_data = []
@@ -460,10 +472,10 @@ def send_property_data_to_charts():
         print(f'PROPERTIESSSSS DATA FROM DB===={type(properties_data)}')
         properties_data[-1].pop('_sa_instance_state')
     print(f'PROPERTIESSSSS DATA FROM DB===={properties_data}')
-    
+
     return jsonify(properties_data)
 
-    
+
 # -------------------------------JSON routes-------------------------------------
 
 
