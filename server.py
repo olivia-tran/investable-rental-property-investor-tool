@@ -324,7 +324,6 @@ def to_delete_post(id):
         flash(f'Blog Post ID {id} was deleted.')
     else:
         flash('Can\'t delete the post. ')
-    # need to update logic for submit/delete btn blog post. This somehow was called when clicked on submit and back
     return redirect('/forum')
 
 
@@ -333,7 +332,6 @@ def to_delete_post(id):
 def to_update_post(id):
     '''Update a post by its ID'''
     flash(f'About to update the post {id}')
-    # query the post by its id
     post = crud.get_blog_details(id)
     if request.method == 'POST':
         if post:
@@ -350,9 +348,6 @@ def to_update_post(id):
         return redirect(f'/forum')
     else:
         return render_template('update.html', post=post)
-    # add to session
-    # commit
-    # if get method, show the updated content on the same page
 
 
 # ------------------------------COMMENT routes----------------
