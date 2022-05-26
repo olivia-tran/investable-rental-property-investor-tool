@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+<!-- update user info form -->
+{% block content %}
+<section class="vh-100" style="background-color: #e6ddde;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-lg" style="border-radius: 2rem;">
+                    <div class="card-body p-5 text-left">
+                        <!-- form method -->
+                        <form action="/profile/{{user.id}}" method="POST">
+                            <h3 class="mb-5">Update User Info</h3>
+                            <!-- get first and last name -->
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="first">First name</label>
+                                        <input type="text" name="first" value="{{user.first_name|title}}" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="last">Last name</label>
+                                        <input type="text" name="last" value="{{user.last_name|title}}" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- email input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="email">Email address</label>
+                                <input type="email" value="{{user.email}}" name="email" class="form-control" />
+                                
+                            </div>
+
+                            <!-- old password input -->
+                          
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="password">Old Password</label>
+                                <input type="password" name="old-password" class="form-control" />
+                                
+                            </div>
+                          <!-- new password -->
+                          <div class="form-outline mb-4">
+                            <label class="form-label" for="password">New Password</label>
+                            <input type="password" name="password" class="form-control" />
+                        </div>
+<!-- am I able to do a logic check here if old password matches with the db, then confirm, if not onclick message will pop up? -->
+                            <button type="submit" class="btn btn-lg btn-block shadow-lg justify-content-center"> Confirm </button>
+
+
+                        </form>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Change your mind?<a href="/profile"
+                                class="link-danger"> Back to User's Profile</a></p>
+                        <hr class="my-4">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- update user info form -->
+
+{% endblock %}

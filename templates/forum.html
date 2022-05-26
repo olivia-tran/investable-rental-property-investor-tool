@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<!-- The whole white card is here -->
+<div class="container shadow-lg" style="background-color: white; border-radius: 0rem;">
+  <!-- below this is the content of the container -->
+  <!-- header of the page below -->
+  <header id="main-header" class="text-white fw-bolder" style="background-color: #d5acc4">
+    <div class="container" style="border-radius: 0rem">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>
+            <i class="bi bi-people" id="bi-header"></i>Community Dashboard </h2>
+        </div>
+        <!-- below this div -->
+        <div class="col-md-6">
+          <p class="small fw-bold mt-2 pt-1 mb-0 text-muted text-end">Expand your network, get to know another user,
+            share your knowledge</p>
+        </div>
+        <!-- above here -->
+      </div>
+    </div>
+  </header>
+  <!-- header of the page above -->
+
+  <!-- search bar -->
+  <section id="search-section" class="py-4 mb-4 bg-light">
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-sm-6 offset-md-6">
+          <!-- search bar is not responsive yet -->
+          <form action="/search" method="POST" class="form-group form-inline mt-4">
+            <div class="input-group">
+              <input type="text" name="searched_keyword" class="form-control" style="border-radius:1rem"
+                placeholder="Search Posts...">
+              <div class="input-group-append">
+                <input type="submit" value="Search" class="btn btn-primary mx-1">
+
+              </div>
+
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- above here is the search bar -->
+  <div class="row table-responsive">
+    <!-- below is inside one row -->
+    <!-- below is a col in the row -->
+    <div class="col-12 col-lg-9" id="all-posts">
+      <div class="container py-4 mb-4" style="border-radius: 0rem">
+        <table class="table small table-hover table-active table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Content Preview</th>
+              <th scope="col">By</th>
+              <th scope="col">Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if posts|length > 0 %}
+            {% for post in posts%}
+            <tr>
+              <td scope="row">{{loop.index}}</td>
+              <td><a href="/forum/{{post.id}}">{{post.title|safe}}</a></td>
+              <td>{{post.blog_content[:65]|safe}}</td>
+              <td><i class="bi bi-person-circle"></i> {% if post.user is none %} Deleted User  {% else %}{{post.user.first_name}} {{post.user.last_name}}{% endif %} </td>
+              <td>{{post.created_at.strftime('%Y-%m-%d')}}</td>
+              <td>
+
+                <a href="/forum/{{post.id}}" class="btn btn-secondary"><i class="bi bi-book"></i> See More</a>
+
+              </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <p>No posts available yet</p>
+            {% endif %}
+            <!-- above here is the table body -->
+          </tbody>
+        </table>
+        <!-- table ends here -->
+
+
+
+
+        <!-- pagination -->
+        <nav class="ml-4" aria-label="page navigation">
+          <ul class="pagination justify-content-end">
+            <!-- iter_pages -->
+            <li class="page-item disabled">
+              <a href="#" class="page-link">Previous</a>
+            </li>
+            <li class="page-item active">
+              <a href="#" class="page-link">1</a>
+            </li>
+            <li class="page-item">
+              <a href="#" class="page-link">2</a>
+            </li>
+            <li class="page-item">
+              <a href="#" class="page-link">3</a>
+            </li>
+            <li class="page-item">
+              <a href="#" class="page-link">Next</a>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- above is a col in the row -->
+    <!-- below is another col in the row -->
+    <div class="col-12 col-lg-3 py-4">
+
+      <div class="container py-4 mb-1 bg-light">
+
+        <a href="{{url_for('blogging')}}" class="btn btn-lg btn-primary">
+          <i class="bi bi-pencil"> </i> Create a Post
+        </a>
+
+      </div>
+      <div class="container py-4 mb-2 bg-light"> Total Active Users: <strong>{{user_nums}}</strong></div>
+      <div class="container py-4 mb-2 bg-light"> Number of Properties Analyzed: <strong> {{property_nums}}</strong>
+      </div>
+      <div class="container py-4 mb-2 bg-light"> Total Blog Posts: <strong>{{post_nums}}</strong></div>
+      <div class="container py-4 mb-2 bg-light"> Total Comments: <strong>{{total_comments}}</strong></div>
+    </div>
+
+
+
+
+
+    <!-- above is another col in the row -->
+    <!-- above is inside one row -->
+  </div>
+  <!-- above this is the content of the container -->
+</div>
+<!-- The whole white card is above -->
+
+
+
+
+
+
+
+{% endblock%}
+{% block js %}
+{% endblock %}

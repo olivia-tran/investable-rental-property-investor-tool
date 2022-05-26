@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4 mb-4 bg-light" style="border-radius: 0rem">
+    <div id="searched">
+        <div class="notfound">
+            <a href="{{url_for('index')}}">Go To Homepage</a>
+            <a href="{{url_for('forum')}}">Back To Dashboard</a>
+        </div>
+    </div>
+    <!-- below is a card showing results -->
+    <div class="card">
+        <h5 class="card-header">Searched results: </h5>
+        <!-- loop starts here -->
+        <br>
+        <p class="text-muted">Searched keyword is: {{searched_keyword|safe}}</p>
+        <div class="row">
+        {% if searched_posts| length > 0 %}
+<div class="col">
+        {% for result in searched_posts %}
+        <div class="card-body bg-light">
+            <h5 class="card-title">{{result.title|safe}} </h5>
+            <p class="card-text">{{result.blog_content[:200]|safe}}...</p>
+            <a href="/forum/{{result.id}}" class="btn btn-primary">See More</a>
+            <hr>
+        </div>
+        
+        {% endfor %}
+    </div>
+        </div>
+        
+        {% else %}
+
+        <h5>No result was found. Try again <a href="{{url_for('search')}}">Here</a> </h5>
+        {% endif %}
+        <!-- loop ends here -->
+    </div>
+    <!-- above is a card showing results -->
+    <!-- above here is the entire container content -->
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- contact form -->
+<!-- contact form below -->
+<section class="vh-50 mt-5">
+    <div class="container h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="/static/isometric-illustration.webp" class="img-fluid w-70 mx-auto d-block" alt="mdb-photo">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form action="/contact" method="POST">
+
+                    <div class="divider d-flex align-items-center my-4">
+                        <h2> <strong>We'd love to hear from you!</strong></h2>
+                    </div>
+
+                    <!-- email input -->
+
+                    <div class="form-outline mb-4">
+                        <input type="email" name="email" id="contact-form-email" class="form-control form-control-lg"
+                            placeholder="Email" />
+
+                    </div>
+                    <!-- message input -->
+                    <div class="form-outline mb-3">
+                        <textarea name="textarea" id="contact-us" cols="25" rows="8"
+                            class="form-control form-control-lg" placeholder="Your message"></textarea>
+
+                    </div>
+                    <!-- submit button -->
+                    <div class="form-outline">
+                        <input type="submit" class="btn btn-lg" value="Submit">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+
+<!-- contact form above -->
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+
+
+<div class="container shadow-lg" style="background-color: white; border-radius: 0rem;">
+    <header id="main-header" class="text-white fw-bolder" style="background-color: #d5acc4">
+        <div class="container" style="border-radius: 0rem">
+          <div class="row">
+            <div class="col-md-6">
+              <h2>
+                <i class="bi bi-people" id="bi-header" ></i>Community Dashboard </h2>
+            </div>
+  <!-- below this div -->
+  <div class="col-md-6">
+  <p class="small fw-bold mt-2 pt-1 mb-0 text-muted text-end">Expand your network, get to know another user, share your knowledge</p>
+  </div>
+            <!-- above here -->
+          </div>
+        </div>
+      </header>
+
+<!-- start of the form -->
+
+<!-- breadcrumb below -->
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/forum">Cancel</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Update a Post</li>
+  </ol>
+</nav>
+<!-- breadcrumb above -->
+<!-- enctype="multipart/form-data" -->
+    <form action="/forum/{{post.id}}/update" method="POST" class="form-group" enctype="multipart/form-data"charset=UTF-8 >
+      <!-- <input type="textarea" name="test" class="form-control" id="editor1"> -->
+    <div class="form-group mb-3">
+        <label for="title">Title</label>
+        <input type="text" name="title" value="{{post.title|safe}}" class="form-control" placeholder="Please include the topic you're covering">
+      </div>
+      <div class="form-group mb-3">
+        <label for="image">Upload Image</label>
+        <div class="custom-file">
+          <input type="file" name="blog_image" accept="image/*"   id="blog_image" capture>
+          <label for="blog_image" class="custom-file-label" aria-label="upload"></label>
+        </div>
+        <small class="form-text text-muted">Max Size 10Mb</small>
+      </div>
+      <div class="form-group mb-10">
+        <label for="body">Blog Content</label>
+        <textarea name="blog_content" id="editor2" value="{{post.blog_content|safe}}" class="form-control" cols="30" rows="20">
+            {{post.blog_content|safe}}
+        </textarea>
+        <button type="submit" class="btn btn-primary bnt-lg " value="submit">Submit</button>
+      </div>
+</form>
+
+
+
+
+</div>
+<!-- scripts are below -->
+<script>
+    ClassicEditor
+            .create( document.querySelector( '#editor2' ) )
+            .then( editor => {
+               
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
+{% endblock %}

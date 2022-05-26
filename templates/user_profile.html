@@ -1,0 +1,140 @@
+{% extends 'index.html' %}
+{% block content %}
+
+
+<div class="container shadow-lg" style="background-color: white; border-radius: 0rem;">
+
+  <p>{{session}}</p>
+  <!-- <h1> profile pic to be implemented </h1> -->
+
+  <p>
+
+   
+    1. Sign in & Security:
+    Email: Edit
+    Password: unique password to protect your account Change Password Button
+    2. Manage Account:
+    Deactivate account </p>
+  <!-- drop new content below the to do list -->
+
+  <!-- name banner -->
+  <header id="main-header" class="py-2 text-white" style="background-color: #d5acc4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>
+            <i class="bi bi-person" id="bi-header"></i> {{user.first_name|title}} {{user.last_name|title}}
+          </h2>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- profile section below -->
+  <section id="profile">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+
+          {% if not img_url %}
+          <img src="static/puppy_pic.jpg" alt="default-photo" class="d-block img-fluid mb-3">
+          {% else %}
+          <img src="{{img_url}}" alt="user-photo" class="d-block img-fluid mb-3">
+          {% endif %}
+          <!-- allow users to upload profile picture below -->
+
+          <div class="form-group form-control mb-3 ">
+            <form action="/post-form-data" method="POST" enctype="multipart/form-data">
+              <p><input type="file" id="image" name="my-file" accept="image/*" placeholder="Photo" capture></p>
+              <p><input type="submit" value="Upload" class="btn btn-sm"></p>
+              <dl></dl>
+            </form>
+          </div>
+          <!-- allow users to upload profile picture above -->
+         
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+          <div class="card">
+            <div class="card-header">
+              <h5><i class="bi bi-activity"></i><strong> User Stats</strong></h5>
+            </div>
+            <ul>
+              <li>Number of property analysis saved: <a href="/properties"><strong>{{property_count}}</strong></a> </li>
+              <li>Blog Posts: all <strong>{{count}}</strong> blog posts by you</li>
+              <li>Comments: all <strong>{{comment_count}}</strong> comment(s) made by you</li>
+              
+              
+            </ul>
+            <!-- any more content for the bio here -->
+          </div>
+        </div>
+        <!-- user stats div above -->
+        <div class="row mt-2">
+          <div class="card">
+            <table class="table small table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Content Preview</th>
+                  <th scope="col">Time</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                {% for post in show_posts%}
+                <tr>
+                  <td scope="row">{{loop.index}}</td>
+                  <td><a href="/forum/{{post.id}}">{{post.title|safe}}</a></td>
+                  <td>{{post.blog_content|safe}}</td>
+                  
+                  <td>{{post.created_at.strftime('%Y-%m')}}</td>
+                  
+                </tr>
+                {% endfor %}
+                <!-- above here is the table body -->
+              </tbody>
+            </table> 
+          </div>
+          <!-- user stats details -->
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- Account actions -->
+  <section id="actions" class="py-4 mb-4 bg-light" style="border-radius: 1rem">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a href="/forum" class="btn btn-light btn-block">
+            <i class="bi bi-box-arrow-left"></i>
+            Back To Dashboard
+          </a>
+        </div>
+        <div class="col-md-3">
+          <!-- can use a tag because of GET method -->
+          <a href="/profile/{{user.id}}" class="btn btn-success btn-block">
+            <i class="bi bi-shield-check"></i> Update User's Info
+          </a>
+        </div>
+        <div class="col-md-3">
+          <form action="/profile/{{user.id}}/delete" method="POST" >
+          <input type="submit" value="Delete Account" class="btn btn-danger btn-block" onclick="return confirm('You\'re about to delete your account. Proceed? ');">
+          
+          
+        </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- drop new content above this -->
+</div>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- try adding js script above -->
+<div class="container shadow-lg" style="background-color: white; border-radius: 0rem;">
+  <!-- header of the page below -->
+  <header id="main-header" class="py-2 text-white" style="background-color: #d5acc4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>
+            <i class="bi bi-building" id="bi-header"></i>My Properties </h2>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- header of the page above -->
+  <!-- testing stuff above -->
+  <div class="container bg-light mt-2"  style="border: radius 1rem;">
+    <div class="row">
+      <div class="col-md-4 mt-3">
+        <h3>Greetings, <a href="{{url_for('user_profile')}}">{{user.first_name|title}} </h3></a>
+        <p>You're signed in using: {{session.email}}</p>
+      </div>
+      <div class="col-md-8">
+        <!-- does the anchor tag work as a button for the click event to work? -->
+        <a href="#" id="compare-btn" class="button btn btn-primary float-end mt-2 px-1" style="border-radius: 2rem;"> Compare</a> 
+        <a href="{{url_for('index')}}#calculator" class="btn btn-primary float-end mx-1 mt-2 px-1"
+          style="border-radius: 2rem;">+ Add Property</a>
+
+      </div>
+    </div>
+
+  </div>
+  <hr>
+  <!-- </div> -->
+
+  <div class="container bg-light"  style="border-radius:0%">
+    
+    <!-- <div class="row chart-js py-4 mb-4 " style="position: relative; height:20vh; width:40vw"> -->
+     
+      <canvas id="compare_bar" height="50"></canvas>
+
+    <!-- </div> -->
+
+  </div>
+
+
+  <!-- property divs -->
+  <div class="container bg-light"  style="border-radius:0%">
+    <div class="row">
+      {% if  properties|length > 0%}
+
+      <!-- col-sm-4 -->
+      {% for property in properties %}
+      <div class="col-sm-4 my-2 py-1">
+        <!-- allow users to delete a property -->
+        <form action="/properties/{{property.id}}/delete" class="form-control" id="compare-form" method="POST">
+          <div class="row
+          ">
+            <div class="col">
+              {{loop.index}}. <strong> Rental Income: ${{property.rent}}</strong>
+            </div>
+            <div class="col">
+              <div class="form-check float-end">
+                <!-- need to check if the syntax here is accurate -->
+                <!-- when user selects a checkbox, its data should be sent somewhere to generate ChartJS
+                however, in this same form, submit btn means to delete. the compare btn is in a different form, I was thinking of doing a if condition but I don't think it's pleasing to see another button in each property box. What if I manipulate this completely on the front end? -->
+                <label for="checked-box">
+                <strong><input class="form-check-input" name="checked" type="checkbox" value="{{property.id}}"
+                    id="checked-box"></strong>
+                  </label>
+         
+              </div>
+
+            </div>
+          </div>
+          <ul>
+            <li> Rental Property ID: {{property.id}}</li>
+            <li>Mortgage Payment: ${{property.mortgage}}</li>
+            <li>Monthly Property Tax: ${{property.tax}}</li>
+            <li>Insurance: ${{property.insurance}}</li>
+            <li>HOA: ${{property.hoa}}</li>
+          </ul>
+          <!-- <div class="row"> -->
+          <input id="delete-{{property.id}}" type="submit" value="Delete Property"
+            class="button btn btn-small btn-danger"
+            onclick="return confirm('You\'re about to delete this property data?');">
+          <!-- </div> -->
+        </form>
+
+      </div>
+      {% endfor %}
+
+      {% else %}
+      <p class="text-muted bg-light">No properties found! Click <a href="{{url_for('index')}}#calculator">Here</a> to
+        analyze a property. </p>
+      {% endif %}
+
+    </div>
+
+  
+  </div>
+
+</div>
+{% endblock %}
+
+
+
+<!-- drop properties.js here -->
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="/static/js/properties.js"></script>
+
+{% endblock %}

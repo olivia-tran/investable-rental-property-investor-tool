@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container shadow-lg" style="background-color: white; border-radius: 0rem;">
+  <!-- header of the page below -->
+  <header id="main-header" class="py-2 text-white" style="background-color: #d5acc4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>
+            <i class="bi bi-chat-text" id="bi-header"></i>Discussions </h2>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- header of the page above -->
+  <!-- breadcrumb below -->
+  <nav
+    style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+    aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/forum">Previous</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Post Details</li>
+    </ol>
+  </nav>
+  <!-- breadcrumb above -->
+  <div class="card mb-3 bg-light">
+    <div class="row g-0">
+      <div class="col-md-4">
+        {% if post.imgURL %}
+        <img src="{{post.imgURL}}" class="img-fluid rounded-start" alt="san-francisco">
+        {% else %}
+        <img src="/static/aerialview.jpg" class="img-fluid rounded-start" alt="san-francisco">
+        {% endif %}
+      </div>
+      <div class="card col-md-8">
+        <h5 class="card-header"> <strong>{{post.title|safe}}</strong></h5>
+        <div class="card-body">
+          <p class="card-text">{{post.blog_content|safe}}</p>
+
+
+        </div>
+      </div>
+      <!-- if blog.user_id == current user_id, show delete and update button, else show reply button -->
+    
+
+     
+      <div class="card-footer bg-muted border-muted"><i class="bi bi-person-circle"></i> Posted by:
+        <strong>  {% if post.user is none %} Deleted User  {% else %}{{post.user.first_name}} {{post.user.last_name}}{% endif %}</strong> on
+        {{post.created_at.strftime('%Y-%m-%d at %H:%M:%S')}}
+        <!-- are we able to combine the two different forms for Update and Delete btn? Is there a way to use an IF stmt -->
+        {% if user_id == post.user_id %}
+        <form action="/forum/{{post.id}}/delete" method="POST">
+        <input type="submit" value="Delete" class="btn btn-danger btn-sm float-end mr-1 mb-2">
+      </form>
+
+      
+        <a href="/forum/{{post.id}}/update" class="btn btn-primary btn-sm float-end mx-3" value="Update">Update</a>
+        
+        {% else %}
+        <a href="/forum/{{post.id}}#reply-button"  class="btn btn-primary float-end"><i class="bi bi-reply"></i> Reply</a>
+      
+        {% endif %}
+      
+      </div>
+    </div>
+  </div>
+  <!-- blog has a list of comments blog.comments, blog.user, blog.user_id -->
+
+  <!-- if we have more than 0 comment then iterate over and display -->
+  <!-- old comment loop below -->
+  {% if comments|length > 0 %}
+  <div class="card mb-3 my-4 bg-light">
+    {% for comment in comments %}
+    <div class="card-body">
+      {{comment.comment_content}}
+      <div class="card-footer border-muted"><i class="bi bi-person-circle"></i> Replied by:
+        <strong>{{comment.user.first_name|title}} {{comment.user.last_name|title}} </strong> on
+        {{comment.created_at.strftime('%Y-%m-%d at %H:%M:%S')}} </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- old comment loop above -->
+  <!-- new comment blog card above -->
+  <div class="card mb-3 my-4 bg-light">
+    <div class="card-body">
+      <!-- </div> -->
+      <!-- add a comment below -->
+      <form action="/forum/{{post.id}}" method="POST" class="mb-3">
+        <input type="text" name="comment-content" class="form-control" placeholder="Leave a comment here" id="comment"
+          style="height: 100px">
+
+        <a href="/forum" class="btn btn-primary mt-3"
+          style="color:#739bc5; background-color:white; border-color:#739bc5; border-radius: 25px;"> <i
+            class="bi bi-skip-backward"></i> Back</a>
+<a name="reply-button" ></a>
+<!-- seems to break here where if I click submit w/o content it was confused with deleting -->
+        <input type="submit" class="btn btn-primary mt-3" value="Submit"
+          style="color:#739bc5; background-color:white; border-color:#739bc5; border-radius: 25px;">
+        <!-- inside the comment form -->
+      </form>
+      <!-- add a comment section above -->
+    </div>
+  </div>
+  <!-- above is the content of the big white container -->
+
+</div>
+{% endblock %}
