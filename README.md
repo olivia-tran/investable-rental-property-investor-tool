@@ -38,7 +38,7 @@ Real estate investing is fantastic way to create wealth and build a stream of pa
 
 - It also allows users to ask questions, share knowledge and network through a community dashboard feature.
 
-- Users can also enrich their skills by industry insight and book recommedation API features.
+- Users can also enrich their skills by industry insights and book recommedation API features.
 
 <br><br>
 
@@ -54,7 +54,7 @@ Real estate investing is fantastic way to create wealth and build a stream of pa
   <ul>
   <li>Backend: Python, Flask, PostgreSQL, SQLAlchemy </li>
 <li>Frontend: JavaScript, AJAX, JSON, Jinja2, Bootstrap 5, HTML, CSS </li>
-<li>APIs: Google Maps API, News API, Google Books API, Cloudinary API</li>
+<li>APIs: Google Maps API, News API, Google Books API, Cloudinary API, Chart JS</li>
 </ul>
 <p align="left">(<a href="#top">back to top</a>)</p>
 
