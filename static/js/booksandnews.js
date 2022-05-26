@@ -2,7 +2,7 @@
 // books and news api
 
 // alert('book and news api js loaded')
-const bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=rental+property&key=AIzaSyD7gmAcViJysl_pwmzh14p7JifHzsaR1Z0'
+const bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=rental+property&key={{GG_KEY}}'
 window.onload = function getBooksAndNews() {
     console.log('==========booksapi is being called============')
     fetch(bookUrl).then((response) => response.json())
