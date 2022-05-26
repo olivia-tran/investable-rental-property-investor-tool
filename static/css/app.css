@@ -1,0 +1,201 @@
+/* background: #e6ddde; */
+body { 
+    background: #e6ddde;
+font-family: 'Nunito';
+height: 100%;
+
+}
+
+#card-news {
+  min-height: 510px;
+}
+#bi-header {
+  color: #739bc5;
+  font-size: 2.5rem;
+}
+
+.bi {
+  color: #739bc5;
+  font-size: 1rem;
+}
+
+strong {
+  text-shadow: 2px 2px 3px rgba(255,255,255,0.1);
+  block-size: auto;
+}
+
+
+.btn {
+  background-color: white;
+  color: #739bc5;
+  border-color: #739bc5;
+  border-radius: 25px;
+}
+.btn:hover,
+.btn:focus,
+.btn:active    {
+  background-color: #739bc5;
+  color: white;
+  border-color: #739bc5;
+}
+
+.container {
+  border-radius: 1rem;
+}
+
+#mainNavbar {
+/* font-family: "Questrial", sans-serif; */
+font-family: 'Nunito', sans-serif;
+font-family: 'Nunito Sans', sans-serif;
+font-family: 'Plus Jakarta Sans', sans-serif;
+font-family: 'Roboto Slab', serif;
+}
+/* I want the background img to be fully responsive */
+/* also want to add 2-3 more different imgs and a footer */
+
+.card:hover {
+  border-color: rgb(213, 172, 196);
+  box-shadow: 0px 0px 10px 2px rgb(213, 172, 196);
+}
+
+
+
+#mainNavbar {
+    font-size: 1.2rem;
+    font-weight: 100;
+}
+
+#mainNavbar .nav-link {
+    color: #a69698;
+}
+
+#mainNavbar .nav-link:hover {
+    color: #b40404 ;
+
+}
+
+#mainNavbar .navbar-brand {
+    color: #b40404;
+    /* font-family: 'Nunito', sans-serif; */
+}
+#news-img { height: 275px;
+  width: auto;
+}
+
+#news-link {
+  background-color: #739bc5;
+  border-radius: 2rem;
+
+}
+
+#news-title:hover {
+  transform: scale(1.05);
+  box-shadow: 0 40px 60px -20px rbga(12,5,52,0.15);
+  color: #739bc5;
+}
+strong {
+  color:#739bc5;
+}
+
+#search-section {
+background: url('/static/bridge.jpg') bottom center/cover no-repeat;
+height: 190px;
+object-fit: contain;
+background-blend-mode: #f5d5d9;
+}
+
+#hidden {
+  background: url('/static/Team.png') center/cover no-repeat;
+position: relative;
+background-size: auto;
+/* object-fit: contain; */
+
+}
+
+
+
+#showcase {
+    background: url('/static/top.jpg') bottom center/cover no-repeat;
+    min-height: 600px;
+    position: relative; }
+    #showcase #header {
+      z-index: 2; }
+      #showcase #overlay {
+        background: rgba(255, 255, 255, 0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1; }
+      #showcase h1 {
+        font-family: "Roboto Slab", sans-serif;
+        line-height: 1; }
+        
+        .notfound .notfound-404 h1{
+            font-family:'Titillium Web', sans-serif ;
+            font-size: 186px;
+          font-weight: 900;
+          margin: 0px;
+          text-transform: uppercase;
+          background-size: cover;
+          background-position: center;
+          color: #a69698;
+        }
+        .notfound a {
+            font-family: 'Titillium Web', sans-serif;
+            display: inline-block;
+            text-transform: uppercase;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            background: #654d52;
+            padding: 10px 40px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 1px;
+            margin-top: 15px;
+            -webkit-transition: 0.2s all;
+            transition: 0.2s all;
+        }
+        
+        .notfound a:hover {
+            opacity: 0.6;
+          }
+.pagination >li >a {
+  background-color: white;
+  color: #b40404;
+}    
+   
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: white;
+    background-color: #d5acc4;
+    border-color: #d5acc4;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: #d5acc4 !Important;
+    border: solid 1px #d5acc4 !Important;
+}
+/* !Important is used here to override the primary color! */
+.pagination > .active > a:hover
+{
+    background-color: #d5acc4!Important;
+    border: solid 1px #d5acc4;
+}
+
+
+        /* #flash_messages {
+          border-style: solid;
+          border-width: 3px;
+          background-color: red;
+        }           */
+/* .accordion-button {
+  color: #d5acc4;
+} */
