@@ -2,6 +2,7 @@
 from datetime import datetime
 from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for, make_response
 import crud
+import cloudinary
 import requests
 import psycopg2
 import os
@@ -35,7 +36,7 @@ def index():
     '''Display homepage'''
     # flash("Welcome to INVESTABLE community!")
     print(session)
-    return render_template('index.html', GG_KEY=GG_KEY)
+    return render_template('index.html', GG_KEY=GG_KEY, API_KEY=API_KEY)
 
 
 @ app.route('/books')
@@ -143,7 +144,7 @@ def user_profile():
         count = crud.get_all_posts_by_a_user(user.id)
         comment_count = crud.get_all_comments_by_a_user(user.id)
         print(f'==========={user}')
-        return render_template('user_profile.html', comment_count=comment_count, user=user, count=count, property_count=property_count, show_posts=show_posts, img_url=img_url, GG_KEY=GG_KEY, session=session)
+        return render_template('user_profile.html', comment_count=comment_count, user=user, count=count, property_count=property_count, show_posts=show_posts, img_url=img_url, GG_KEY=GG_KEY, API_KEY=API_KEY, session=session)
     else:
         return redirect('/login')
 
