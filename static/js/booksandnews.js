@@ -2,7 +2,7 @@
 // books and news api
 
 // alert('book and news api js loaded')
-const bookUrl = 'https://www.googleapis.com/books/v1/volumes?q=rental+property&key={{GG_KEY}}'
+const bookUrl = `https://www.googleapis.com/books/v1/volumes?q=rental+property&key=${{GG_KEY}}`
 window.onload = function getBooksAndNews() {
     console.log('==========booksapi is being called============')
     fetch(bookUrl).then((response) => response.json())
@@ -19,7 +19,7 @@ window.onload = function getBooksAndNews() {
         });
 
     // adding get_news here as well because cannot have two window.onload functions
-    const url = 'https://newsapi.org/v2/everything?q=rental+property+investment+real+estate+mortgage&sortBy=relevancy&apiKey=e3e696baedae4868a1713500a219c5f4'
+    const url = `https://newsapi.org/v2/everything?q=rental+property+investment+real+estate+mortgage&sortBy=relevancy&apiKey={{API_KEY}}`
     fetch(url).then((response) => response.json())
         .then((data) => {
             for (let i = 0; i < 2; i++) {
