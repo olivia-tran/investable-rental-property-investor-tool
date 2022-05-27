@@ -1,7 +1,7 @@
 'use strict';
 // books and news api
 
-alert('book and news api js loaded')
+// alert('book and news api js loaded')
 const bookUrl = `https://www.googleapis.com/books/v1/volumes?q=rental+property&key=${GG_KEY}`
 window.onload = function getBooksAndNews() {
     console.log('==========booksapi is being called============')
@@ -30,7 +30,7 @@ window.onload = function getBooksAndNews() {
                         '<div class="card" id="card-news">' +
                         '<img id="news-img" src=' + data.articles[i].urlToImage + ' alt="photo-from-news" class="card-img-top">' +
                         '<div class="card-body">' +
-                        '<h4 class="card-title" id="news-title">' + data.articles[i].title + '</h4>' +
+                        '<h4 class="card-title" id="news-title">' + data.articles[i].title.slice(0, 100) + '</h4>' +
                         '<p class="card-text" id="news-text"></p>' +
                         data.articles[i].content.slice(0, 200) + '<br>' +
                         '<a href=' + data.articles[i].url + 'id="news-link" class="btn btn-lg btn-success rounded-pill mt-2" target="_blank"  >Read more</a>' +

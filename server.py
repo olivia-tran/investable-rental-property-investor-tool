@@ -2,7 +2,7 @@
 from datetime import datetime
 from flask import Flask, render_template, redirect, flash, session, request, jsonify, json, url_for, make_response
 import crud
-import cloudinary
+import cloudinary.uploader
 import requests
 import psycopg2
 import os
@@ -277,7 +277,7 @@ def blogging():
     # the blog content was not posted is it because of the enctype?
     else:
 
-        user_id = get_user_id_by_session_email().id
+        user_id = get_user_by_session_email().id
         blog_content = request.form.get('blog_content')
         print(f' this is BLOG CONTENT====={blog_content}')
         title = request.form.get('title')
@@ -320,7 +320,7 @@ def search():
 def to_delete_post(id):
     '''Delete a post by ID'''
     # flash('The blog post is about to be deleted.')
-    user = get_user_id_by_session_email()
+    user = get_user_by_session_email()
     if len(user.blog_posts) > 0 and user.blog_posts[0].id == id:
         crud.delete_post(id)
         flash(f'Blog Post ID {id} was deleted.')
@@ -361,7 +361,7 @@ def to_post_a_comment(blog_id):
     '''To leave a comment on a blog post'''
     if request.method == 'GET':
         flash('IF STMT ')
-        user_id = get_user_id_by_session_email().id
+        user_id = get_user_by_session_email().id
         post = crud.get_blog_details(blog_id)
         comments = crud.get_all_comments_on_a_post(blog_id)
         return render_template('blog_details.html', datetime=datetime, pytz=pytz, comments=comments, post=post, user_id=user_id)
@@ -370,7 +370,7 @@ def to_post_a_comment(blog_id):
         flash('The comment is to be posted.')
         comment_content = request.form.get('comment-content')
         if len(comment_content) > 5:
-            user_id = get_user_id_by_session_email().id
+            user_id = get_user_by_session_email().id
             comment = crud.create_a_comment(blog_id, user_id, comment_content)
             db.session.add(comment)
             db.session.commit()
@@ -418,7 +418,7 @@ def add_user_img_record(img_url):
     '''Save img url to db by user ID'''
     print('\n'.join(
         [f"{'*' * 20}", 'Save this url to your database!', img_url, f"{'*' * 20}"]))
-    user = get_user_id_by_session_email()
+    user = get_user_by_session_email()
     print(f'user_id==============={user.id}')
     new_pic = crud.save_profile_pic(url=img_url, user_id=user.id)
     db.session.add(new_pic)
@@ -428,8 +428,8 @@ def add_user_img_record(img_url):
 # to remove this and refactor code
 
 
-def get_user_id_by_session_email():
-    '''get a user ID via accessing session['email']'''
+def get_user_by_session_email():
+    '''get a user via accessing session['email']'''
     email = session.get('email')
     user = crud.get_user_by_email(email)
     return user
@@ -440,7 +440,7 @@ def get_user_id_by_session_email():
 @app.context_processor
 def base():
     '''Pass variables to base.html'''
-    user = get_user_id_by_session_email()
+    user = get_user_by_session_email()
     return dict(user=user)
 
 # -----------------------------API Routes---------------------------
