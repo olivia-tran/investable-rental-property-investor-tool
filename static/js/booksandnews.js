@@ -12,7 +12,7 @@ window.onload = function getBooksAndNews() {
                 // console.log(`this is the link ${data.items[i].volumeInfo.industryIdentifiers.infoLink}`)
                 const book_card =
                     '<div id="book_card" class="col-6 col-lg-3 mb-4">' +
-                    '<a href=' + data.items[i].volumeInfo.infoLink + ' target="_blank"><img src=' + data.items[i].volumeInfo.imageLinks.thumbnail + ' alt="book-cover" class="img-fluid"></a>' +
+                    '<a href=' + data.items[i].volumeInfo.infoLink + ' target="_blank"><img src=' + data.items[i].volumeInfo.imageLinks.thumbnail + ' alt="book-cover" class="img-fluid card"></a>' +
                     '</div>'
                 document.querySelector('#book').insertAdjacentHTML('beforeend', book_card)
             }

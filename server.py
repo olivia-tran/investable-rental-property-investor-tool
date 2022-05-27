@@ -88,9 +88,10 @@ def register_user():
             user_id = (crud.get_user_by_email(email)).id
             properties = crud.get_properties_by_user(user_id)
     return render_template('properties.html', user=user, properties=properties, GG_KEY=GG_KEY, session=session)
-# realized the importance of user testing here. Updated titlecase for names
+# I started using the app as if a user testing here and have updated a few formatting filters to increase user's expererience.E:g. titlecase for names
+# I really like having those print stmts which make it easier for debugging, so I'll just comment them out when deployed
 
-
+#set up log in required decorator for all the logged-in routes
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -175,7 +176,7 @@ def update_profile(user_id):
 def to_delete_account(user_id):
     '''Delete user account by user ID'''
     # check user_id to be deleted vs current_user.id
-    # to keep vs to delete all posts done by deleted users
+    # to keep vs to delete all posts done by deleted users, I decided to keep all related posts/comments by deleted users. Cascades
 
     user = crud.get_user_by_email(session['email'])
     if user_id == user.id:
@@ -234,7 +235,6 @@ def save_data():
 @login_required
 def to_delete_property(id):
     '''Delete a property by ID'''
-    # flash('The property is about to be deleted.')
     crud.delete_property(id)
     flash(f'Property ID {id} was deleted.')
     return redirect('/properties')
@@ -247,10 +247,11 @@ def contact():
         email = request.form.get('email')
         feedback = request.form.get('textarea')
         data = pd.DataFrame({'email': email, 'feedback': feedback}, index=[0])
-        data.to_csv('data/userFeedback.csv')
+        with open('data/userFeedback.csv', 'a') as f: 
+            data.to_csv(f)
         flash('Thank you for your message!')
     return render_template('contact.html')
-    # want to save but not overwriting old content in the csv file
+    # this saves but not overwriting old content in the csv file
 
 
 # -------------------------------Related to BLOG POSTS routes-------------------------------------
@@ -274,7 +275,6 @@ def blogging():
     '''if user is logged in, user can create blog posts'''
     if request.method == 'GET':
         return render_template('posting.html')
-    # the blog content was not posted is it because of the enctype?
     else:
 
         user_id = get_user_by_session_email().id
@@ -291,10 +291,10 @@ def blogging():
             print(f'==================={request.files}')
             img_url = upload_to_cloudinary(blog_photo)
             blog = crud.create_a_post(user_id, blog_content, title, img_url)
-            flash('IF STMT RAN')
+            # flash('IF STMT RAN')
         else:
             blog = crud.create_a_post(user_id, blog_content, title)
-            flash('ELSE STMT RAN')
+            # flash('ELSE STMT RAN')
         db.session.add(blog)
         db.session.commit()
         flash('Blog was created!')
@@ -319,13 +319,12 @@ def search():
 @login_required
 def to_delete_post(id):
     '''Delete a post by ID'''
-    # flash('The blog post is about to be deleted.')
     user = get_user_by_session_email()
     if len(user.blog_posts) > 0 and user.blog_posts[0].id == id:
         crud.delete_post(id)
         flash(f'Blog Post ID {id} was deleted.')
     else:
-        flash('Can\'t delete the post. ')
+        flash('Can\'t delete the post. Please check if you\'re the author')
     return redirect('/forum')
 
 
@@ -333,7 +332,7 @@ def to_delete_post(id):
 @login_required
 def to_update_post(id):
     '''Update a post by its ID'''
-    flash(f'About to update the post {id}')
+    # flash(f'About to update the post {id}')
     post = crud.get_blog_details(id)
     if request.method == 'POST':
         if post:
@@ -344,7 +343,7 @@ def to_update_post(id):
                 post.imgURL = upload_to_cloudinary(blog_photo)
             db.session.add(post)
             db.session.commit()
-            flash('Blog was created!')
+            flash('Blog was updated!')
         else:
             flash(f'No blog post with the {id} was found.')
         return redirect(f'/forum')
@@ -369,14 +368,15 @@ def to_post_a_comment(blog_id):
         flash('ELSE STMT')
         flash('The comment is to be posted.')
         comment_content = request.form.get('comment-content')
-        if len(comment_content) > 5:
+        #to make sure users type a comment that is longer than 10 characters
+        if len(comment_content) > 10:
             user_id = get_user_by_session_email().id
             comment = crud.create_a_comment(blog_id, user_id, comment_content)
             db.session.add(comment)
             db.session.commit()
             flash(f'Comment ID {comment.id} was successfully posted.')
         else:
-            flash('Please write a longer response')
+            flash('Please write a longer than ten-character response')
         return redirect(f'/forum/{blog_id}')
 
 

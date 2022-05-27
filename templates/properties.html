@@ -24,7 +24,7 @@
       </div>
       <div class="col-md-8">
         <!-- does the anchor tag work as a button for the click event to work? -->
-        <a href="#" id="compare-btn" class="button btn btn-primary float-end mt-2 px-1" style="border-radius: 2rem;"> Compare</a> 
+        <button id="compare-btn" class="button btn btn-primary float-end mt-2 px-1" style="border-radius: 2rem;"> Compare </button>
         <a href="{{url_for('index')}}#calculator" class="btn btn-primary float-end mx-1 mt-2 px-1"
           style="border-radius: 2rem;">+ Add Property</a>
 
@@ -55,7 +55,7 @@
       {% for property in properties %}
       <div class="col-sm-4 my-2 py-1">
         <!-- allow users to delete a property -->
-        <form action="/properties/{{property.id}}/delete" class="form-control" id="compare-form" method="POST">
+        
           <div class="row
           ">
             <div class="col">
@@ -63,16 +63,14 @@
             </div>
             <div class="col">
               <div class="form-check float-end">
-                <!-- need to check if the syntax here is accurate -->
-                <!-- when user selects a checkbox, its data should be sent somewhere to generate ChartJS
-                however, in this same form, submit btn means to delete. the compare btn is in a different form, I was thinking of doing a if condition but I don't think it's pleasing to see another button in each property box. What if I manipulate this completely on the front end? -->
+                
+                <!-- when user selects a checkbox, its data is sent to the server to query data which then will be used to generate ChartJS
+                however, in this same form, submit btn means to delete. the compare btn is in a different form -->
                 <label for="checked-box">
-                <strong><input class="form-check-input" name="checked" type="checkbox" value="{{property.id}}"
+                <strong><input class="form-check-input" name="checked-property" type="checkbox" value="{{property.id}}"
                     id="checked-box"></strong>
                   </label>
-         
               </div>
-
             </div>
           </div>
           <ul>
@@ -82,11 +80,11 @@
             <li>Insurance: ${{property.insurance}}</li>
             <li>HOA: ${{property.hoa}}</li>
           </ul>
-          <!-- <div class="row"> -->
+          <form action="/properties/{{property.id}}/delete" class="form-control" id="compare-form" method="POST">
           <input id="delete-{{property.id}}" type="submit" value="Delete Property"
             class="button btn btn-small btn-danger"
             onclick="return confirm('You\'re about to delete this property data?');">
-          <!-- </div> -->
+          
         </form>
 
       </div>
@@ -111,5 +109,8 @@
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="/static/js/properties.js"></script>
+<script>
+console.log('this is from properties.html js script')
 
+</script>
 {% endblock %}

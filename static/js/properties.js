@@ -12,7 +12,7 @@ function randomizeColors(arrayLength) {
 // 'rgba(213, 172, 196, 1)'
 function compareProperties(event) {
     // get property ID from user clicked on checkboxes
-    let cb = document.querySelectorAll('input[name="checked"]:checked');
+    let cb = document.querySelectorAll('input[name="checked-property"]:checked');
     let values = [];
     cb.forEach((checkbox) => {
         let propertyId = values.push(parseInt(checkbox.value));
