@@ -18,11 +18,11 @@
   <!-- testing stuff above -->
   <div class="container bg-light mt-2"  style="border: radius 1rem;">
     <div class="row">
-      <div class="col-md-4 mt-3">
+      <div class="col-lg-4 mt-3">
         <h3>Greetings, <a href="{{url_for('user_profile')}}">{{user.first_name|title}} </h3></a>
         <p>You're signed in using: {{session.email}}</p>
       </div>
-      <div class="col-md-8">
+      <div class="col-lg-8">
         <!-- does the anchor tag work as a button for the click event to work? -->
         <button id="compare-btn" class="button btn btn-primary float-end mt-2 px-1" style="border-radius: 2rem;"> Compare </button>
         <a href="{{url_for('index')}}#calculator" class="btn btn-primary float-end mx-1 mt-2 px-1"
@@ -34,17 +34,18 @@
   </div>
   <hr>
   <!-- </div> -->
-
+<div class="row">
   <div class="container bg-light"  style="border-radius:0%">
     
     <!-- <div class="row chart-js py-4 mb-4 " style="position: relative; height:20vh; width:40vw"> -->
      
-      <canvas id="compare_bar" height="50"></canvas>
+      <canvas id="compare_bar" style="position: relative; height:20vh; width:90%"></canvas>
 
     <!-- </div> -->
 
   </div>
-
+  <!-- new row below -->
+</div>
 
   <!-- property divs -->
   <div class="container bg-light"  style="border-radius:0%">
@@ -53,7 +54,7 @@
 
       <!-- col-sm-4 -->
       {% for property in properties %}
-      <div class="col-sm-4 my-2 py-1 card">
+      <div class="col-lg-4 my-2 py-1 card">
         <!-- allow users to delete a property -->
         
           <div class="row
@@ -82,7 +83,7 @@
           </ul>
           <form action="/properties/{{property.id}}/delete" class="" id="compare-form" method="POST">
           <input id="delete-{{property.id}}" type="submit" value="Delete Property"
-            class="button btn btn-small btn-danger"
+            class="button btn btn-danger btn-block"
             onclick="return confirm('You\'re about to delete this property data?');">
           
         </form>

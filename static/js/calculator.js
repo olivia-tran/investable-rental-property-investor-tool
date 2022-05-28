@@ -17,7 +17,7 @@ const backgroundColor = [
   'rgba(255, 214, 225, 1)',
   'rgba(236, 189, 196, 1)'
 ]
-const borderColor = 'rgba(245, 220, 224, 1)'
+const borderColor = 'rgba(213, 172, 196, 1)'
 
 function runNumbers(event) {
   document.querySelector('#hidden').style.backgroundImage = "url('/static/white.jpg')";
