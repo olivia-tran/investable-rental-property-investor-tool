@@ -53,7 +53,7 @@
 
       <!-- col-sm-4 -->
       {% for property in properties %}
-      <div class="col-sm-4 my-2 py-1">
+      <div class="col-sm-4 my-2 py-1 card">
         <!-- allow users to delete a property -->
         
           <div class="row
@@ -80,7 +80,7 @@
             <li>Insurance: ${{property.insurance}}</li>
             <li>HOA: ${{property.hoa}}</li>
           </ul>
-          <form action="/properties/{{property.id}}/delete" class="form-control" id="compare-form" method="POST">
+          <form action="/properties/{{property.id}}/delete" class="" id="compare-form" method="POST">
           <input id="delete-{{property.id}}" type="submit" value="Delete Property"
             class="button btn btn-small btn-danger"
             onclick="return confirm('You\'re about to delete this property data?');">
@@ -109,8 +109,5 @@
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="/static/js/properties.js"></script>
-<script>
-console.log('this is from properties.html js script')
 
-</script>
 {% endblock %}

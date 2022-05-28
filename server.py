@@ -265,7 +265,7 @@ def forum():
     total_posts = crud.get_num_of_posts()
     total_users = crud.get_num_of_users()
     total_properties = crud.get_num_of_properties()
-    posts = crud.get_all_posts()
+    posts = crud.show_posts_by_order()
     return render_template('forum.html', total_comments=total_comments, posts=posts, user_nums=total_users, post_nums=total_posts, property_nums=total_properties)
 
 
@@ -281,8 +281,8 @@ def blogging():
         blog_content = request.form.get('blog_content')
         print(f' this is BLOG CONTENT====={blog_content}')
         title = request.form.get('title')
-        test = request.form.get('test')
-        print(f' this is BLOG TESTTTTTTTT====={test}')
+        # test = request.form.get('test')
+        # print(f' this is BLOG TESTTTTTTTT====={test}')
         print(f' this is BLOG TITLE====={title}')
         blog_photo = request.files.get('blog_image')
         print(f' this is BLOG PHOTO====={blog_photo}')
@@ -321,6 +321,7 @@ def to_delete_post(id):
     '''Delete a post by ID'''
     user = get_user_by_session_email()
     if len(user.blog_posts) > 0 and user.blog_posts[0].id == id:
+        print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$user.blog_posts[0].id{user.blog_posts[0].id}')
         crud.delete_post(id)
         flash(f'Blog Post ID {id} was deleted.')
     else:
@@ -359,14 +360,14 @@ def to_update_post(id):
 def to_post_a_comment(blog_id):
     '''To leave a comment on a blog post'''
     if request.method == 'GET':
-        flash('IF STMT ')
+        # flash('IF STMT ')
         user_id = get_user_by_session_email().id
         post = crud.get_blog_details(blog_id)
         comments = crud.get_all_comments_on_a_post(blog_id)
         return render_template('blog_details.html', datetime=datetime, pytz=pytz, comments=comments, post=post, user_id=user_id)
     else:
-        flash('ELSE STMT')
-        flash('The comment is to be posted.')
+        # flash('ELSE STMT')
+        # flash('The comment is to be posted.')
         comment_content = request.form.get('comment-content')
         #to make sure users type a comment that is longer than 10 characters
         if len(comment_content) > 10:
@@ -376,7 +377,7 @@ def to_post_a_comment(blog_id):
             db.session.commit()
             flash(f'Comment ID {comment.id} was successfully posted.')
         else:
-            flash('Please write a longer than ten-character response')
+            flash('Please write a longer response')
         return redirect(f'/forum/{blog_id}')
 
 
@@ -423,7 +424,7 @@ def add_user_img_record(img_url):
     new_pic = crud.save_profile_pic(url=img_url, user_id=user.id)
     db.session.add(new_pic)
     db.session.commit()
-    flash('Image URL saved to db!')
+    # flash('Image URL saved to db!')
 
 # to remove this and refactor code
 

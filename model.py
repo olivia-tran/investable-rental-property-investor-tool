@@ -2,7 +2,6 @@
 from collections import UserString
 from datetime import datetime
 from email.policy import default
-# from email.policy import default
 from flask_sqlalchemy import SQLAlchemy
 import pytz
 db = SQLAlchemy()
@@ -22,31 +21,12 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False, default='123456')
     properties = db.relationship('Property', back_populates='user')
     blog_posts = db.relationship('BlogPost', back_populates='user')
-    # blog_images = db.relationship('BlogImage', back_populates='user')
     comments = db.relationship('Comment', back_populates='user')
     user_image = db.relationship(
         'UserImage', uselist=False, back_populates='user')
 
     def __repr__(self):
         return f'<User: id= {self.id}, first_name= {self.first_name}>'
-
-    # @classmethod
-    # def create(cls, email, password):
-    #     '''Create and return a new user.'''
-
-    #     return cls(email=email, password=password)
-
-    # @classmethod
-    # def get_by_id(cls, id):
-    #     return cls.query.get(id)
-
-    # @classmethod
-    # def get_by_email(cls, email):
-    #     return cls.query.filter(User.email == email).first()
-
-    # @classmethod
-    # def all_users(cls):
-    #     return cls.query.all()
 
 
 class Property(db.Model):
@@ -59,26 +39,18 @@ class Property(db.Model):
     mortgage = db.Column(db.Float, nullable=False)
     tax = db.Column(db.Float, nullable=False)
     insurance = db.Column(db.Float, nullable=False)
-    hoa = db.Column(db.Float)  # need to update the data model
+    hoa = db.Column(db.Float)  
     utilities = db.Column(db.Float)
     maintenance = db.Column(db.Float)
     pm = db.Column(db.Float)
     vacancy = db.Column(db.Float)
     capex = db.Column(db.Float)
-
     user = db.relationship('User', back_populates='properties')  # one to many
 
     def __repr__(self):
         return f"<Property: id={self.id} user_id={self.user_id}>"
 
-    # @classmethod
-    # def create(cls, user, property):
-    #     '''Create and return a new property.'''
 
-    #     return cls(user=user, property=property)
-# count of active users User.query.count()
-# num of blog posts
-# num of comments
 
 
 class BlogPost(db.Model):
@@ -159,8 +131,7 @@ def connect_to_db(flask_app, db_uri='postgresql:///investables', echo=True):
 if __name__ == '__main__':
     from server import app
 
-    # Call connect_to_db(app, echo=False) if your program output gets
-    # too annoying; this will tell SQLAlchemy not to print out every
-    # query it executes.
+    # Call connect_to_db(app, echo=False) for fewer query stmts
+   
 
     connect_to_db(app)
