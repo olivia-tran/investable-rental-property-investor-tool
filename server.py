@@ -91,7 +91,9 @@ def register_user():
 # I started using the app as if a user testing here and have updated a few formatting filters to increase user's expererience.E:g. titlecase for names
 # I really like having those print stmts which make it easier for debugging, so I'll just comment them out when deployed
 
-#set up log in required decorator for all the logged-in routes
+# set up log in required decorator for all the logged-in routes
+
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -153,7 +155,7 @@ def user_profile():
 @app.route('/profile/<int:user_id>', methods=['GET', 'POST'])
 def update_profile(user_id):
     '''Update user profile name, email or password'''
-    user = crud.get_user_by_id(user_id)
+    user = crud.get_user_by_email(session['email'])
     if request.method == 'POST':
         if user and user.password == request.form.get('old-password'):
             user.first_name = request.form.get('first')
@@ -165,7 +167,7 @@ def update_profile(user_id):
             flash('Account was succesfully updated! ')
         else:
             flash(
-                f'No user with the {user_id} was found or old password was enterred incorrectly. ')
+                f'User {user_id} was not found or old password was enterred incorrectly. ')
         return redirect('/profile')
     else:
         return render_template('update_user_info.html', user=user)
@@ -247,7 +249,7 @@ def contact():
         email = request.form.get('email')
         feedback = request.form.get('textarea')
         data = pd.DataFrame({'email': email, 'feedback': feedback}, index=[0])
-        with open('data/userFeedback.csv', 'a') as f: 
+        with open('data/userFeedback.csv', 'a') as f:
             data.to_csv(f)
         flash('Thank you for your message!')
     return render_template('contact.html')
@@ -321,7 +323,8 @@ def to_delete_post(id):
     '''Delete a post by ID'''
     user = get_user_by_session_email()
     if len(user.blog_posts) > 0 and user.blog_posts[0].id == id:
-        print(f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$user.blog_posts[0].id{user.blog_posts[0].id}')
+        print(
+            f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$user.blog_posts[0].id{user.blog_posts[0].id}')
         crud.delete_post(id)
         flash(f'Blog Post ID {id} was deleted.')
     else:
@@ -329,24 +332,26 @@ def to_delete_post(id):
     return redirect('/forum')
 
 
-@app.route('/forum/<int:id>/update', methods=['GET', 'POST'])
+@app.route('/forum/<int:blog_id>/update', methods=['GET', 'POST'])
 @login_required
-def to_update_post(id):
+def to_update_post(blog_id):
     '''Update a post by its ID'''
-    # flash(f'About to update the post {id}')
-    post = crud.get_blog_details(id)
-    if request.method == 'POST':
-        if post:
-            post.title = request.form.get('title')
-            post.blog_content = request.form.get('blog_content')
-            blog_photo = request.files.get('blog_image')
-            if blog_photo:
-                post.imgURL = upload_to_cloudinary(blog_photo)
-            db.session.add(post)
-            db.session.commit()
-            flash('Blog was updated!')
-        else:
-            flash(f'No blog post with the {id} was found.')
+    user = crud.get_user_by_email(session['email'])
+    # need to revisit the logic here to check if the correct author
+    post = crud.get_blog_details(blog_id)
+    if user.id == post.user_id and request.method == 'POST':
+        flash('Outer if ran')
+        post.title = request.form.get('title')
+        post.blog_content = request.form.get('blog_content')
+        blog_photo = request.files.get('blog_image')
+        if blog_photo:
+            flash('Inner if ran')
+            post.imgURL = upload_to_cloudinary(blog_photo)
+        db.session.add(post)
+        db.session.commit()
+        flash('Blog was updated!')
+    elif not post:
+        flash(f'No blog post ID {blog_id} was found.')
         return redirect(f'/forum')
     else:
         return render_template('update.html', post=post)
@@ -369,7 +374,7 @@ def to_post_a_comment(blog_id):
         # flash('ELSE STMT')
         # flash('The comment is to be posted.')
         comment_content = request.form.get('comment-content')
-        #to make sure users type a comment that is longer than 10 characters
+        # to make sure users type a comment that is longer than 10 characters
         if len(comment_content) > 10:
             user_id = get_user_by_session_email().id
             comment = crud.create_a_comment(blog_id, user_id, comment_content)

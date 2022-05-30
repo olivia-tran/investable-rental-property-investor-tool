@@ -1,3 +1,25 @@
+## Sprint 2: Part 2 -- Project Update
+
+### Features I have completed for my project:
+
+add expense comparison charts using chart JS tools
+refactor some code, each data has full CRUD operations
+wrote unit tests, coverage 62%
+
+### Technologies I used (including Python and JS libraries, APIs, etc.):
+
+Python, Flask, Google Maps API, Google Books API, News API, Cloudinary API, Chart JS
+
+### My general work plan/estimate for styling:
+
+<ul>
+<li>Revisit user flow testing and debug if needed </li>
+<li>Check responsiveness of app in different sizes </li>
+
+</ul>
+
+<!-- ###################################### -->
+
 ## Sprint 2: Part 1 -- Project Update
 
 ### I have completed my MVP (yes/no): no
