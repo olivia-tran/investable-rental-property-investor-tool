@@ -2,10 +2,11 @@
 
 ### Features I have completed for my project:
 
-add expense comparison charts using chart JS tools
-refactor some code, each data has full CRUD operations
-wrote unit tests, coverage 62%
-
+<ul>
+<li>add expense comparison charts using chart JS tools</li>
+<li>refactor some code, each data has full CRUD operations</li>
+<li>wrote unit tests, coverage 62%</li>
+</ul>
 ### Technologies I used (including Python and JS libraries, APIs, etc.):
 
 Python, Flask, Google Maps API, Google Books API, News API, Cloudinary API, Chart JS
@@ -31,16 +32,17 @@ and hoping to incorporate react next week
 
 ### For the first half of sprint 2, I worked on:
 
-restructuring index page
-completed blogging and commenting features
-did some styling
-
+<ul>
+<li>restructuring index page</li>
+<li>completed blogging and commenting features</li>
+<li>did some styling</li>
+</ul>
 ### My general work plan/estimate for the remainder of Sprint 2:
 
-add expense comparison
-use react for certain feature
-refactor the code
-write some testing
+<li>add expense comparison</li>
+<li>use react for certain feature</li>
+<li>refactor the code</li>
+<li>write some testing</li>
 
 <!-- ###################################### -->
 
