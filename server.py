@@ -332,30 +332,33 @@ def to_delete_post(id):
     return redirect('/forum')
 
 
-@app.route('/forum/<int:blog_id>/update', methods=['GET', 'POST'])
+@app.route('/forum/<int:blog_id>/update', methods=['GET','POST'])
 @login_required
 def to_update_post(blog_id):
     '''Update a post by its ID'''
+    #current user
     user = crud.get_user_by_email(session['email'])
-    # need to revisit the logic here to check if the correct author
+    #blog id being passed in
     post = crud.get_blog_details(blog_id)
-    if user.id == post.user_id and request.method == 'POST':
-        flash('Outer if ran')
-        post.title = request.form.get('title')
-        post.blog_content = request.form.get('blog_content')
-        blog_photo = request.files.get('blog_image')
-        if blog_photo:
-            flash('Inner if ran')
-            post.imgURL = upload_to_cloudinary(blog_photo)
-        db.session.add(post)
-        db.session.commit()
-        flash('Blog was updated!')
-    elif not post:
-        flash(f'No blog post ID {blog_id} was found.')
-        return redirect(f'/forum')
+    #check if current author is the same as user_id 
+    if request.method == 'POST':
+        if user.id == post.user_id:
+            # flash('Outer if ran')
+            post.title = request.form.get('title')
+            post.blog_content = request.form.get('blog_content')
+            blog_photo = request.files.get('blog_image')
+            if blog_photo:
+                # flash('Inner if ran')
+                post.imgURL = upload_to_cloudinary(blog_photo)
+            db.session.add(post)
+            db.session.commit()
+            flash('Blog was updated!')
+        else:
+            flash(f'No blog post ID {blog_id} was found.')
+        return redirect(f'/forum')    
     else:
         return render_template('update.html', post=post)
-
+   
 
 # ------------------------------COMMENT routes----------------
 

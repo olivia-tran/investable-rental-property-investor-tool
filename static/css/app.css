@@ -6,9 +6,16 @@ height: 100%;
 
 }
 
-#card-news {
-  min-height: 510px;
+.blockquote {
+  animation: 3s linear 1s infinite alternate slidein;
 }
+
+
+
+#card-news {
+  width: 100%;
+}
+
 #bi-header {
   color: #739bc5;
   font-size: 2.5rem;
@@ -152,7 +159,7 @@ background-size: auto;
             background: #654d52;
             padding: 10px 40px;
             font-size: 14px;
-            font-weight: 700;
+            font-weight: extra-bold;
             border-radius: 1px;
             margin-top: 15px;
             -webkit-transition: 0.2s all;
