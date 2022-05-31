@@ -5,12 +5,22 @@ font-family: 'Nunito';
 height: 100%;
 
 }
-
+/* address for demo 253 E Maude Ave, Sunnyvale, CA 94085 */
 .blockquote {
-  animation: 3s linear 1s infinite alternate slidein;
+  animation: slidein 3s;
 }
 
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
 
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
 
 #card-news {
   width: 100%;
