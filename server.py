@@ -160,7 +160,7 @@ def update_profile(user_id):
         if user and user.password == request.form.get('old-password'):
             user.first_name = request.form.get('first')
             user.last_name = request.form.get('last')
-            user.email = request.form.get('email')
+            # user.email = request.form.get('email')
             user.password = request.form.get('password')
             db.session.add(user)
             db.session.commit()
@@ -383,7 +383,7 @@ def to_post_a_comment(blog_id):
             comment = crud.create_a_comment(blog_id, user_id, comment_content)
             db.session.add(comment)
             db.session.commit()
-            flash(f'Comment ID {comment.id} was successfully posted.')
+            flash(f'Comment was successfully posted.')
         else:
             flash('Please write a longer response')
         return redirect(f'/forum/{blog_id}')

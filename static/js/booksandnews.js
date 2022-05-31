@@ -19,7 +19,7 @@ window.onload = function getBooksAndNews() {
         });
 
     // adding get_news here as well because cannot have two window.onload functions
-    const url = `https://newsapi.org/v2/everything?q=rental+property+investment+real+estate&sortBy=relevancy&apiKey=${API_KEY}`
+    const url = `https://newsapi.org/v2/everything?q=rental+mortgage+rate+real+estate&sortBy=relevancy&apiKey=${API_KEY}`
     fetch(url).then((response) => response.json())
         .then((data) => {
             for (let i = 0; i < 2; i++) {

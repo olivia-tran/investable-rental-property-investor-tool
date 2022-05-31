@@ -74,9 +74,10 @@
     <div class="card-body">
       {{comment.comment_content}}
       <div class="card-footer border-muted"><i class="bi bi-person-circle"></i> Replied by:
-        <strong>{{comment.user.first_name|title}} {{comment.user.last_name|title}} </strong> on
+        <strong>{% if comment.user is none %} Deleted User  {% else %}{{comment.user.first_name|title}} {{comment.user.last_name|title}}  {% endif %} </strong> on
         {{comment.created_at.strftime('%Y-%m-%d at %H:%M:%S')}} </div>
     </div>
+   
     {% endfor %}
   </div>
   {% endif %}
