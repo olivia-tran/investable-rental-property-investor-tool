@@ -19,11 +19,11 @@ window.onload = function getBooksAndNews() {
         });
 
     // adding get_news here as well because cannot have two window.onload functions
-    const url = `https://newsapi.org/v2/everything?q=rental+mortgage+rate+real+estate&sortBy=relevancy&apiKey=${API_KEY}`
+    const url = `https://newsapi.org/v2/everything?q=rental+property+mortgage+rate+real+estate&sortBy=relevancy&apiKey=${API_KEY}`
     fetch(url).then((response) => response.json())
         .then((data) => {
             for (let i = 0; i < 2; i++) {
-                // console.log(data);
+                console.log(data);
                 console.log("urlToImage: " + data.articles[i].urlToImage);
                 if ('urlToImage' in data.articles[i]) {
                     const news_card = '<div class="col-md-6 p-3">' +
@@ -33,7 +33,7 @@ window.onload = function getBooksAndNews() {
                         '<h4 class="card-title" id="news-title">' + data.articles[i].title.slice(0, 100) + '</h4>' +
                         '<p class="card-text" id="news-text"></p>' +
                         data.articles[i].content.slice(0, 200) + '<br>' +
-                        '<a href=' + data.articles[i].url + 'id="news-link" class="btn btn-lg btn-success rounded-pill mt-2" target="_blank"  >Read more</a>' +
+                        '<a class="btn button btn-lg btn-success text-white rounded-pill mt-2" target="_blank" id="news-link" href=' + data.articles[i].url + ' >Read more</a>' +
                         '</div>' +
                         '</div>' +
                         '</div>'
