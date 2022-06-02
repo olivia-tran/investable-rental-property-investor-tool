@@ -6,9 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 import pytz
 db = SQLAlchemy()
 
-# created_at
-# order by id
-# order by created at
 
 
 class User(db.Model):
@@ -39,7 +36,7 @@ class Property(db.Model):
     mortgage = db.Column(db.Float, nullable=False)
     tax = db.Column(db.Float, nullable=False)
     insurance = db.Column(db.Float, nullable=False)
-    hoa = db.Column(db.Float)  
+    hoa = db.Column(db.Float)
     utilities = db.Column(db.Float)
     maintenance = db.Column(db.Float)
     pm = db.Column(db.Float)
@@ -49,8 +46,6 @@ class Property(db.Model):
 
     def __repr__(self):
         return f"<Property: id={self.id} user_id={self.user_id}>"
-
-
 
 
 class BlogPost(db.Model):
@@ -93,7 +88,7 @@ class UserImage(db.Model):
     __tablename__ = 'user_images'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     imgURL = db.Column(db.String, default='static/default_photo.png')
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('User', uselist=False, back_populates='user_image')
 
 
@@ -132,6 +127,5 @@ if __name__ == '__main__':
     from server import app
 
     # Call connect_to_db(app, echo=False) for fewer query stmts
-   
 
     connect_to_db(app)
