@@ -22,6 +22,19 @@ height: 100%;
   }
 }
 
+/* .blockquote {
+animation: waviy 1s infinite;
+}
+@keyframes waviy {
+  0%,40%,100% {
+    transform: translateY(0)
+  }
+  20% {
+    transform: translateY(-20px)
+  }
+} */
+
+
 #card-news {
   width: 100%;
 }
@@ -125,11 +138,19 @@ background-blend-mode: #f5d5d9;
   background: url('/static/Team.png') center/cover no-repeat;
 position: relative;
 background-size: auto;
-/* object-fit: contain; */
+
 
 }
+/* #investable {
+  animation: color-change 3s infinite;
+}
 
-
+@keyframes color-change {
+  25% { color: white; }
+  50% { color: #739bc5; }
+  100% { color: #b40404; }
+} */
+/* A percentage of the time through the animation sequence at which the specified keyframe should occur. */
 
 #showcase {
     background: url('/static/top.jpg') bottom center/cover no-repeat;
