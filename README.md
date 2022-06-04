@@ -43,7 +43,7 @@ Upon successful registration, users now can not only analyze but also save any p
 
 ## <a name="data-model"></a>Data Model
 
-<br/>![data-model](https://github.com/olivia-tran/Catculator-investment-tool/blob/main/project-planning/revised-datamodel.png|height=500)<br/><br/>
+<br/>![data-model](https://github.com/olivia-tran/Catculator-investment-tool/blob/main/project-planning/revised-datamodel.png)<br/><br/>
 
 ## <a name="installation"></a>Local Installation
 
