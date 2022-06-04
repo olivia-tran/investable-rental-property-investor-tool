@@ -38,8 +38,12 @@ Non-logged in users are able to analyze any property; they also have access to r
 
 <br/>![Rental Cash Flow Calculator](/static/calculator1.gif)<br/><br/>
 In order to save data and use more features that INVESTABLE has to offer, users might choose to sign up.
+
 Upon successful registration, users now can not only analyze but also save any property's data to their account and compare the expenses and rental income from these proeprties to see which one might be a better investment.
 <br/>![Register and logging in](/static/calculator2.gif)<br/><br/>
+
+Users can now post questions, seek advice and network with other like-minded investors in INVESTABLE community.
+<br/>![Forum](/static/forum.gif)<br/><br/>
 
 ## <a name="data-model"></a>Data Model
 
