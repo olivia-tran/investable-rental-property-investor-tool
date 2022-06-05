@@ -124,7 +124,7 @@ In your browser, visit <a href="http://localhost:5000/">http://localhost:5000/</
 
 ## <a name="acknowledgements"></a>Acknowledgements
 
-I'd like to express my greatest appreciation to all the individuals who have helped and supported me throughout the project as well the 12 week intensive coding bootcamp. I am thankful for the knowledge I've gained and also the ongoing support and encourgement I got from Hackbright instructors and cohortmates. Couldn't have done it without your code reviews, guidance, inspiration and constructive feedbacks.
+I'd like to express my greatest appreciation to all the individuals who have helped and supported me throughout the project as well the 12 week intensive coding bootcamp. I am thankful for the knowledge I've gained and also the ongoing support and encourgement I got from Hackbright instructors and cohortmates. I also appreciate the feedbacks I got on certain features which help me build a better application. I wish to thank my family and friends for their support and encouragement throughout my study because I was not as present and when I was I would be constantly speaking of my code. Couldn't have done it without your code reviews, guidance, inspiration, constructive feedbacks and support.
 
 ## <a name="aboutme"></a>About the Software Engineer
 
