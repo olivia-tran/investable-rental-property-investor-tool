@@ -126,3 +126,8 @@ In your browser, visit <a href="http://localhost:5000/">http://localhost:5000/</
 Olivia is a software engineer based in San Francisco whose passion is learning and self-development. She is a experienced accountant in the real estate property management space prior to pivoting her career to software engineering.
 
 Learn more about Olivia on <a href="https://www.linkedin.com/in/oliviatran99/">LinkedIn</a>.
+
+## <a name="likes"></a>Show your support
+
+Show your support
+⭐️ or/and Follow if you'd like to stay connected.

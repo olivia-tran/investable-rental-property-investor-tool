@@ -6,6 +6,16 @@ height: 100%;
 
 }
 /* address for demo 253 E Maude Ave, Sunnyvale, CA 94085 */
+.bi:hover,
+.bi:focus,
+.bi:active    {
+  background-color: currentColor;
+  color: currentColor;
+  border-color: #d5acc4;
+  fill: white;
+  
+}
+
 .blockquote {
   animation: slidein 3s;
 }
