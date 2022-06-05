@@ -64,7 +64,7 @@ To run this app on your local computer, please follow these steps:
 Clone repository:
 
 ```
-$ git clone git link of the repo
+$ git clone https://github.com/olivia-tran/investable-rental-property-investor-tool.git
 ```
 
 #### Setup Flask:
