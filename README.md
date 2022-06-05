@@ -10,6 +10,7 @@
 - [Data Model](#data-model)
 - [Local Installation](#installation)
 - [About the Developer](#aboutme)
+- [Acknowledgements](#acknowledgements)
 
 ## <a name="summary"></a>Summary
 
@@ -120,6 +121,10 @@ $ python3 server.py
 ```
 
 In your browser, visit <a href="http://localhost:5000/">http://localhost:5000/</a>
+
+## <a name="acknowledgements"></a>Acknowledgements
+
+I'd like to express my greatest appreciation to all the individuals who have helped and supported me throughout the project as well the 12 week intensive coding bootcamp. I am thankful for the knowledge I've gained and also the ongoing support and encourgement I got from Hackbright instructors and cohortmates. Couldn't have done it without your code reviews, guidance, inspiration and constructive feedbacks.
 
 ## <a name="aboutme"></a>About the Software Engineer
 
