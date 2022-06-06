@@ -332,15 +332,15 @@ def to_delete_post(id):
     return redirect('/forum')
 
 
-@app.route('/forum/<int:blog_id>/update', methods=['GET','POST'])
+@app.route('/forum/<int:blog_id>/update', methods=['GET', 'POST'])
 @login_required
 def to_update_post(blog_id):
     '''Update a post by its ID'''
-    #current user
+    # current user
     user = crud.get_user_by_email(session['email'])
-    #blog id being passed in
+    # blog id being passed in
     post = crud.get_blog_details(blog_id)
-    #check if current author is the same as user_id 
+    # check if current author is the same as user_id
     if request.method == 'POST':
         if user.id == post.user_id:
             # flash('Outer if ran')
@@ -355,10 +355,10 @@ def to_update_post(blog_id):
             flash('Blog was updated!')
         else:
             flash(f'No blog post ID {blog_id} was found.')
-        return redirect(f'/forum')    
+        return redirect(f'/forum')
     else:
         return render_template('update.html', post=post)
-   
+
 
 # ------------------------------COMMENT routes----------------
 
@@ -488,5 +488,6 @@ def send_property_data_to_charts():
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
     connect_to_db(app)
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)
 # host='0.0.0.0', port=8080
