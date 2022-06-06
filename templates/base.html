@@ -67,7 +67,7 @@
           aria-expanded="false" style="position:relative">
           {{user.first_name|upper()}} {{user.last_name|upper()}}
         </a>
-        <ul class="dropdown-menu align-right" aria-labelledby="navbarDropdown" style="position:absolute">
+        <ul class="dropdown-menu dropdown-menu-right" style="right: 0; left: auto;" aria-labelledby="navbarDropdown" >
           <li><a class="dropdown-item" href="{{url_for('user_profile')}}">Profile</a></li>
           <li><a class="dropdown-item" href="{{url_for('property_page')}}">Properties</a></li>
           <li><a class="dropdown-item" href="{{url_for('forum')}}">Dashboard</a></li>
