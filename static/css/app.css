@@ -9,9 +9,9 @@ height: 100%;
 .bi:hover,
 .bi:focus,
 .bi:active    {
-  background-color: currentColor;
-  color: currentColor;
-  border-color: #d5acc4;
+  background-color: #e6ddde;
+  color: #d5acc4;
+  border-color: #e6ddde;
   fill: white;
   
 }
