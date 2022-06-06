@@ -11,9 +11,22 @@ height: 100%;
 .bi:active    {
   background-color: #e6ddde;
   color: #d5acc4;
-  border-color: #e6ddde;
+  border-color: #e6ddde !important;
   fill: white;
   
+}
+#quote {
+  color:#739bc5;
+  font-weight: 900;
+}
+
+#quote:hover,
+#quote:focus,
+#quote:active { 
+  color: white;
+  background-color: #d5acc4;
+  font-weight: 900;
+
 }
 
 .blockquote {
@@ -64,6 +77,14 @@ strong {
   block-size: auto;
 }
 
+strong:hover,
+strong:focus,
+strong:active {
+  color: white;
+  background-color: #d5acc4;
+  font-weight: 900;
+
+}
 
 .btn {
   background-color: white;
@@ -71,12 +92,14 @@ strong {
   border-color: #739bc5;
   border-radius: 25px;
 }
+
 .btn:hover,
 .btn:focus,
 .btn:active    {
-  background-color: #739bc5;
-  color: white;
-  border-color: #739bc5;
+  background-color: white !important;
+  color: #739bc5 !important;
+  border-color: #739bc5 !important;
+  
 }
 
 .container {
