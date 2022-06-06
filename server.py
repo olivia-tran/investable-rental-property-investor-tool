@@ -91,8 +91,6 @@ def register_user():
 # I started using the app as if a user testing here and have updated a few formatting filters to increase user's expererience.E:g. titlecase for names
 # I really like having those print stmts which make it easier for debugging, so I'll just comment them out when deployed
 
-# set up log in required decorator for all the logged-in routes
-
 
 def login_required(f):
     @wraps(f)
