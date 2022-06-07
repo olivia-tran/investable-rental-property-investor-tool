@@ -7,7 +7,7 @@
 - [Summary](#summary)
 - [Tech Stack](#tech-stack)
 - [Features](#features)
-- [Data Model](#data-model)
+<!-- - [Data Model](#data-model) -->
 - [Local Installation](#installation)
 - [About the Developer](#aboutme)
 - [Acknowledgements](#acknowledgements)
@@ -54,9 +54,9 @@ Users can also update their profile picture and add blog photos if they choose t
 Users can also **leave feedback** via the contact form:
 <br/>![contact](/static/contact.gif)<br/><br/>
 
-## <a name="data-model"></a>Data Model
+<!-- ## <a name="data-model"></a>Data Model
 
-<br/>![data-model](https://github.com/olivia-tran/Catculator-investment-tool/blob/main/project-planning/revised-datamodel.png)<br/><br/>
+<br/>![data-model](https://github.com/olivia-tran/Catculator-investment-tool/blob/main/project-planning/revised-datamodel.png)<br/><br/> -->
 
 ## <a name="installation"></a>Local Installation
 
