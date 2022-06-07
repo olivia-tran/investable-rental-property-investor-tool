@@ -14,7 +14,7 @@
 
 ## <a name="summary"></a>Summary
 
-Real estate investing is fantastic way to create wealth and build a stream of passive income. Having been a real estate investor with a background in property accounting for numerous years, I have always wanted to build a tool that would assist new investors with their decision making and investing journey.<br>
+Real estate investing is fantastic way to create wealth and build a stream of passive income. Having been a real estate investor with a background in property accounting for numerous years, I have always wanted to build a tool that would assist new investors with their decision making and investing journey. This a solo project I did for my bootcamp graduation.<br>
 <br>
 **INVESTABLE** is a research tool for investors looking to make a quick decision whether a rental property is a good investment. Ultimately it strives to provide users with tools and a platform to share the passion for rental property investing.
 
