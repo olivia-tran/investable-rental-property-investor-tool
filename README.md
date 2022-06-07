@@ -57,6 +57,8 @@ Users can also **leave feedback** via the contact form:
 
 ## <a name="testing"></a>Testing:
 
+<br/>![Unit Tests](/static/testing.gif)<br/><br/>
+
 <!-- ## <a name="data-model"></a>Data Model
 
 <br/>![data-model](https://github.com/olivia-tran/Catculator-investment-tool/blob/main/project-planning/revised-datamodel.png)<br/><br/> -->
