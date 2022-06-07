@@ -138,4 +138,4 @@ I'd like to express my greatest appreciation to all the individuals who have hel
 
 Olivia is a software engineer based in San Francisco whose passion is learning and self-development. She is an experienced accountant in the real estate property management space prior to pivoting her career to software engineering.
 
-Learn more about Olivia on <a href="https://www.linkedin.com/in/oliviatran99/">LinkedIn</a>.
+Connect and learn more about Olivia on <a href="https://www.linkedin.com/in/oliviatran99/">LinkedIn</a>.
