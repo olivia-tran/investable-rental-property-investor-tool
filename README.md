@@ -35,16 +35,24 @@ Real estate investing is fantastic way to create wealth and build a stream of pa
 
 ## <a name="features"></a>Features
 
-Non-logged in users are able to analyze any property; they also have access to read industry news provided to us via News API, read book recommendations (Google Books API) as well as random inspirational quotes related to investing (I curated a list of inspirational quotes and send them to the front end through a fetch request). Below is an overview of the front page. Simply enter your estimates in the calculator:
+Non-logged in users are able to **analyze any property**; they also have access to read industry news provided to us via **News API**, read book recommendations (**Google Books API**) as well as random **inspirational quotes** related to investing (I curated a list of inspirational quotes and send them to the front end through a fetch request). Below is an overview of the front page. Simply enter your estimates in the calculator:
 
 <br/>![Rental Cash Flow Calculator](/static/calculator1.gif)<br/><br/>
 In order to save data and use more features that INVESTABLE has to offer, users might choose to sign up.
+Users are able to do some research on the surroundings of a property through Google Maps API.
 
-Upon successful registration, users now can not only analyze but also save any property's data to their account and compare the expenses and rental income from these proeprties to see which one might be a better investment.
+<br/>![ggmaps](/static/ggmaps.gif)<br/><br/>
+
+Upon successful registration, users now can not only analyze but also save any property's data to their account and **compare the expenses** and rental income from these properties to see which one might be a better investment.
 <br/>![Register and logging in](/static/calculator2.gif)<br/><br/>
 
-Users can now post questions, seek advice and network with other like-minded investors in INVESTABLE community.
+Users can now post questions, seek advice and network with other like-minded investors in INVESTABLE community **dashboard**.
 <br/>![Forum](/static/forum.gif)<br/><br/>
+Users can also update their profile picture and add blog photos if they choose to do so. **Cloudinary API**
+<br/>![cloudinary](/static/cloudinary.gif)<br/><br/>
+
+Users can also **leave feedback** via the contact form:
+<br/>![contact](/static/contact.gif)<br/><br/>
 
 ## <a name="data-model"></a>Data Model
 
