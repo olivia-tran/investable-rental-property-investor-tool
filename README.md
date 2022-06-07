@@ -8,6 +8,7 @@
 - [Tech Stack](#tech-stack)
 - [Features](#features)
 <!-- - [Data Model](#data-model) -->
+- [Testing](#testing)
 - [Local Installation](#installation)
 - [About the Developer](#aboutme)
 - [Acknowledgements](#acknowledgements)
@@ -53,6 +54,8 @@ Users can also update their profile picture and add blog photos if they choose t
 
 Users can also **leave feedback** via the contact form:
 <br/>![contact](/static/contact.gif)<br/><br/>
+
+## <a name="testing"></a>Testing:
 
 <!-- ## <a name="data-model"></a>Data Model
 
