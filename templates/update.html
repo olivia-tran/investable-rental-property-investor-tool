@@ -31,7 +31,7 @@
 </nav>
 <!-- breadcrumb above -->
 <!-- enctype="multipart/form-data" -->
-    <form action="/forum/{{post.id}}/update" method="POST" class="form-group" enctype="multipart/form-data"charset=UTF-8 >
+    <form action="/forum/{{post.id|safe}}/update" method="POST" class="form-group" enctype="multipart/form-data"charset=UTF-8 >
       <!-- <input type="textarea" name="test" class="form-control" id="editor1"> -->
     <div class="form-group mb-3">
         <label for="title">Title</label>

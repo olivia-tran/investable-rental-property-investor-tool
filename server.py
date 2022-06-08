@@ -319,8 +319,9 @@ def search():
 @login_required
 def to_delete_post(id):
     '''Delete a post by ID'''
-    user = get_user_by_session_email()
-    if len(user.blog_posts) > 0 and user.blog_posts[0].id == id:
+    user = crud.get_user_by_email(session['email'])
+    print(f"$$$$$$$$$$$$$$$$$$$$$${user.blog_posts}")
+    if user.blog_posts[0].id == id:
         print(
             f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$user.blog_posts[0].id{user.blog_posts[0].id}')
         crud.delete_post(id)
@@ -353,7 +354,7 @@ def to_update_post(blog_id):
             flash('Blog was updated!')
         else:
             flash(f'No blog post ID {blog_id} was found.')
-        return redirect(f'/forum')
+        return redirect(f'/forum/{blog_id}')
     else:
         return render_template('update.html', post=post)
 
