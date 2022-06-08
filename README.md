@@ -21,7 +21,7 @@ Real estate investing is fantastic way to create wealth and build a stream of pa
 
 <!-- [**Find my demo video here**](https://youtu.be/eJo49xffi_U) -->
 
-<!-- [![**Find my demo video here**](static/youtube.jpg)](https://www.youtube.com/watch?v=eJo49xffi_U&t=4s "INVESTABLE") -->
+[![**Find my demo video here**](static/youtube-rs.jpg)](https://www.youtube.com/watch?v=eJo49xffi_U&t=4s "INVESTABLE")
 
 <br>
 <br>
