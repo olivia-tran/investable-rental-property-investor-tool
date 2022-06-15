@@ -3,8 +3,8 @@
 //user inputs in index.html posted to server.py to do some calculation, js to show results via fetch ajax
 // get user input directly from HTML to JS
 // alert('map and chart js is loaded!')
-//generate one color for each property different shades of pink
-
+// user clicks on the run numbers btn, a JS event listener is triggered and will hide the illustration, replaces it with the two charts below
+// only used front end here because it's data for non-logged in users
 // 'rgba(213, 172, 196, 1)'
 const backgroundColor = [
   'rgba(213, 172, 196, 1)',
@@ -61,7 +61,7 @@ function runNumbers(event) {
   console.log(` this is chart data 0 ${chartData}`);
 
 
-  //have a nice image on the homepage as placeholder, as user click on run numbers, image turns into charts!!!
+  // as user click on run numbers, image turns into charts!!!
   // chart num 1
   new Chart(document.querySelector('#pieChart'), {
     type: 'doughnut',
@@ -76,9 +76,7 @@ function runNumbers(event) {
       }]
 
     },
-    // percentage below
 
-    // percentage above
   });
   // chart num 2
   // new Chart(document.querySelector('#lineChart'), {
