@@ -145,14 +145,14 @@ WEEK 3:
 ---
 
 DATE: Monday 5/16:
-[] Allow users to comment on a blog post
-[] Allow users to delete a comment
-[] Allow users to update a comment
-[] Set up the view for comments from blog
-[] Show the nums of posts by all users in dashboard
-[] Picture handling
-[] Add a placeholder pic for the chart
-[] Reorganize the chart and calculator on front page
+[X] Allow users to comment on a blog post
+[] Allow users to delete a blog post (if they are the author)
+[] Allow users to update a blog post (if they are the author)
+[X] Set up the view for comments from blog
+[x] Show the nums of posts by all users in dashboard
+[x] Picture handling
+[X] Add a placeholder pic for the chart
+[X] Reorganize the chart and calculator on front page
 
 JOURNAL:
 What I learned today the hard way after spending minutes, hours banging my head against the desk (aka reading the documentation, reading stackoverflow, googling, rereading my code to check line by line) is that I didn't call the function! In my head, the seed db function worked before because I had my blog posts seeded before. I either must have deleted it or something.
@@ -163,3 +163,9 @@ Self-reminder regarding debugging:
 3. Add print statements where needed (I need to do this more often!)
 4. Check console/network if applicable
 5. If it's a function, always remember to check if the func is called!
+
+WEEK 4:
+[X] Ask for feedbacks from friends for demo script and app experience
+[X] Manual Testing
+[X] Conducted unit tests
+[X] deployment AWS LightSail

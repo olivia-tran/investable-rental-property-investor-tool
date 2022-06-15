@@ -46,7 +46,7 @@ Real estate investing is fantastic way to create wealth and build a stream of pa
 
 Non-logged in users are able to **analyze any property**; they also have access to read industry news provided to us via **News API**, read book recommendations (**Google Books API**) as well as random **inspirational quotes** related to investing (I curated a list of inspirational quotes and send them to the front end through a fetch request). Below is an overview of the front page. Simply enter your estimates in the calculator:
 
-<br/>![Rental Cash Flow Calculator](/static/calculator1.gif)<br/><br/>
+<br/>![Rental Cash Flow Calculator](/static/full.gif)<br/><br/>
 In order to save data and use more features that INVESTABLE has to offer, users might choose to sign up.
 Users are able to do some research on the surroundings of a property through Google Maps API.
 
