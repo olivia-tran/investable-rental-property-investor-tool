@@ -71,8 +71,10 @@ def register_user():
     if request.method == 'GET':
         flash('if stmt request.method == get')
         return render_template('properties.html', GG_KEY=GG_KEY)
+    # once user register successfully, they are taken to their property page
     else:
         email = request.form.get('email')
+        # if the email already exists, flash the message
         if crud.get_user_by_email(email):
             flash('Cannot create an account with that email🤔. Try again.', 'error')
             return redirect('/register')
@@ -252,7 +254,6 @@ def contact():
             data.to_csv(f)
         flash('Thank you for your message!')
     return render_template('contact.html')
-    # this saves but not overwriting old content in the csv file
 
 
 # -------------------------------Related to BLOG POSTS routes-------------------------------------
@@ -434,8 +435,6 @@ def add_user_img_record(img_url):
     db.session.commit()
     # flash('Image URL saved to db!')
 
-# to remove this and refactor code
-
 
 def get_user_by_session_email():
     '''get a user via accessing session['email']'''
@@ -467,7 +466,7 @@ def send_property_data_to_charts():
 
     property_ids = request.json.get('propertyIds')
 
-    print("  (((((((((()))))))))))) what is the id: ", property_ids)
+    print("  (((((((((()))))))))))) property_ids========: ", property_ids)
     print(f'PROPERTY_ID received from JS=== {type(property_ids)}')
 
     properties_data = []

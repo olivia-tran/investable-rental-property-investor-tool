@@ -15,7 +15,7 @@
 
 ## <a name="summary"></a>Summary
 
-Real estate investing is fantastic way to create wealth and build a stream of passive income. Having been a real estate investor with a background in property accounting for numerous years, I have always wanted to build a tool that would assist new investors with their decision making and investing journey. This a solo project I did for my bootcamp graduation. This project has been deployed using [**AWS**](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/what-is-amazon-lightsail)<br>
+Real estate investing is fantastic way to create wealth and build a stream of passive income. Having been a real estate investor with a background in property accounting for numerous years, I have always wanted to build a tool that would assist new investors with their decision making and investing journey. This a solo project I did for my bootcamp graduation. This project has been deployed using [**AWS LightSail**](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/what-is-amazon-lightsail)<br>
 
 ## <a name="summary"></a>Summary
 
@@ -145,7 +145,7 @@ In your browser, visit <a href="http://localhost:5000/">http://localhost:5000/</
 
 ## <a name="acknowledgements"></a>Acknowledgements
 
-I'd like to express my greatest appreciation to all the individuals who have helped and supported me throughout the project as well the 12 week intensive coding bootcamp. I am thankful for the knowledge I've gained and also the ongoing support and encourgement I got from Hackbright instructors and cohortmates. I also appreciate the feedbacks I got on certain features which help me build a better application. I wish to thank my family and friends for their support and encouragement throughout my study because I was not as present and when I was I would be constantly speaking of my code. Couldn't have done it without your code reviews, guidance, inspiration, constructive feedbacks and support.
+I'd like to express my greatest appreciation to all the individuals who have helped and supported me throughout the project as well the 12 week intensive coding bootcamp. I am thankful for the knowledge I've gained and also the ongoing support and encouragement I got from Hackbright instructors and cohortmates. I also appreciate the feedbacks I got on certain features which help me build a better application. I wish to thank my family and friends for their support and encouragement throughout my study because I was not as present and when I was I would be constantly speaking of my code. Couldn't have done it without your code reviews, guidance, inspiration, constructive feedbacks and support.
 
 Photo, Illustration and Video Credits: Unsplash, freepik and canva
 
