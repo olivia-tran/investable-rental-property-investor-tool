@@ -10,7 +10,7 @@ import random
 import pytz
 import pandas as pd
 from model import connect_to_db, db, User
-# from importlib_metadata import files
+
 from jinja2 import StrictUndefined
 from functools import wraps
 from data import QUOTES
@@ -22,7 +22,7 @@ API_KEY = os.environ['API_KEY']
 CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
 CLOUDINARY_SECRET = os.environ['CLOUDINARY_SECRET']
 CLOUD_NAME = 'investable'
-FRED_KEY = os.environ['FRED_KEY']
+# FRED_KEY = os.environ['FRED_KEY'] https://fred.stlouisfed.org/ Economic Research Federal Reserve Data API
 
 
 # StrictUndefined is used to configure a Jinja2 setting that make it throw errors for undefined variables, helpful for debugging
@@ -43,12 +43,14 @@ def index():
 def get_books():
     '''Show related to rental property investment books from Google Books API'''
     return redirect('/')
+ # non-authenticated users have access to book recommendation implemented by Google Books API
 
 
 @ app.route('/news')
 def get_news():
     '''Show industry insight from News API'''
     return redirect('/')
+ # non-authenticated users have access to industry news by News API which offer articles published from 80,000 sources
 
 
 @ app.errorhandler(404)
@@ -61,7 +63,6 @@ def page_not_found(error):
 def register_page():
     '''Landing page for register.'''
     return render_template('register.html', GG_KEY=GG_KEY)
-# comebine this with the register_user route, so that when user refreshes it doesn't takem them to new register page!
 
 
 @ app.route('/register', methods=['GET', 'POST'])
