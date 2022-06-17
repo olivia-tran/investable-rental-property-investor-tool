@@ -322,12 +322,13 @@ def search():
 def to_delete_post(id):
     '''Delete a post by ID'''
     user = crud.get_user_by_email(session['email'])
-    print(f"$$$$$$$$$$$$$$$$$$$$$${user.blog_posts}")
-    if user.blog_posts[0].id == id:
-        print(
-            f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$user.blog_posts[0].id{user.blog_posts[0].id}')
-        crud.delete_post(id)
-        flash(f'Blog Post ID {id} was deleted.')
+    print(f"$$$$$$$$$$$$$$$$$$$$$$user.blog_posts{user.blog_posts}")
+    for i in range(len(user.blog_posts)):
+        if user.blog_posts[i].id == id:
+            print(
+                f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$user.blog_posts[0].id{user.blog_posts[0].id}')
+            crud.delete_post(id)
+            flash(f'Blog Post ID {id} was deleted.')
     else:
         flash('Can\'t delete the post. Please check if you\'re the author')
     return redirect('/forum')
@@ -487,6 +488,6 @@ def send_property_data_to_charts():
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
     connect_to_db(app)
-    app.run()
-    # app.run(debug=True)
+    # app.run()
+    app.run(debug=True)
 # host='0.0.0.0', port=8080
