@@ -322,11 +322,11 @@ def search():
 def to_delete_post(id):
     '''Delete a post by ID'''
     user = crud.get_user_by_email(session['email'])
-    print(f"$$$$$$$$$$$$$$$$$$$$$$user.blog_posts{user.blog_posts}")
+    # print(f"$$$$$$$$$$$$$$$$$$$$$$user.blog_posts{user.blog_posts}")
     for i in range(len(user.blog_posts)):
         if user.blog_posts[i].id == id:
-            print(
-                f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$user.blog_posts[0].id{user.blog_posts[0].id}')
+            # print(
+            #     f'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$user.blog_posts[0].id{user.blog_posts[0].id}')
             crud.delete_post(id)
             flash(f'Blog Post ID {id} was deleted.')
     else:
