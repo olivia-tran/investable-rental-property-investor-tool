@@ -1,0 +1,89 @@
+<mxfile host="app.diagrams.net" modified="2023-08-04T06:39:44.096Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.188" version="21.6.6" etag="_iniNwPtZeYobiaYaqPm" type="github">
+  <diagram name="Page-1" id="WVILoAPd5UuZdjGAbKi7">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Legislative" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="566" width="92" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Executive" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="261" y="83" width="85" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Judicial" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="886" y="83" width="71" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="Department of State" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry y="167" width="162" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="Department of Defense" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="212" y="167" width="182" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="Department of Treasury" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="444" y="167" width="185" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="Supreme Court" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="680" y="167" width="122" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="Courts of Appeals" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="851" y="167" width="140" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="District Courts" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1041" y="167" width="118" height="33" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.004003980885381284;exitY=0.6932996314125083;entryX=0.4961489509133732;entryY=0.012121258359966856;" edge="1" parent="1" source="2" target="3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="303" y="58" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="12" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.9992825466653575;exitY=0.6932996314125083;entryX=0.4947845029159331;entryY=0.012121258359966856;" edge="1" parent="1" source="2" target="4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="921" y="58" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13" value="" style="curved=1;startArrow=none;endArrow=block;exitX=-0.0010201846852022059;exitY=0.758670449241365;entryX=0.5007571467646846;entryY=-0.006060513583096591;" edge="1" parent="1" source="3" target="5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="81" y="142" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="14" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.4961489509133732;exitY=1.0242425167199336;entryX=0.5009486858661358;entryY=-0.006060513583096591;" edge="1" parent="1" source="3" target="6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="15" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.9933180865119485;exitY=0.7467103045782627;entryX=0.5018581493480786;entryY=-0.006060513583096591;" edge="1" parent="1" source="3" target="7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="537" y="142" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16" value="" style="curved=1;startArrow=none;endArrow=block;exitX=-0.0019364692795444543;exitY=0.7647768025139107;entryX=0.49515248908371223;entryY=-0.006060513583096591;" edge="1" parent="1" source="4" target="8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="142" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="17" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.4947845029159331;exitY=1.0242425167199336;entryX=0.5009264264787946;entryY=-0.006060513583096591;" edge="1" parent="1" source="4" target="9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="18" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.9915054751114106;exitY=0.767286990567279;entryX=0.5002517053636454;entryY=-0.006060513583096591;" edge="1" parent="1" source="4" target="10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="142" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
